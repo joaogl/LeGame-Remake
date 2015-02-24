@@ -95,6 +95,10 @@ public class World {
 		// setTile(0, 2, new FireTile(GeneralSettings.TILE_SIZE,
 		// Texture.Fire[0], this));
 		// Add a light:
+		
+		/**
+		 * TODO: Fix frame drop every x seconds with lights.
+		 */
 		Vector2f location = new Vector2f((0 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
 		PointLight l2 = new PointLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
 		l2.init(this);
