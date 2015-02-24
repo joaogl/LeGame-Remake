@@ -39,13 +39,14 @@ import net.joaolourenco.legame.world.World;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 
 /**
  * Main Class for the game.
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public class Main implements Runnable {
 
@@ -99,6 +100,11 @@ public class Main implements Runnable {
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
+
+		System.out.println("OS name " + System.getProperty("os.name"));
+		System.out.println("OS version " + System.getProperty("os.version"));
+		System.out.println("LWJGL version " + org.lwjgl.Sys.getVersion());
+		System.out.println("OpenGL version " + GL11.glGetString(GL11.GL_VERSION));
 
 		// Loading all the textures
 		Texture.preload();

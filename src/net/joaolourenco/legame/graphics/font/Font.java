@@ -239,8 +239,8 @@ public class Font {
 					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 				}
 				// Disabling the vertex attributes
-				glEnableVertexAttribArray(1);
-				glEnableVertexAttribArray(0);
+				glDisableVertexAttribArray(1);
+				glDisableVertexAttribArray(0);
 				// Unbinding the vertex array.
 				glBindVertexArray(0);
 
