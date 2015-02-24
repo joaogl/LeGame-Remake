@@ -16,8 +16,21 @@
 
 package net.joaolourenco.legame.graphics;
 
+import static org.lwjgl.opengl.GL11.GL_LINEAR;
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
+import static org.lwjgl.opengl.GL11.GL_RGBA;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glGenTextures;
+import static org.lwjgl.opengl.GL11.glTexImage2D;
+import static org.lwjgl.opengl.GL11.glTexParameteri;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
+
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -30,14 +43,11 @@ import net.joaolourenco.legame.utils.Buffer;
 
 import org.lwjgl.BufferUtils;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.*;
-
 /**
  * Texture holder and loader class.
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public class Texture {
 
@@ -91,7 +101,7 @@ public class Texture {
 		int height = 0;
 		int[] pixels = null;
 		try {
-			// Loading the image 
+			// Loading the image
 			image = ImageIO.read(Texture.class.getResource(path));
 			width = image.getWidth();
 			height = image.getHeight();
@@ -154,8 +164,8 @@ public class Texture {
 		int[] sheet = null;
 		BufferedImage image;
 		try {
-			// Loading the image 
-			image = ImageIO.read(new FileInputStream(path));
+			// Loading the image
+			image = ImageIO.read(Texture.class.getResource(path));
 			width = image.getWidth();
 			height = image.getHeight();
 			sheet = new int[width * height];
@@ -166,7 +176,7 @@ public class Texture {
 		}
 		// Going through each line.
 		for (int y0 = 0; y0 < vLength; y0++) {
-			// Going through each column.			
+			// Going through each column.
 			for (int x0 = 0; x0 < hLength; x0++) {
 				// Creating the letter pixel array to store the letter pixels.
 				int[] letter = new int[size * size];

@@ -97,7 +97,7 @@ public class Font {
 		// game.
 		GeneralSettings.font.add(this);
 		// Loading of the fonts.
-		texIDs = Texture.loadFont("res/font.png", 13, 7, size);
+		texIDs = Texture.loadFont("/textures/util/font.png", 13, 7, size);
 		// Compiling the buffer lists.
 		compile();
 		// Creating the shader.

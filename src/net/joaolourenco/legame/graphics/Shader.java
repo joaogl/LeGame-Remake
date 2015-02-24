@@ -16,6 +16,22 @@
 
 package net.joaolourenco.legame.graphics;
 
+import static org.lwjgl.opengl.GL11.GL_FALSE;
+import static org.lwjgl.opengl.GL20.GL_COMPILE_STATUS;
+import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
+import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
+import static org.lwjgl.opengl.GL20.glAttachShader;
+import static org.lwjgl.opengl.GL20.glCompileShader;
+import static org.lwjgl.opengl.GL20.glCreateProgram;
+import static org.lwjgl.opengl.GL20.glCreateShader;
+import static org.lwjgl.opengl.GL20.glDeleteProgram;
+import static org.lwjgl.opengl.GL20.glDeleteShader;
+import static org.lwjgl.opengl.GL20.glGetShaderi;
+import static org.lwjgl.opengl.GL20.glLinkProgram;
+import static org.lwjgl.opengl.GL20.glShaderSource;
+import static org.lwjgl.opengl.GL20.glUseProgram;
+import static org.lwjgl.opengl.GL20.glValidateProgram;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -25,14 +41,11 @@ import net.joaolourenco.legame.settings.GeneralSettings;
 
 import org.lwjgl.opengl.ARBShaderObjects;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.*;
-
 /**
  * Class that processes all the shaders stuff.
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public class Shader {
 
@@ -187,7 +200,8 @@ public class Shader {
 	}
 
 	/**
-	 * Method to recompile the shader program without having to restart the game.
+	 * Method to recompile the shader program without having to restart the
+	 * game.
 	 */
 	public void recompile() {
 		// Removing the old shaders from memory
