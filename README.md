@@ -1,24 +1,17 @@
-Fallen
+LeGame
 ======
 
-This game is being developed by Joao Lourenco, with the Domenic Viczian ideas. 
-Fallen is a Action/Adventure roguelike kinda game.
+This game is being developed by Joao Lourenco and Igor Machado. 
+LeGame is a Action/Adventure kinda game.
 
 **Ideas**
 ====
 **Main Idea**
 - Top down view. (2D)
-- You are inside a cave. Your goal is get back to the surface.
-- The world has fallen apart and it might be the end of humanity.
-- During your journey u might find more beings that might help you... or not... 
-- You only get the light from the surface or from beneath which is lava?
-- You start out bloody and hurt.
-- You collapse and someone finds you and heals you.
-- The bandages will came off after a while and you get a new change of clothes.
-- There will be different classes for each person you meet, medic, warrior, scout.
-- The first guy you meet is a medic.
-- Levels randomly generated, and you have to survive as long as you possible can.
-- Items and Inventories.
+- Lots of monsters you have to run from.
+- You got to get to the other side of the map alive.
+- Maybe you can shoot some monsters, maybe you can't....
+- The monsters are AI controlled and have different attacks and speeds, but they all follow you.
 
 
 TO-DO
