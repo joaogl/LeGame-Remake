@@ -135,7 +135,7 @@ public class Main implements Runnable {
 		for (Shader shader : GeneralSettings.shaders)
 			if (shader != null) shader.cleanUp();
 		// Cleaning all the Font
-		for (Font font : GeneralSettings.font)
+		for (Font font : GeneralSettings.fonts)
 			if (font != null) font.cleanup();
 		// Destroying the Display.
 		Display.destroy();

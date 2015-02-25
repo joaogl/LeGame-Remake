@@ -30,7 +30,7 @@ import static org.lwjgl.opengl.GL30.*;
  * Class to Manage Fonts.
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public class Font {
 
@@ -95,7 +95,7 @@ public class Font {
 	public Font() {
 		// Add this class to the font's to be disposed at the closing of the
 		// game.
-		GeneralSettings.font.add(this);
+		GeneralSettings.fonts.add(this);
 		// Loading of the fonts.
 		texIDs = Texture.loadFont("/textures/util/font.png", 13, 7, size);
 		// Compiling the buffer lists.
@@ -181,7 +181,7 @@ public class Font {
 	 * @param y
 	 *            : y Position of the text.
 	 * @param size
-	 *            : Size of the font.
+	 *            : Size of the font. 
 	 * @param spacing
 	 *            : Spacing between letters.
 	 */

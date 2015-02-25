@@ -38,7 +38,7 @@ public class GeneralSettings {
 		// This is the array list that will hold all the shaders for a clean up at the end of the running process.
 		public static List<Shader> shaders = new ArrayList<Shader>();	
 		// This is the array list that will hold all the Font's for a clean up at the end of the running process.
-		public static List<Font> font = new ArrayList<Font>();	
+		public static List<Font> fonts = new ArrayList<Font>();	
 		// This is the array list that will hold all the AnimatedText to keep them updated.
 		public static List<AnimatedText> animatedText = new ArrayList<AnimatedText>();
 		// This is the array list that will hold all the Quad's for a clean up at the end of the running process.
@@ -89,5 +89,7 @@ public class GeneralSettings {
 		public final static String lettersFragPath = "res/shaders/letters.frag";
 		public final static String lightFragPath = "res/shaders/light.frag";
 		public final static int howManyLightsToShader = 50; // How many lights will be passed to the shaders.
+
+		public final static Font font = new Font();
 
 }

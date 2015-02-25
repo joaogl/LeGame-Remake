@@ -22,7 +22,7 @@ import net.joaolourenco.legame.settings.GeneralSettings;
  * Class that processes Animated Text.
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public class AnimatedText {
 
@@ -31,13 +31,12 @@ public class AnimatedText {
 	 */
 	private Font font;
 	/**
-	 * Text is the corrent text being rendered.
-	 * finalText is the full text, rendered and not rendered.
+	 * Text is the corrent text being rendered. finalText is the full text,
+	 * rendered and not rendered.
 	 */
 	private String text, finalText;
 	/**
-	 * x and y is the position of the text.
-	 * size is the size of the font.
+	 * x and y is the position of the text. size is the size of the font.
 	 */
 	private int x, y, size;
 	/**
@@ -46,7 +45,8 @@ public class AnimatedText {
 	private long last = 0;
 	/**
 	 * finished holds the information on whether is the animation over or not.
-	 * remove holds the information on whether the text is going to be removed or not.
+	 * remove holds the information on whether the text is going to be removed
+	 * or not.
 	 */
 	private boolean finished = false, remove = false;
 
@@ -63,7 +63,7 @@ public class AnimatedText {
 	 *            : Font size.
 	 */
 	public AnimatedText(String text, int x, int y, int size) {
-		this.font = new Font();
+		this.font = GeneralSettings.font;
 		this.text = "";
 		this.finalText = text;
 		this.x = x;

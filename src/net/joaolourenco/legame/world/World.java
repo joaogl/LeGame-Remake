@@ -95,7 +95,7 @@ public class World {
 		// setTile(0, 2, new FireTile(GeneralSettings.TILE_SIZE,
 		// Texture.Fire[0], this));
 		// Add a light:
-		
+
 		/**
 		 * TODO: Fix frame drop every x seconds with lights.
 		 */
