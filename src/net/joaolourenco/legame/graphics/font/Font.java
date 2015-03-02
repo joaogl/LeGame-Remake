@@ -16,16 +16,10 @@
 
 package net.joaolourenco.legame.graphics.font;
 
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_ZERO;
-import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
-import net.joaolourenco.legame.graphics.QuadRender;
-import net.joaolourenco.legame.graphics.Shader;
-import net.joaolourenco.legame.graphics.Texture;
-import net.joaolourenco.legame.settings.GeneralSettings;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.settings.*;
+
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Class to Manage Fonts.
@@ -96,7 +90,7 @@ public class Font {
 		// Setting up OpenGL for render
 		glEnable(GL_BLEND);
 		// Enabling Alpha chanel
-		glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		// Binding the shader
 		this.shader.bind();
 

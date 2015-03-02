@@ -16,22 +16,18 @@
 
 package net.joaolourenco.legame.world;
 
-import static org.lwjgl.opengl.GL11.glColor3f;
-import static org.lwjgl.opengl.GL11.glTranslatef;
+import java.util.*;
 
-import java.util.ArrayList;
+import net.joaolourenco.legame.*;
+import net.joaolourenco.legame.entity.*;
+import net.joaolourenco.legame.entity.light.*;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.graphics.font.*;
+import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.world.tile.*;
 
-import net.joaolourenco.legame.Main;
-import net.joaolourenco.legame.entity.Entity;
-import net.joaolourenco.legame.entity.light.Light;
-import net.joaolourenco.legame.entity.light.PointLight;
-import net.joaolourenco.legame.entity.light.SpotLight;
-import net.joaolourenco.legame.graphics.Texture;
-import net.joaolourenco.legame.graphics.font.AnimatedText;
-import net.joaolourenco.legame.settings.GeneralSettings;
-import net.joaolourenco.legame.utils.Vector2f;
-import net.joaolourenco.legame.world.tile.SolidTile;
-import net.joaolourenco.legame.world.tile.Tile;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * A class that handles all the world stuff.
@@ -81,8 +77,8 @@ public class World {
 
 		generateLevel();
 
-		for (int y = 0; y < 2; y++) {
-			for (int x = 0; x < 2; x++) {
+		for (int y = 0; y < this.height; y++) {
+			for (int x = 0; x < this.width; x++) {
 				SolidTile ti = new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt, true);
 				ti.isLightCollidable(false);
 				setTile(x, y, ti);
@@ -109,6 +105,7 @@ public class World {
 		PointLight l3 = new PointLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
 		l3.init(this);
 		this.entities.add(l3);
+		
 		// Add an Entity:
 		// Block b = new Block(x, y, GeneralSettings.TILE_SIZE,
 		// GeneralSettings.TILE_SIZE, false);
@@ -290,7 +287,6 @@ public class World {
 
 		for (Entity e : entities) {
 			if (e instanceof Light && getDistance(e, x, y) < 800) ent.add(e);
-
 		}
 
 		return ent;

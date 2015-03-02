@@ -16,26 +16,17 @@
 
 package net.joaolourenco.legame.world.tile;
 
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_STENCIL_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_ZERO;
-import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
+import java.util.*;
 
-import java.util.ArrayList;
+import net.joaolourenco.legame.entity.*;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.world.*;
 
-import net.joaolourenco.legame.entity.Entity;
-import net.joaolourenco.legame.graphics.QuadRender;
-import net.joaolourenco.legame.graphics.Shader;
-import net.joaolourenco.legame.settings.GeneralSettings;
-import net.joaolourenco.legame.utils.ShaderUniformBinder;
-import net.joaolourenco.legame.utils.Vector2f;
-import net.joaolourenco.legame.world.World;
+import org.lwjgl.input.*;
 
-import org.lwjgl.input.Keyboard;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Abstract Class for all the Tile Types
@@ -66,6 +57,8 @@ public abstract class Tile {
 	 * The Quad used to render the Tile.
 	 */
 	public QuadRender quad;
+
+	public boolean testing = false;
 
 	/**
 	 * Constructor for tiles with a different with and height.
@@ -123,20 +116,6 @@ public abstract class Tile {
 	}
 
 	/**
-	 * Method to bind the Texture uniforms, this is what make the shaders and
-	 * stuff.
-	 * 
-	 * @param world
-	 *            : instance of the World Class
-	 * @param ent
-	 *            : List of entities that emit light.
-	 */
-	public void bindUniforms(World world, ArrayList<Entity> ent) {
-		// Call the uniform binder util.
-		ShaderUniformBinder.bindUniforms(shade, world, ent, this.lightAffected);
-	}
-
-	/**
 	 * Method called by the World Class to render the Tile.
 	 * 
 	 * @param x
@@ -149,9 +128,6 @@ public abstract class Tile {
 	 *            : List of entities that emit light.
 	 */
 	public void render(int x, int y, World w, ArrayList<Entity> ent) {
-		// Binding the Uniforms to make the light effects.
-		bindUniforms(w, ent);
-
 		// Setting up OpenGL for render
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ZERO);

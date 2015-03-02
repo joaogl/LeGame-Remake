@@ -1,5 +1,5 @@
 #version 330 compatibility
-#define LIGHTS_COUNT 50
+#define LIGHTS_COUNT 10
 
 uniform sampler2D texture;
 in vec2 texCoords;

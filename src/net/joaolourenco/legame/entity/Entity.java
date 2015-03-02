@@ -16,14 +16,13 @@
 
 package net.joaolourenco.legame.entity;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
-import net.joaolourenco.legame.graphics.Shader;
-import net.joaolourenco.legame.settings.GeneralSettings;
-import net.joaolourenco.legame.utils.ShaderUniformBinder;
-import net.joaolourenco.legame.utils.Vector2f;
-import net.joaolourenco.legame.world.World;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.world.*;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -32,7 +31,7 @@ import static org.lwjgl.opengl.GL20.*;
  * Abstract Class for all the Entity Types
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public abstract class Entity {
 
@@ -95,26 +94,12 @@ public abstract class Entity {
 	public abstract void tick();
 
 	/**
-	 * Method to bind the Texture uniforms, this is what make the shaders and stuff.
-	 * 
-	 * @param ent
-	 *            : List of entities that emit light.
-	 */
-	public void bindUniforms(ArrayList<Entity> ent) {
-		// Call the uniform binder util.
-		ShaderUniformBinder.bindUniforms(shade, this.world, ent, false);
-	}
-
-	/**
 	 * Method called by the World Class to render the Entity.
 	 * 
 	 * @param ent
 	 *            : List of entities that emit light.
 	 */
 	public void render(ArrayList<Entity> ent) {
-		// Binding the Uniforms to make the light effects.
-		bindUniforms(ent);
-
 		// Setting up OpenGL for render
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
@@ -160,8 +145,7 @@ public abstract class Entity {
 	 * @return Vector2f[] with the vertices.
 	 */
 	public Vector2f[] getVertices() {
-		return new Vector2f[] {
-				new Vector2f(this.x, this.y), new Vector2f(this.x, this.y + this.height), new Vector2f(this.x + this.width, this.y + this.height), new Vector2f(this.x + this.width, this.y) };
+		return new Vector2f[] { new Vector2f(this.x, this.y), new Vector2f(this.x, this.y + this.height), new Vector2f(this.x + this.width, this.y + this.height), new Vector2f(this.x + this.width, this.y) };
 	}
 
 	/**
