@@ -75,6 +75,7 @@ public abstract class Entity {
 	 *            : entity width.
 	 * @param height
 	 *            : entity height.
+	 * @author Joao Lourenco
 	 */
 	public Entity(int x, int y, int width, int height) {
 		this.x = x;
@@ -85,11 +86,15 @@ public abstract class Entity {
 
 	/**
 	 * Method called by the World Class 60 times per second.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public abstract void update();
 
 	/**
 	 * Method called by the World Class once per second.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public abstract void tick();
 
@@ -98,6 +103,7 @@ public abstract class Entity {
 	 * 
 	 * @param ent
 	 *            : List of entities that emit light.
+	 * @author Joao Lourenco
 	 */
 	public void render(ArrayList<Entity> ent) {
 		// Setting up OpenGL for render
@@ -156,6 +162,7 @@ public abstract class Entity {
 	 * Method to return the Enity vertices.
 	 * 
 	 * @return Vector2f[] with the vertices.
+	 * @author Joao Lourenco
 	 */
 	public Vector2f[] getVertices() {
 		return new Vector2f[] { new Vector2f(this.x, this.y), new Vector2f(this.x, this.y + this.height), new Vector2f(this.x + this.width, this.y + this.height), new Vector2f(this.x + this.width, this.y) };
@@ -165,6 +172,7 @@ public abstract class Entity {
 	 * Method to check if the Entity has been removed or not.
 	 * 
 	 * @return boolean, true if has been removed, false if hasn't.
+	 * @author Joao Lourenco
 	 */
 	public boolean isRemoved() {
 		return removed;
@@ -172,6 +180,8 @@ public abstract class Entity {
 
 	/**
 	 * Method to remove an Entity from the world.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void remove() {
 		removed = true;
@@ -182,6 +192,7 @@ public abstract class Entity {
 	 * 
 	 * @param world
 	 *            : Instance of the world class.
+	 * @author Joao Lourenco
 	 */
 	public void init(World world) {
 		this.world = world;
@@ -192,6 +203,7 @@ public abstract class Entity {
 	 * 
 	 * @param running
 	 *            : Boolean true if they are running, false if they are not.
+	 * @author Joao Lourenco
 	 */
 	public float getSpeed(boolean running) {
 		float speed = 0;
@@ -204,6 +216,7 @@ public abstract class Entity {
 	 * Method to get the current Entity x coordinates.
 	 * 
 	 * @return int with the position.
+	 * @author Joao Lourenco
 	 */
 	public int getX() {
 		return (int) this.x;
@@ -213,6 +226,7 @@ public abstract class Entity {
 	 * Method to get the current Entity y coordinates.
 	 * 
 	 * @return int with the position.
+	 * @author Joao Lourenco
 	 */
 	public int getY() {
 		return (int) this.y;
@@ -223,6 +237,7 @@ public abstract class Entity {
 	 * 
 	 * @param x
 	 *            : float with the new coordinates.
+	 * @author Joao Lourenco
 	 */
 	public void setX(float x) {
 		this.x = x;
@@ -233,6 +248,7 @@ public abstract class Entity {
 	 * 
 	 * @param y
 	 *            : float with the new coordinates.
+	 * @author Joao Lourenco
 	 */
 	public void setY(float y) {
 		this.y = y;
@@ -242,6 +258,7 @@ public abstract class Entity {
 	 * Method to get if the Entity is Light Collidable or not.
 	 * 
 	 * @return boolean, true if its collidable, false if its not.
+	 * @author Joao Lourenco
 	 */
 	public boolean isLightCollidable() {
 		return this.lightCollidable;
@@ -252,6 +269,7 @@ public abstract class Entity {
 	 * 
 	 * @param a
 	 *            : true if its collidable, false if its not.
+	 * @author Joao Lourenco
 	 */
 	public void isLightCollidable(boolean a) {
 		this.lightCollidable = a;
@@ -261,6 +279,7 @@ public abstract class Entity {
 	 * Method to get collision property.
 	 * 
 	 * @return boolean, true if they collide, false if they dont.
+	 * @author Joao Lourenco
 	 */
 	public boolean isCollidable() {
 		return this.collidable;
@@ -271,6 +290,7 @@ public abstract class Entity {
 	 * 
 	 * @param a
 	 *            : Boolean true if they collide, false if they dont.
+	 * @author Joao Lourenco
 	 */
 	public void isCollidable(boolean a) {
 		this.collidable = a;

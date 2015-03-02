@@ -109,7 +109,7 @@ public class World {
 		// b.init(this);
 		// this.entities.add(b);
 		// Add Animated Text:
-		new AnimatedText("Ola :D pq", 50, 5, 18);
+		new AnimatedText("Ola :D td bem?", 50, 5, 18);
 	}
 
 	/**

@@ -73,6 +73,7 @@ public class Main implements Runnable {
 	 * 
 	 * @param args
 	 *            : String[] with anykind of arguments.
+	 * @author Joao Lourenco
 	 */
 	public static void main(String[] args) {
 		Main main = new Main();
@@ -81,6 +82,8 @@ public class Main implements Runnable {
 
 	/**
 	 * Method that starts the game.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public synchronized void start() {
 		thread = new Thread(this, GeneralSettings.fullname);
@@ -90,6 +93,8 @@ public class Main implements Runnable {
 
 	/**
 	 * Method that initializes the game.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	private void init() {
 		// Setting up the Display
@@ -101,6 +106,7 @@ public class Main implements Runnable {
 			e.printStackTrace();
 		}
 
+		// This is for debug purposes only.
 		System.out.println("OS name " + System.getProperty("os.name"));
 		System.out.println("OS version " + System.getProperty("os.version"));
 		System.out.println("LWJGL version " + org.lwjgl.Sys.getVersion());
@@ -129,6 +135,8 @@ public class Main implements Runnable {
 
 	/**
 	 * This Method is called on the end of the game to clean the memory.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	private void cleanup() {
 		// Cleaning all the Shaders
@@ -143,6 +151,8 @@ public class Main implements Runnable {
 
 	/**
 	 * This Method holds the game loop.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void run() {
 		// Calling the initialize Method to setup our environment
@@ -199,6 +209,8 @@ public class Main implements Runnable {
 
 	/**
 	 * This is the render Method.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	private void render() {
 		// Clear the screen from the last render.
@@ -213,6 +225,8 @@ public class Main implements Runnable {
 
 	/**
 	 * This is the update Method and it is updated 60 times per second.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	private void update() {
 		world.update();
@@ -226,6 +240,8 @@ public class Main implements Runnable {
 
 	/**
 	 * This is the tick Method and it is updated 1 times per second.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	private void tick() {
 		world.tick();

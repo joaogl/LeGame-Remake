@@ -33,7 +33,7 @@ import static org.lwjgl.opengl.GL20.*;
  * Abstract class for all the Light types.
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public abstract class Light extends Entity {
 
@@ -43,21 +43,15 @@ public abstract class Light extends Entity {
 	public Vector2f location;
 
 	/**
-	 * Red, Green and Blue is the light color.
-	 * Intensity marks the lights intensity.
-	 * Type 1 for PointLight.
-	 * Type 2 for SpotLight.
-	 * hasLightSpot is the setting that defines if the light has a strong center or a normal center effect.
-	 * facing is the degrees to where the light is facing.
-	 * size is the size of the light effect.
+	 * Red, Green and Blue is the light color. Intensity marks the lights intensity. Type 1 for PointLight. Type 2 for SpotLight. hasLightSpot is the setting that defines if the light has a strong center or a normal center effect. facing is the degrees to where the light is facing. size is the size of the light effect.
 	 */
 	public float red, green, blue, intensity, type, hasLightSpot, facing, size;
-	
+
 	/**
 	 * Is the light on or off.
 	 */
 	protected boolean inAction = true;
-	
+
 	/**
 	 * Shader ID for the Light.
 	 */
@@ -74,6 +68,7 @@ public abstract class Light extends Entity {
 	 *            : Light green color value.
 	 * @param blue
 	 *            : Light blue color value.
+	 * @author Joao Lourenco
 	 */
 	public Light(Vector2f location, float red, float green, float blue) {
 		// Calling the super method with the location and size.
@@ -85,7 +80,7 @@ public abstract class Light extends Entity {
 		this.blue = blue;
 		// Because it doesnt have a intensity value on the constructor we are randomizing it.
 		this.intensity = (float) (new Random().nextGaussian() / 5) * 3;
-		// Setting the spot center to 1 which is the default, and also setting the type to 1 has the default light, Point Light.  
+		// Setting the spot center to 1 which is the default, and also setting the type to 1 has the default light, Point Light.
 		this.type = 1;
 		this.hasLightSpot = 1;
 		this.lightCollidable = false;
@@ -104,6 +99,7 @@ public abstract class Light extends Entity {
 	 *            : Light blue color value.
 	 * @param inte
 	 *            : Light Intensity
+	 * @author Joao Lourenco
 	 */
 	public Light(Vector2f location, float red, float green, float blue, float inte) {
 		super((int) location.x, (int) location.y, GeneralSettings.defaultLightPointSize, GeneralSettings.defaultLightPointSize);
@@ -118,6 +114,8 @@ public abstract class Light extends Entity {
 
 	/**
 	 * Method to update called by the World Class 60 times per second.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void update() {
 		if (this.facing <= 360) this.facing++;
@@ -128,11 +126,15 @@ public abstract class Light extends Entity {
 
 	/**
 	 * Method to tick called by the World Class once per second.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public abstract void tick();
 
 	/**
 	 * Method to bind the Texture uniforms, this is what makes the shaders and stuff.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void bindUniforms() {
 		// Binding the shader program.
@@ -152,6 +154,8 @@ public abstract class Light extends Entity {
 
 	/**
 	 * Method called by the World Class to render the Light.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void render() {
 		// Binding the Uniforms to make the light effects.
@@ -184,6 +188,7 @@ public abstract class Light extends Entity {
 	 *            : all the entities to check for shadows cast.
 	 * @param tiles
 	 *            : all the tiles to check for shadows cast.
+	 * @author Joao Lourenco
 	 */
 	public void renderShadows(ArrayList<Entity> entities, Tile[] tiles) {
 		// Getting OpenGL ready for shadows render.
@@ -268,6 +273,7 @@ public abstract class Light extends Entity {
 	 * 
 	 * @param x
 	 *            : float with the x location.
+	 * @author Joao Lourenco
 	 */
 	public void setX(float x) {
 		this.location.x = x;
@@ -278,6 +284,7 @@ public abstract class Light extends Entity {
 	 * 
 	 * @param y
 	 *            : float with the y location.
+	 * @author Joao Lourenco
 	 */
 	public void setY(float y) {
 		this.location.y = y;
@@ -287,6 +294,7 @@ public abstract class Light extends Entity {
 	 * Method to get the Light x location.
 	 * 
 	 * @return int with the x coordinates.
+	 * @author Joao Lourenco
 	 */
 	public int getX() {
 		return (int) this.location.x;
@@ -296,6 +304,7 @@ public abstract class Light extends Entity {
 	 * Method to get the Light y location.
 	 * 
 	 * @return int with the y coordinates.
+	 * @author Joao Lourenco
 	 */
 	public int getY() {
 		return (int) this.location.y;
@@ -305,6 +314,7 @@ public abstract class Light extends Entity {
 	 * Method to get the Light Type.
 	 * 
 	 * @return float, 1 for PointLight, 2 for SpotLight.
+	 * @author Joao Lourenco
 	 */
 	public float getType() {
 		return this.type;
@@ -314,6 +324,7 @@ public abstract class Light extends Entity {
 	 * Method to get where's the Light facing.
 	 * 
 	 * @return float, degrees to where the Light is facing.
+	 * @author Joao Lourenco
 	 */
 	public float getFacing() {
 		return this.facing;
@@ -323,6 +334,7 @@ public abstract class Light extends Entity {
 	 * Method to get the Light size.
 	 * 
 	 * @return float, Light size.
+	 * @author Joao Lourenco
 	 */
 	public float getSize() {
 		return this.size;
@@ -332,6 +344,7 @@ public abstract class Light extends Entity {
 	 * Method to get the Light State.
 	 * 
 	 * @return boolean, Light state, on or off.
+	 * @author Joao Lourenco
 	 */
 	public boolean getLightState() {
 		return this.inAction;
@@ -339,6 +352,8 @@ public abstract class Light extends Entity {
 
 	/**
 	 * Method to turn the Light off.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void turnLightOff() {
 		this.inAction = false;
@@ -346,6 +361,8 @@ public abstract class Light extends Entity {
 
 	/**
 	 * Method to turn the Light on.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void turnLightOn() {
 		this.inAction = true;
