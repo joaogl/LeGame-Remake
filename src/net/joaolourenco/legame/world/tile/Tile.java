@@ -131,10 +131,12 @@ public abstract class Tile {
 		// Setting up OpenGL for render
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
-
+		
 		// Updating the Tile coordinates.
 		this.x = x;
 		this.y = y;
+		
+		this.shade.bind();
 
 		quad.render(x, y, tex, shade);
 

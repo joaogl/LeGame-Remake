@@ -115,15 +115,19 @@ public abstract class Entity {
 		// Drawing the QUAD.
 		glBegin(GL_QUADS);
 		{
+			// Each vertice of the Quad
 			glTexCoord2f(0, 0);
 			glVertex2f(0, 0);
 
+			// Each vertice of the Quad
 			glTexCoord2f(0, 1);
 			glVertex2f(0, this.height);
 
+			// Each vertice of the Quad
 			glTexCoord2f(1, 1);
 			glVertex2f(this.width, this.height);
 
+			// Each vertice of the Quad
 			glTexCoord2f(1, 0);
 			glVertex2f(this.width, 0);
 		}

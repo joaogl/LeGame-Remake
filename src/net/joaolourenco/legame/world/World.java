@@ -77,8 +77,8 @@ public class World {
 
 		generateLevel();
 
-		for (int y = 0; y < this.height; y++) {
-			for (int x = 0; x < this.width; x++) {
+		for (int y = 0; y < 5; y++) {
+			for (int x = 0; x < 5; x++) {
 				SolidTile ti = new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt, true);
 				ti.isLightCollidable(false);
 				setTile(x, y, ti);
@@ -189,7 +189,6 @@ public class World {
 
 		if (this.goingUp) this.DAY_LIGHT += 0.001f;
 		else this.DAY_LIGHT -= 0.001f;
-		this.DAY_LIGHT = 1.0f;
 	}
 
 	/**

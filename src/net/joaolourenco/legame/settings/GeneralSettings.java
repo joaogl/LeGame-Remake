@@ -51,7 +51,7 @@ public class GeneralSettings {
 		public final static String version = "BETA V0.1";
 	
 		// Game Name
-		public final static String name = "Fallen";
+		public final static String name = "LeGame - Remake";
 		public final static String fullname = name + " " + version;
 	
 		// Window Size		
@@ -66,7 +66,7 @@ public class GeneralSettings {
 		// Game debugging
 		public final static boolean useAverageFPS = true;
 		public final static int ticksPerAverage = 10;
-		public final static boolean showLightFloat = false;
+		public final static boolean showLightFloat = true;
 
 	/**
 	 * ---------------------------------- // Entity Settings // ----------------------------------
