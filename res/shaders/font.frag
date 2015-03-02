@@ -9,5 +9,6 @@ void main() {
 	if (tex.x == 1.0 && tex.y == 0.0 && tex.z == 1.0) {
 		alpha = 0.0;
 	}
+	
 	gl_FragColor = vec4(tex.xyz, alpha);	
 }
