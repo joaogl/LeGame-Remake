@@ -86,8 +86,8 @@ public class GeneralSettings {
 		// Shaders Settings
 		public final static String entityVertexPath = "res/shaders/entity.vert";
 		public final static String blockFragPath = "res/shaders/block.frag";
-		public final static String lettersFragPath = "res/shaders/letters.frag";
 		public final static String lightFragPath = "res/shaders/light.frag";
+		public final static String fontFragPath = "res/shaders/font.frag";
 		public final static int howManyLightsToShader = 50; // How many lights will be passed to the shaders.
 
 		public final static Font font = new Font();

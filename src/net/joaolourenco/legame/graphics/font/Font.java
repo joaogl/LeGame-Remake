@@ -54,8 +54,14 @@ public class Font {
 			"-,_% #$&'[]*+" + //
 			":;<=>/^�`";
 
-	public Shader shader = new Shader("res/shaders/font.frag", "res/shaders/font.vert");
+	/**
+	 * Shader ID for the font.
+	 */
+	public Shader shader = new Shader(GeneralSettings.fontFragPath, GeneralSettings.entityVertexPath);
 
+	/**
+	 * The Quad used to render the Quad.
+	 */
 	public QuadRender quad;
 
 	/**

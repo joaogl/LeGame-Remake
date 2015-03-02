@@ -62,6 +62,9 @@ public abstract class Tile {
 	 */
 	public Shader shade = new Shader(GeneralSettings.blockFragPath, GeneralSettings.entityVertexPath);
 
+	/**
+	 * The Quad used to render the Tile.
+	 */
 	public QuadRender quad;
 
 	/**
