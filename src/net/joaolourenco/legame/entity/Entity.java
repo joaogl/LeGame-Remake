@@ -19,6 +19,7 @@ package net.joaolourenco.legame.entity;
 import java.util.*;
 
 import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.items.*;
 import net.joaolourenco.legame.settings.*;
 import net.joaolourenco.legame.utils.*;
 import net.joaolourenco.legame.world.*;
@@ -63,6 +64,10 @@ public abstract class Entity {
 	 * Shader ID for the entity.
 	 */
 	public Shader shade = new Shader(GeneralSettings.blockFragPath, GeneralSettings.defaultVertexPath);
+	/**
+	 * Array o store all the Items in the entityies inventory.
+	 */
+	public List<Item> inventory = new ArrayList<Item>();
 
 	/**
 	 * Constructor for the Entities.
@@ -294,6 +299,14 @@ public abstract class Entity {
 	 */
 	public void isCollidable(boolean a) {
 		this.collidable = a;
+	}
+
+	/**
+	 * @param item
+	 * @author Joao Lourenco
+	 */
+	public void removeItem(Item item) {
+		inventory.remove(item);
 	}
 
 }
