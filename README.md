@@ -17,6 +17,7 @@ LeGame is a Action/Adventure kinda game.
 TO-DO
 ====
 - Create the basic textures.
+- Add GUI.
 - Add doors to the game.
 - Create a level generation algorithm.
 - Finish the Mob system.
@@ -26,8 +27,6 @@ TO-DO
 
 MAYBE TO-DO
 ==== 
-- Level generator.
-- Test if there is a faster way to render the tiles. (Maybe using the vertex arrays like the letters)
 - Make Dialog windows.
 - Add Multiplayer support.
 - Add server side level generation.
@@ -41,6 +40,10 @@ MAYBE TO-DO
 
 DONE
 ====
+- Text now works on computers with graphic cards from 2006 and newer. 
+- All the game now uses the same render code. 
+- Test if there is a faster way to render the tiles.
+- Game lags removed.
 - Make the shaders work with multiple lights.
 - Game engine is working.
 
