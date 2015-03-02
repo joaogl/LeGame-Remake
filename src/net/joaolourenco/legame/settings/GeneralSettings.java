@@ -66,7 +66,7 @@ public class GeneralSettings {
 		// Game debugging
 		public final static boolean useAverageFPS = true;
 		public final static int ticksPerAverage = 10;
-		public final static boolean showLightFloat = true;
+		public final static boolean showLightFloat = false;
 
 	/**
 	 * ---------------------------------- // Entity Settings // ----------------------------------
@@ -84,7 +84,7 @@ public class GeneralSettings {
 	 * ---------------------------------- // Shaders Settings // ----------------------------------
 	 **/
 		// Shaders Settings
-		public final static String entityVertexPath = "/shaders/entity.vert";
+		public final static String defaultVertexPath = "/shaders/default.vert";
 		public final static String blockFragPath = "/shaders/block.frag";
 		public final static String lightFragPath = "/shaders/light.frag";
 		public final static String fontFragPath = "/shaders/font.frag";

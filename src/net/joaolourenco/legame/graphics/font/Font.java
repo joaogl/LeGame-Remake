@@ -51,7 +51,7 @@ public class Font {
 	/**
 	 * Shader ID for the font.
 	 */
-	public Shader shader = new Shader(GeneralSettings.fontFragPath, GeneralSettings.entityVertexPath);
+	public Shader shader = new Shader(GeneralSettings.fontFragPath, GeneralSettings.defaultVertexPath);
 
 	/**
 	 * The Quad used to render the Quad.
