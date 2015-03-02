@@ -16,13 +16,10 @@
 
 package net.joaolourenco.legame.settings;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import net.joaolourenco.legame.graphics.QuadRender;
-import net.joaolourenco.legame.graphics.Shader;
-import net.joaolourenco.legame.graphics.font.AnimatedText;
-import net.joaolourenco.legame.graphics.font.Font;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.graphics.font.*;
 
 /**
  * Class to handle General Settings.
@@ -41,8 +38,6 @@ public class GeneralSettings {
 		public static List<Font> fonts = new ArrayList<Font>();	
 		// This is the array list that will hold all the AnimatedText to keep them updated.
 		public static List<AnimatedText> animatedText = new ArrayList<AnimatedText>();
-		// This is the array list that will hold all the Quad's for a clean up at the end of the running process.
-		public static List<QuadRender> quads = new ArrayList<QuadRender>();	
 
 	/**
 	 * ---------------------------------- // General Game Settings // ----------------------------------

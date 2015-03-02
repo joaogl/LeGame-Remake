@@ -25,12 +25,14 @@ import org.lwjgl.input.Keyboard;
  * Player Class.
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public class Player extends Mob {
 
 	/**
 	 * Constructor for a new Player.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public Player(int x, int y, int w, int h) {
 		super(x, y, w, h);
@@ -40,6 +42,8 @@ public class Player extends Mob {
 
 	/**
 	 * Update Method called by the World Class 60 times per second.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	@Override
 	public void update() {
@@ -71,6 +75,8 @@ public class Player extends Mob {
 
 	/**
 	 * Tick Method called by the World Class once per second.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void tick() {
 	}

@@ -26,7 +26,7 @@ import org.lwjgl.BufferUtils;
  * Class Buffer handles all the OpenGL Buffers.
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public class Buffer {
 
@@ -36,6 +36,7 @@ public class Buffer {
 	 * @param array
 	 *            : float[] with data.
 	 * @return FloatBuffer
+	 * @author Joao Lourenco
 	 */
 	public static FloatBuffer createFloatBuffer(float[] array) {
 		FloatBuffer result = BufferUtils.createFloatBuffer(array.length);
@@ -50,6 +51,7 @@ public class Buffer {
 	 * @param array
 	 *            : byte[] with data.
 	 * @return ByteBuffer
+	 * @author Joao Lourenco
 	 */
 	public static ByteBuffer createByteBuffer(byte[] array) {
 		ByteBuffer result = BufferUtils.createByteBuffer(array.length);
@@ -64,6 +66,7 @@ public class Buffer {
 	 * @param array
 	 *            : int[] with data.
 	 * @return result
+	 * @author Joao Lourenco
 	 */
 	public static IntBuffer createIntBuffer(int[] array) {
 		IntBuffer result = BufferUtils.createIntBuffer(array.length);

@@ -31,8 +31,7 @@ public class AnimatedText {
 	 */
 	private Font font;
 	/**
-	 * Text is the corrent text being rendered. finalText is the full text,
-	 * rendered and not rendered.
+	 * Text is the corrent text being rendered. finalText is the full text, rendered and not rendered.
 	 */
 	private String text, finalText;
 	/**
@@ -44,9 +43,7 @@ public class AnimatedText {
 	 */
 	private long last = 0;
 	/**
-	 * finished holds the information on whether is the animation over or not.
-	 * remove holds the information on whether the text is going to be removed
-	 * or not.
+	 * finished holds the information on whether is the animation over or not. remove holds the information on whether the text is going to be removed or not.
 	 */
 	private boolean finished = false, remove = false;
 
@@ -61,6 +58,7 @@ public class AnimatedText {
 	 *            : y Location of the text.
 	 * @param size
 	 *            : Font size.
+	 * @author Joao Lourenco
 	 */
 	public AnimatedText(String text, int x, int y, int size) {
 		this.font = GeneralSettings.font;
@@ -75,6 +73,8 @@ public class AnimatedText {
 
 	/**
 	 * Method called by the Main Class to render the text.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void render() {
 		font.drawString(this.text, this.x, this.y, this.size, 5);
@@ -82,6 +82,8 @@ public class AnimatedText {
 
 	/**
 	 * Method called by the Main Class to update the text.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void update() {
 		// Current time of this update.
@@ -97,6 +99,8 @@ public class AnimatedText {
 
 	/**
 	 * Method to add another letter to the rendering text.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void addLetter() {
 		// if there is another letter to add add it if not finish animation.
@@ -108,6 +112,7 @@ public class AnimatedText {
 	 * Method to check if the text is ready to be removed.
 	 * 
 	 * @return boolean, is the text ready to be removed or not.
+	 * @author Joao Lourenco
 	 */
 	public boolean isRemoved() {
 		return this.remove;

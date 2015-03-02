@@ -27,7 +27,7 @@ import static org.lwjgl.opengl.GL11.*;
  * @author Joao Lourenco
  * 
  */
-public class Font {
+public class Font extends RenderableComponent {
 
 	/**
 	 * Array to store the font textures ID's.
@@ -54,18 +54,13 @@ public class Font {
 	public Shader shader = new Shader(GeneralSettings.fontFragPath, GeneralSettings.defaultVertexPath);
 
 	/**
-	 * The Quad used to render the Quad.
-	 */
-	public QuadRender quad;
-
-	/**
 	 * Constructor for the Font's class.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public Font() {
 		// Add this class to the font's to be disposed at the closing of the game.
 		GeneralSettings.fonts.add(this);
-
-		quad = new QuadRender(size);
 
 		// Loading of the fonts.
 		texIDs = Texture.loadFont("/textures/util/font.png", 13, 7, size);
@@ -84,6 +79,7 @@ public class Font {
 	 *            : Size of the font.
 	 * @param spacing
 	 *            : Spacing between letters.
+	 * @author Joao Lourenco
 	 */
 	public void drawString(String text, int x, int y, int size, int spacing) {
 
@@ -112,7 +108,7 @@ public class Font {
 				if (currentChar == ':') s = size / 2;
 
 				// render it.
-				quad.render(xx, yOffset, texIDs[index], this.shader, size);
+				render(xx, yOffset, texIDs[index], this.shader, size);
 			}
 
 			// Apply the spacing for the letter.

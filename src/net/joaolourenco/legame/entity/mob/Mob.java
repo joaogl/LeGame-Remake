@@ -22,7 +22,7 @@ import net.joaolourenco.legame.entity.Entity;
  * Abstract class for all the Mob
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public abstract class Mob extends Entity {
 
@@ -50,6 +50,7 @@ public abstract class Mob extends Entity {
 	 *            : mob width.
 	 * @param height
 	 *            : mob height.
+	 * @author Joao Lourenco
 	 */
 	public Mob(int x, int y, int width, int height) {
 		super(x, y, width, height);
@@ -59,6 +60,7 @@ public abstract class Mob extends Entity {
 	 * Method to get if the Mob is frozen.
 	 * 
 	 * @return boolean, true if its frozen, false if its not.
+	 * @author Joao Lourenco
 	 */
 	public boolean isFrozen() {
 		return frozen;
@@ -66,6 +68,8 @@ public abstract class Mob extends Entity {
 
 	/**
 	 * Method to freeze the Mob.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void freeze() {
 		frozen = true;
@@ -73,6 +77,8 @@ public abstract class Mob extends Entity {
 
 	/**
 	 * Method to unfreeze the Mob.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void unFreeze() {
 		frozen = false;
@@ -82,6 +88,7 @@ public abstract class Mob extends Entity {
 	 * Method to check if Mob is in Bed.
 	 * 
 	 * @return boolean, true if its in bed, false if its not.
+	 * @author Joao Lourenco
 	 */
 	public boolean inBed() {
 		return this.inBed;
@@ -92,6 +99,7 @@ public abstract class Mob extends Entity {
 	 * 
 	 * @param a
 	 *            : true if its in bed, false if its not.
+	 * @author Joao Lourenco
 	 */
 	public void inBed(boolean a) {
 		this.inBed = a;
@@ -104,6 +112,7 @@ public abstract class Mob extends Entity {
 	 *            : where is the player going.
 	 * @param ya
 	 *            : where is the player going.
+	 * @author Joao Lourenco
 	 */
 	public void getSide(float xa, float ya) {
 		if (xa > 0) this.side = 0;

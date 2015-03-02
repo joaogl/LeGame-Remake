@@ -65,6 +65,7 @@ public class World {
 	 *            : width of the world.
 	 * @param height
 	 *            : height of the world.
+	 * @author Joao Lourenco
 	 */
 	public World(int width, int height) {
 		// Setting up the variables
@@ -114,6 +115,7 @@ public class World {
 
 	/**
 	 * 
+	 * @author Joao Lourenco
 	 */
 	public void generateLevel() {
 
@@ -123,6 +125,7 @@ public class World {
 	 * Method to get the world Height
 	 * 
 	 * @return int with the world Height
+	 * @author Joao Lourenco
 	 */
 	public int getHeight() {
 		return this.height;
@@ -130,6 +133,8 @@ public class World {
 
 	/**
 	 * Method to render the entire world called by the Main Class.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void render() {
 		// Moving the Render to the right position to render.
@@ -170,6 +175,8 @@ public class World {
 
 	/**
 	 * Method to update everything called by the Main class 60 times per second.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void update() {
 		// Updating all the entities.
@@ -190,6 +197,8 @@ public class World {
 
 	/**
 	 * Method to tick everything called by the Main class once per second.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void tick() {
 		// If an entity is removed remove it from the Array.
@@ -208,6 +217,7 @@ public class World {
 	 *            : int with the right x offset.
 	 * @param yOffset
 	 *            : int with the right y offset.
+	 * @author Joao Lourenco
 	 */
 	public void setOffset(int xOffset, int yOffset) {
 		this.xOffset = xOffset;
@@ -218,6 +228,7 @@ public class World {
 	 * Method to get x Offset.
 	 * 
 	 * @return int with the x Offset.
+	 * @author Joao Lourenco
 	 */
 	public int getXOffset() {
 		return this.xOffset;
@@ -227,6 +238,7 @@ public class World {
 	 * Method to get y Offset.
 	 * 
 	 * @return int with the y Offset.
+	 * @author Joao Lourenco
 	 */
 	public int getYOffset() {
 		return this.yOffset;
@@ -236,6 +248,7 @@ public class World {
 	 * Method to get the world Width
 	 * 
 	 * @return int with the world Width
+	 * @author Joao Lourenco
 	 */
 	public int getWidth() {
 		return this.width;
@@ -249,6 +262,7 @@ public class World {
 	 * @param b
 	 *            : Second Entity.
 	 * @return double with the distance.
+	 * @author Joao Lourenco
 	 */
 	public double getDistance(Entity a, Entity b) {
 		return Math.sqrt(Math.pow((b.getX() - a.getX()), 2) + Math.pow((b.getY() - a.getY()), 2));
@@ -264,6 +278,7 @@ public class World {
 	 * @param y
 	 *            : Second Entity Y.
 	 * @return double with the distance.
+	 * @author Joao Lourenco
 	 */
 	public double getDistance(Entity a, float x, float y) {
 		return Math.sqrt(Math.pow((x - a.getX()), 2) + Math.pow((y - a.getY()), 2));
@@ -277,6 +292,7 @@ public class World {
 	 * @param y
 	 *            : y coordinates from where to search.
 	 * @return ArrayList with all the near by lights.
+	 * @author Joao Lourenco
 	 */
 	public ArrayList<Entity> getNearByLights(float x, float y) {
 		ArrayList<Entity> ent = new ArrayList<Entity>();
@@ -297,6 +313,7 @@ public class World {
 	 *            : y location for the new Tile.
 	 * @param tile
 	 *            : the Tile that you want to be added.
+	 * @author Joao Lourenco
 	 */
 	public void setTile(int x, int y, Tile tile) {
 		this.worldTiles[x + y * this.width] = tile;
@@ -307,6 +324,7 @@ public class World {
 	 * 
 	 * @param ent
 	 *            : Which entity to add.
+	 * @author Joao Lourenco
 	 */
 	public void addEntity(Entity ent) {
 		// Initialize the entity.
@@ -323,6 +341,7 @@ public class World {
 	 * @param y
 	 *            : y location to get the Tile from.
 	 * @return Tile at the specified location.
+	 * @author Joao Lourenco
 	 */
 	public Tile getTile(int x, int y) {
 		if (x < 0 || x >= width || y < 0 || y >= height) return null;

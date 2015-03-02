@@ -22,7 +22,7 @@ import net.joaolourenco.legame.utils.Vector2f;
  * Class for the Point Light.
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public class PointLight extends Light {
 
@@ -37,6 +37,7 @@ public class PointLight extends Light {
 	 *            : float with the green value for the light color.
 	 * @param blue
 	 *            : float with the blue value for the light color.
+	 * @author Joao Lourenco
 	 */
 	public PointLight(Vector2f location, float red, float green, float blue) {
 		super(location, red, green, blue);
@@ -56,6 +57,7 @@ public class PointLight extends Light {
 	 *            : float with the blue value for the light color.
 	 * @param inte
 	 *            : float with the light intensity.
+	 * @author Joao Lourenco
 	 */
 	public PointLight(Vector2f location, float red, float green, float blue, float inte) {
 		super(location, red, green, blue, inte);
@@ -64,6 +66,8 @@ public class PointLight extends Light {
 
 	/**
 	 * Method called once per second by the World Class.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void tick() {
 	}

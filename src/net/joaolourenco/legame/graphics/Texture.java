@@ -60,11 +60,15 @@ public class Texture {
 
 	/**
 	 * All the font textures are stored here.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	private static List<Integer> fontTextures = new ArrayList<Integer>();
 
 	/**
 	 * Function to load some early needed resorces.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public static void preload() {
 
@@ -72,6 +76,8 @@ public class Texture {
 
 	/**
 	 * Function to load all the resorces.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public static void load() {
 		Grass = loadTexture("/textures/grass.png", false);
@@ -93,6 +99,7 @@ public class Texture {
 	 * @param antialiase
 	 *            : boolean does it need antialiase
 	 * @return int Texture ID.
+	 * @author Joao Lourenco
 	 */
 	private static int loadTexture(String path, boolean antialiase) {
 		// Setting up all the variables
@@ -154,6 +161,7 @@ public class Texture {
 	 * @param size
 	 *            : size of each letter.
 	 * @return int[], all the font letters ID's.
+	 * @author Joao Lourenco
 	 */
 	public static int[] loadFont(String path, int hLength, int vLength, int size) {
 		// Setting up some variables
@@ -227,6 +235,7 @@ public class Texture {
 	 * @param texture
 	 *            : id of the texture to get.
 	 * @return int, the texture.
+	 * @author Joao Lourenco
 	 */
 	public static int get(int texture) {
 		if (texture < 0 || texture >= fontTextures.size()) return 0;

@@ -25,7 +25,7 @@ import net.joaolourenco.legame.utils.Vector2f;
  * Class for the Fire Light.
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public class FireLight extends PointLight {
 
@@ -45,6 +45,7 @@ public class FireLight extends PointLight {
 	 *            : green color value for the light.
 	 * @param blue
 	 *            : blue color value for the light.
+	 * @author Joao Lourenco
 	 */
 	public FireLight(Vector2f location, float red, float green, float blue) {
 		super(location, red, green, blue);
@@ -53,19 +54,23 @@ public class FireLight extends PointLight {
 
 	/**
 	 * Method for update called 60 times per second by the World Class.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void update() {
 		// Calling the super method.
 		super.update();
 		// Adding time.
 		time++;
-		// Generating random value to animate the fire. 
+		// Generating random value to animate the fire.
 		if (time % (Integer) generateRandom(10, 50, 0) == 0) this.intensity = (Float) generateRandom(2f, 2.5f, 1);
 		this.green = (Float) generateRandom(0f, 0.4f, 1);
 	}
 
 	/**
 	 * Method for tick called once per second by the World Class.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void tick() {
 	}
@@ -80,19 +85,27 @@ public class FireLight extends PointLight {
 	 * @param type
 	 *            : 0 for Integers, 1 for Floats
 	 * @return Object, if type is 0 will return integer, if its 1 will return float.
+	 * @author Joao Lourenco
 	 */
 	public Object generateRandom(float min, float max, int type) {
+		// This method accepts two types of returns, 0 for Ints and 1 for Floats.
 		if (type == 0) {
+			// Generate an int random.
 			Random rand = new Random();
 			int out = rand.nextInt((int) max);
+			// if its out of the bounds, keep trying.
 			while (out > max || out < min)
 				out = rand.nextInt((int) max);
+			// return the random value.
 			return out;
 		} else if (type == 1) {
+			// Generate an float random.
 			Random rand = new Random();
 			double out = min + (max - min) * rand.nextDouble();
+			// if its out of the bounds, keep trying.
 			while (out > max || out < min)
 				out = min + (max - min) * rand.nextDouble();
+			// return the random value.
 			return (float) out;
 		}
 		return 0f;

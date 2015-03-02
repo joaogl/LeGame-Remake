@@ -20,7 +20,7 @@ package net.joaolourenco.legame.utils;
  * Class to simulate LWJGL Vector2f Class.
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public class Vector2f {
 
@@ -36,6 +36,7 @@ public class Vector2f {
 	 *            : x value for the vector.
 	 * @param y
 	 *            : y value for the vector.
+	 * @author Joao Lourenco
 	 */
 	public Vector2f(float x, float y) {
 		this.x = x;
@@ -49,6 +50,7 @@ public class Vector2f {
 	 *            : x value for the vector.
 	 * @param y
 	 *            : y value for the vector.
+	 * @author Joao Lourenco
 	 */
 	public void set(float x, float y) {
 		this.x = x;
@@ -65,6 +67,7 @@ public class Vector2f {
 	 * @param dest
 	 *            : Final Vector.
 	 * @return The Final Vector.
+	 * @author Joao Lourenco
 	 */
 	public static Vector2f add(Vector2f left, Vector2f right, Vector2f dest) {
 		if (dest == null) return new Vector2f(left.x + right.x, left.y + right.y);
@@ -84,6 +87,7 @@ public class Vector2f {
 	 * @param dest
 	 *            : Final Vector.
 	 * @return The Final Vector.
+	 * @author Joao Lourenco
 	 */
 	public static Vector2f sub(Vector2f left, Vector2f right, Vector2f dest) {
 		if (dest == null) return new Vector2f(left.x - right.x, left.y - right.y);
@@ -101,6 +105,7 @@ public class Vector2f {
 	 * @param right
 	 *            : Vector two.
 	 * @return The dot product has a float.
+	 * @author Joao Lourenco
 	 */
 	public static float dot(Vector2f left, Vector2f right) {
 		return left.x * right.x + left.y * right.y;
@@ -112,6 +117,7 @@ public class Vector2f {
 	 * @param scale
 	 *            : The scale value.
 	 * @return The vector scaled.
+	 * @author Joao Lourenco
 	 */
 	public Vector2f scale(float scale) {
 		x *= scale;
@@ -124,6 +130,7 @@ public class Vector2f {
 	 * Method to get the x value from the Vector.
 	 * 
 	 * @return x value from the Vector.
+	 * @author Joao Lourenco
 	 */
 	public float getX() {
 		return this.x;
@@ -133,6 +140,7 @@ public class Vector2f {
 	 * Method to get the y value from the Vector.
 	 * 
 	 * @return y value from the Vector.
+	 * @author Joao Lourenco
 	 */
 	public float getY() {
 		return this.y;

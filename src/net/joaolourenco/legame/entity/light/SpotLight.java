@@ -23,7 +23,7 @@ import net.joaolourenco.legame.utils.Vector2f;
  * Class for the Spot Light.
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public class SpotLight extends Light {
 
@@ -38,6 +38,7 @@ public class SpotLight extends Light {
 	 *            : float with the green value for the light color.
 	 * @param blue
 	 *            : float with the blue value for the light color.
+	 * @author Joao Lourenco
 	 */
 	public SpotLight(Vector2f location, float red, float green, float blue) {
 		super(location, red, green, blue);
@@ -59,6 +60,7 @@ public class SpotLight extends Light {
 	 *            : float with the blue value for the light color.
 	 * @param inte
 	 *            : float with the light intensity.
+	 * @author Joao Lourenco
 	 */
 	public SpotLight(Vector2f location, float red, float green, float blue, float inte) {
 		super(location, red, green, blue, inte);
@@ -84,6 +86,7 @@ public class SpotLight extends Light {
 	 *            : int with the light size.
 	 * @param facing
 	 *            : int with the light facing direction.
+	 * @author Joao Lourenco
 	 */
 	public SpotLight(Vector2f location, float red, float green, float blue, float inte, int size, int facing) {
 		super(location, red, green, blue, inte);
@@ -94,6 +97,8 @@ public class SpotLight extends Light {
 
 	/**
 	 * Method called once per second by the World Class.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void tick() {
 	}

@@ -35,7 +35,7 @@ import static org.lwjgl.opengl.GL20.*;
  * @author Joao Lourenco
  * 
  */
-public abstract class Tile {
+public abstract class Tile extends RenderableComponent {
 
 	/**
 	 * Is the tile collidable? Will the light end on the tile or keep spreading?
@@ -55,13 +55,6 @@ public abstract class Tile {
 	public Shader shade = new Shader(GeneralSettings.blockFragPath, GeneralSettings.defaultVertexPath);
 
 	/**
-	 * The Quad used to render the Tile.
-	 */
-	public QuadRender quad;
-
-	public boolean testing = false;
-
-	/**
 	 * Constructor for tiles with a different with and height.
 	 * 
 	 * @param width
@@ -70,6 +63,7 @@ public abstract class Tile {
 	 *            : Height of the Tile.
 	 * @param tex
 	 *            : Texture ID from the Texture class for the Tile.
+	 * @author Joao Lourenco
 	 */
 	public Tile(int width, int height, int tex) {
 		this.width = width;
@@ -84,9 +78,9 @@ public abstract class Tile {
 	 *            : width and height of the Tile.
 	 * @param tex
 	 *            : Texture ID from the Texture class for the Tile.
+	 * @author Joao Lourenco
 	 */
 	public Tile(int size, int tex) {
-		quad = new QuadRender(size);
 		this.width = size;
 		this.height = size;
 		this.tex = tex;
@@ -101,6 +95,7 @@ public abstract class Tile {
 	 *            : Texture ID from the Texture class for the Tile.
 	 * @param lightable
 	 *            : Is tile affected by environment light.
+	 * @author Joao Lourenco
 	 */
 	public Tile(int size, int tex, boolean lightable) {
 		this.width = size;
@@ -111,6 +106,8 @@ public abstract class Tile {
 
 	/**
 	 * Update Method, called by the World class 60 times per second.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void update() {
 		if (Keyboard.isKeyDown(Keyboard.KEY_R)) shade.recompile();
@@ -127,6 +124,7 @@ public abstract class Tile {
 	 *            : instance of the World Class
 	 * @param ent
 	 *            : List of entities that emit light.
+	 * @author Joao Lourenco
 	 */
 	public void render(int x, int y, World w, ArrayList<Entity> ent) {
 		// Setting up OpenGL for render
@@ -147,7 +145,7 @@ public abstract class Tile {
 		glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), day_light * 2);
 
 		// Rendering the Quad.
-		quad.render(x, y, tex, shade);
+		render(x, y, tex, shade);
 
 		// Disabling BLEND and releasing shader for next render.
 		glDisable(GL_BLEND);
@@ -159,6 +157,7 @@ public abstract class Tile {
 	 * Method to return the Tiles vertices.
 	 * 
 	 * @return Vector2f[] with the vertices.
+	 * @author Joao Lourenco
 	 */
 	public Vector2f[] getVertices() {
 		return new Vector2f[] { new Vector2f(this.x, this.y), new Vector2f(this.x, this.y + this.height), new Vector2f(this.x + this.width, this.y + this.height), new Vector2f(this.x + this.width, this.y) };
@@ -168,6 +167,7 @@ public abstract class Tile {
 	 * Method to get if the Tile is Light Collidable or not.
 	 * 
 	 * @return boolean, true if its collidable, false if its not.
+	 * @author Joao Lourenco
 	 */
 	public boolean isLightCollidable() {
 		return this.lightCollidable;
@@ -178,6 +178,7 @@ public abstract class Tile {
 	 * 
 	 * @param a
 	 *            : true if its collidable, false if its not.
+	 * @author Joao Lourenco
 	 */
 	public void isLightCollidable(boolean a) {
 		this.lightCollidable = a;
@@ -188,6 +189,7 @@ public abstract class Tile {
 	 * 
 	 * @param a
 	 *            : true if its affected, false if its not.
+	 * @author Joao Lourenco
 	 */
 	public void isLightAffected(boolean a) {
 		this.lightAffected = a;
@@ -197,6 +199,7 @@ public abstract class Tile {
 	 * Method to get if the Tile is affected by Environment Light or not.
 	 * 
 	 * @return boolean, true if its affected, false if its not.
+	 * @author Joao Lourenco
 	 */
 	public boolean isLightAffected() {
 		return this.lightAffected;
@@ -206,6 +209,7 @@ public abstract class Tile {
 	 * Method to get if Entities will collide with the Tile.
 	 * 
 	 * @return boolean, true if they collide, false if they dont.
+	 * @author Joao Lourenco
 	 */
 	public boolean isCollidable() {
 		return this.collidable;
@@ -216,6 +220,7 @@ public abstract class Tile {
 	 * 
 	 * @param a
 	 *            : Boolean true if they collide, false if they dont.
+	 * @author Joao Lourenco
 	 */
 	public void isCollidable(boolean a) {
 		this.collidable = a;
@@ -225,6 +230,7 @@ public abstract class Tile {
 	 * Method to get the Tile X location.
 	 * 
 	 * @return int with the x coordinates.
+	 * @author Joao Lourenco
 	 */
 	public int getX() {
 		return this.x;
@@ -234,6 +240,7 @@ public abstract class Tile {
 	 * Method to get the Tile Y location.
 	 * 
 	 * @return int with the y coordinates.
+	 * @author Joao Lourenco
 	 */
 	public int getY() {
 		return this.y;

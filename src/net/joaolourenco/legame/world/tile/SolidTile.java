@@ -20,7 +20,7 @@ package net.joaolourenco.legame.world.tile;
  * Class for all the Solid, this is, collidable Tiles.
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public class SolidTile extends Tile {
 
@@ -31,6 +31,7 @@ public class SolidTile extends Tile {
 	 *            : with and height for the Tile.
 	 * @param tex
 	 *            : Texture ID from the Texture class for the Tile.
+	 * @author Joao Lourenco
 	 */
 	public SolidTile(int size, int tex) {
 		super(size, tex);
@@ -45,6 +46,7 @@ public class SolidTile extends Tile {
 	 *            : Texture ID from the Texture class for the Tile.
 	 * @param light
 	 *            : true to make the Light collide with the Tile, false to make the Light spread through the Tile.
+	 * @author Joao Lourenco
 	 */
 	public SolidTile(int size, int tex, boolean light) {
 		super(size, tex);
@@ -53,6 +55,8 @@ public class SolidTile extends Tile {
 
 	/**
 	 * Method update called by the World Class 60 times per second.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void update() {
 		super.update();

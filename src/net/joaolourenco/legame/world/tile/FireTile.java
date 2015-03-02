@@ -27,13 +27,12 @@ import net.joaolourenco.legame.world.World;
  * Class for Fire effect Tiles.
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public class FireTile extends Tile {
 
 	/**
-	 * time with the timming for the effect.
-	 * texture with the texture ID for the final Fire Texture from Texture Class.
+	 * time with the timming for the effect. texture with the texture ID for the final Fire Texture from Texture Class.
 	 */
 	protected int time = 0, texture = 0;
 	/**
@@ -54,6 +53,7 @@ public class FireTile extends Tile {
 	 *            : Texture ID from the Texture Class.
 	 * @param w
 	 *            : Instance of the World Class.
+	 * @author Joao Lourenco
 	 */
 	public FireTile(int size, int tex, World w) {
 		// Calling the main method of the tile.
@@ -74,12 +74,14 @@ public class FireTile extends Tile {
 
 	/**
 	 * Method called by the World Class every 60 seconds.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void update() {
 		// Calling the main method of the tile.
 		super.update();
 
-		// If the x is defined, set the light to the right position. 
+		// If the x is defined, set the light to the right position.
 		if (this.x != 9999999) {
 			w.entities.get(this.lightID).setX(this.x + (this.width / 2));
 			w.entities.get(this.lightID).setY(this.y + (this.height / 2));
@@ -103,6 +105,7 @@ public class FireTile extends Tile {
 	 * @param type
 	 *            : 0 for Integers, 1 for Floats
 	 * @return Object, if type is 0 will return integer, if its 1 will return float.
+	 * @author Joao Lourenco
 	 */
 	public Object generateRandom(float min, float max, int type) {
 		if (type == 0) {

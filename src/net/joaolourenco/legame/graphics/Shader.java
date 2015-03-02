@@ -59,6 +59,7 @@ public class Shader {
 	 * 
 	 * @param fragPath
 	 *            : String with the path for the Fragment file.
+	 * @author Joao Lourenco
 	 */
 	public Shader(String fragPath) {
 		// Adding this shader to the public shaders list.
@@ -77,6 +78,7 @@ public class Shader {
 	 *            : String with the path for the Fragment file.
 	 * @param vertPath
 	 *            : String with the path for the Vertex file.
+	 * @author Joao Lourenco
 	 */
 	public Shader(String fragPath, String vertPath) {
 		// Adding this shader to the public shaders list.
@@ -96,6 +98,7 @@ public class Shader {
 	 * @param path
 	 *            : String with the path for the shader source to load
 	 * @return String with the code.
+	 * @author Joao Lourenco
 	 */
 	private String loadAsString(String path) {
 		// Setting up the variables
@@ -122,6 +125,7 @@ public class Shader {
 	 * 
 	 * @param frag
 	 *            : String with the Fragment code.
+	 * @author Joao Lourenco
 	 */
 	private void create(String frag) {
 		// Creating a program.
@@ -145,6 +149,15 @@ public class Shader {
 		glValidateProgram(this.shader);
 	}
 
+	/**
+	 * Method to get the log of the shaders.
+	 * 
+	 * @param prog
+	 *            : Program that we need the log from.
+	 * 
+	 * @return The Log of the shader.
+	 * @author Joao Lourenco
+	 */
 	public String getLog(int prog) {
 		return ARBShaderObjects.glGetInfoLogARB(prog, ARBShaderObjects.glGetObjectParameteriARB(prog, ARBShaderObjects.GL_OBJECT_INFO_LOG_LENGTH_ARB));
 	}
@@ -156,6 +169,7 @@ public class Shader {
 	 *            : String with the Fragment code.
 	 * @param vert
 	 *            : String with the Vertex code.
+	 * @author Joao Lourenco
 	 */
 	private void create(String frag, String vert) {
 		// Creating a program.
@@ -186,6 +200,8 @@ public class Shader {
 
 	/**
 	 * Method to recompile the shader program without having to restart the game.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void recompile() {
 		// Removing the old shaders from memory
@@ -201,6 +217,8 @@ public class Shader {
 
 	/**
 	 * Binding the shader program to render.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void bind() {
 		glUseProgram(this.shader);
@@ -208,6 +226,8 @@ public class Shader {
 
 	/**
 	 * Realease the shader program from the rendering scope.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void release() {
 		glUseProgram(0);
@@ -217,6 +237,7 @@ public class Shader {
 	 * Method to get the Shader ID
 	 * 
 	 * @return int with the shader program ID.
+	 * @author Joao Lourenco
 	 */
 	public int getShader() {
 		return this.shader;
@@ -224,6 +245,8 @@ public class Shader {
 
 	/**
 	 * Method to cleanup the memory by removing all the shaders and programs.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void cleanUp() {
 		glDeleteProgram(this.shader);
@@ -235,6 +258,7 @@ public class Shader {
 	 * Method to get the Fragment file path.
 	 * 
 	 * @return String with the path for the fragment file.
+	 * @author Joao Lourenco
 	 */
 	public String getFragPath() {
 		return this.fragmentPath;
@@ -244,6 +268,7 @@ public class Shader {
 	 * Method to get the Vertex file path.
 	 * 
 	 * @return String with the path for the vertex file.
+	 * @author Joao Lourenco
 	 */
 	public String getVertPath() {
 		return this.vertexPath;
