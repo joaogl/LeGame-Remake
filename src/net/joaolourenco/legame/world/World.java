@@ -93,9 +93,6 @@ public class World {
 		// Texture.Fire[0], this));
 		// Add a light:
 
-		/**
-		 * TODO: Fix frame drop every x seconds with lights.
-		 */
 		Vector2f location = new Vector2f((0 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
 		SpotLight l2 = new SpotLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
 		l2.init(this);
@@ -105,7 +102,7 @@ public class World {
 		PointLight l3 = new PointLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
 		l3.init(this);
 		this.entities.add(l3);
-		
+
 		// Add an Entity:
 		// Block b = new Block(x, y, GeneralSettings.TILE_SIZE,
 		// GeneralSettings.TILE_SIZE, false);

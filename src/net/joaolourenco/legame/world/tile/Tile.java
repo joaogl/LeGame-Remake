@@ -27,6 +27,7 @@ import net.joaolourenco.legame.world.*;
 import org.lwjgl.input.*;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.*;
 
 /**
  * Abstract Class for all the Tile Types
@@ -131,13 +132,21 @@ public abstract class Tile {
 		// Setting up OpenGL for render
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
-		
+
 		// Updating the Tile coordinates.
 		this.x = x;
 		this.y = y;
-		
+
+		// Binding the shader
 		this.shade.bind();
 
+		// Calculating the required light.
+		float day_light = 1f;
+		if (lightAffected) day_light = w.DAY_LIGHT;
+		// Sending the required light to the shader.
+		glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), day_light * 2);
+
+		// Rendering the Quad.
 		quad.render(x, y, tex, shade);
 
 		// Disabling BLEND and releasing shader for next render.

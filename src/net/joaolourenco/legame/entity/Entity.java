@@ -58,7 +58,7 @@ public abstract class Entity {
 	/**
 	 * Is the Entity collidable? Will the light end on the Entity or keep spreading?
 	 */
-	protected boolean collidable = true, lightCollidable = true;
+	protected boolean collidable = true, lightCollidable = true, lightAffected = true;
 	/**
 	 * Shader ID for the entity.
 	 */
@@ -103,6 +103,15 @@ public abstract class Entity {
 		// Setting up OpenGL for render
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
+
+		// Binding the shader
+		this.shade.bind();
+
+		// Calculating the required light.
+		float day_light = 1f;
+		if (this.lightAffected) day_light = this.world.DAY_LIGHT;
+		// Sending the required light to the shader.
+		glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), day_light * 2);
 
 		// Updating the Entity coordinates.
 		glTranslatef(x, y, 0);
