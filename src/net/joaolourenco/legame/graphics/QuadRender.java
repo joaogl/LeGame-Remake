@@ -65,4 +65,29 @@ public class QuadRender {
 		glTranslatef(-x, -y, 0);
 	}
 
+	public void render(float x, float y, int texture, Shader shade, float size) {
+		glTranslatef(x, y, 0);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
+
+		glBegin(GL_QUADS);
+		{
+			glTexCoord2f(0, 0);
+			glVertex2f(0, 0);
+
+			glTexCoord2f(0, 1);
+			glVertex2f(0, size);
+
+			glTexCoord2f(1, 1);
+			glVertex2f(size, size);
+
+			glTexCoord2f(1, 0);
+			glVertex2f(size, 0);
+		}
+		glEnd();
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glTranslatef(-x, -y, 0);
+	}
+
 }

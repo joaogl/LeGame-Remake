@@ -16,15 +16,16 @@
 
 package net.joaolourenco.legame.graphics.font;
 
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_ZERO;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
+import net.joaolourenco.legame.graphics.QuadRender;
 import net.joaolourenco.legame.graphics.Shader;
 import net.joaolourenco.legame.graphics.Texture;
 import net.joaolourenco.legame.settings.GeneralSettings;
-import net.joaolourenco.legame.utils.Buffer;
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.*;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL30.*;
 
 /**
  * Class to Manage Fonts.
@@ -43,10 +44,6 @@ public class Font {
 	 */
 	private int size = 128;
 	/**
-	 * The shader for the letters
-	 */
-	private Shader shader;
-	/**
 	 * Array to store the chars used by the font in order.
 	 */
 	private String chars = "ABCDEFGHIJKLM" + //
@@ -57,207 +54,21 @@ public class Font {
 			"-,_% #$&'[]*+" + //
 			":;<=>/^�`";
 
-	/**
-	 * Buffer Data variables.
-	 */
-	protected int vao, vbo, vio, vto;
+	public Shader shader = new Shader("res/shaders/font.frag", "res/shaders/font.vert");
 
-	/**
-	 * Buffer Data variables.
-	 */
-	protected float[] vertices = new float[] { 0.0f, 0.0f, 0.0f, //
-			size, 0.0f, 0.0f, //
-			size, size, 0.0f, //
-			0.0f, size, 0.0f //
-	};
-
-	/**
-	 * Buffer Data variables.
-	 */
-	protected byte[] indices = new byte[] { 0, 1, 2, //
-			2, 3, 0 //
-	};
-
-	/**
-	 * Buffer Data variables.
-	 */
-	protected byte[] texCoords = new byte[] { 0, 0, //
-			1, 0, //
-			1, 1, //
-			1, 1, //
-			0, 1, //
-			0, 0 //
-	};
+	public QuadRender quad;
 
 	/**
 	 * Constructor for the Font's class.
 	 */
 	public Font() {
-		// Add this class to the font's to be disposed at the closing of the
-		// game.
+		// Add this class to the font's to be disposed at the closing of the game.
 		GeneralSettings.fonts.add(this);
+
+		quad = new QuadRender(size);
+
 		// Loading of the fonts.
 		texIDs = Texture.loadFont("/textures/util/font.png", 13, 7, size);
-		// Compiling the buffer lists.
-		compile();
-		// Creating the shader.
-		shader = new Shader("res/shaders/font.frag", "res/shaders/font.vert");
-
-		// Activating the third texture
-		glActiveTexture(GL_TEXTURE3);
-		// Binding the shader
-		shader.bind();
-		// Getting OpenGL ready for the third texture
-		int uniform = glGetUniformLocation(shader.getShader(), "texture");
-		glUniform1i(uniform, 3);
-
-		// Activating the forth texture
-		glActiveTexture(GL_TEXTURE4);
-		// Getting OpenGL ready for the forth texture
-		uniform = glGetUniformLocation(shader.getShader(), "texture2");
-		glUniform1i(uniform, 3);
-		// Releasing the shader.
-		shader.release();
-	}
-
-	/**
-	 * Method to compile the Buffer lists.
-	 */
-	protected void compile() {
-		// Generating Vertex Arrays
-		vao = glGenVertexArrays();
-		// Binding the vertex array
-		glBindVertexArray(vao);
-		{
-			// Generating Buffers
-			vbo = glGenBuffers();
-			// Binding the buffer
-			glBindBuffer(GL_ARRAY_BUFFER, vbo);
-			{
-				// Putting the vertices into the buffer
-				glBufferData(GL_ARRAY_BUFFER, Buffer.createFloatBuffer(vertices), GL_STATIC_DRAW);
-				glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
-			}
-			// Releasing the buffer
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-			// Generating Buffers
-			vio = glGenBuffers();
-			// Binding the buffer
-			glBindBuffer(GL_ARRAY_BUFFER, vio);
-			{
-				// Putting the indices into the buffer
-				glBufferData(GL_ARRAY_BUFFER, Buffer.createByteBuffer(indices), GL_STATIC_DRAW);
-			}
-			// Releasing the buffer
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-			// Deleting the vto buffer to insure that is clean to be used.
-			glDeleteBuffers(vto);
-
-			// Generating Buffers
-			vto = glGenBuffers();
-			// Binding the buffer
-			glBindBuffer(GL_ARRAY_BUFFER, vto);
-			{
-				// Putting the texture coordinates into the buffer
-				glBufferData(GL_ARRAY_BUFFER, Buffer.createByteBuffer(texCoords), GL_STATIC_DRAW);
-				glVertexAttribPointer(1, 3, GL_UNSIGNED_BYTE, false, 0, 1);
-			}
-			// Releasing the buffer
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-		}
-		// Unbinding the vertex array
-		glBindVertexArray(0);
-	}
-
-	/**
-	 * Method to draw a string to the screen with a standard texture.
-	 * 
-	 * @param text
-	 *            : Text to be rendered.
-	 * @param x
-	 *            : x Position of the text.
-	 * @param y
-	 *            : y Position of the text.
-	 * @param size
-	 *            : Size of the font. 
-	 * @param spacing
-	 *            : Spacing between letters.
-	 */
-	public void drawString(String text, int x, int y, int size, int spacing) {
-		// Enabling the Blend for render
-		glEnable(GL_BLEND);
-		// Enabling Alpha chanel
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		// Activating the third texture
-		glActiveTexture(GL_TEXTURE3);
-		// Binding the shader
-		shader.bind();
-		// Setting up some variables
-		float scale = size / 20.0f;
-		int xx = x;
-		int yy = y;
-		// Going through each letter of the text to render
-		for (int i = 0; i < text.length(); i++) {
-			// Getting the right offsets
-			float xOffset = xx / scale;
-			float yOffset = yy / scale;
-			// Getting the char to render
-			int currentChar = text.charAt(i);
-			// Getting the right texture for the char
-			int index = chars.indexOf(currentChar);
-			// Checking if the char actually exists or if it isn't a space.
-			if (index >= 0 && currentChar != ' ') {
-				// If the char requires y offset add it.
-				if (currentChar == 'p' || currentChar == 'g' || currentChar == 'j' || currentChar == 'q' || currentChar == 'y' || currentChar == ',') yOffset += 40;
-				// Pushing the Matrix and loading the Identity.
-				glPushMatrix();
-				glLoadIdentity();
-				// Scaling the view
-				glScalef(scale, scale, 0);
-				// Moving to the render position
-				glTranslatef(xOffset, yOffset, 0);
-
-				// Applying the letter texture.
-				glActiveTexture(GL_TEXTURE3);
-				glBindTexture(GL_TEXTURE_2D, texIDs[index]);
-
-				// Binding the vertex array.
-				glBindVertexArray(vao);
-				// Enabling the vertex attributes
-				glEnableVertexAttribArray(0);
-				glEnableVertexAttribArray(1);
-				{
-					// Moving to the render position
-					glTranslatef(x, y, 0);
-					// Binding the Buffer
-					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vio);
-					// Drawing the elements
-					glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0);
-					// Unbinding the elements
-					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-				}
-				// Disabling the vertex attributes
-				glDisableVertexAttribArray(1);
-				glDisableVertexAttribArray(0);
-				// Unbinding the vertex array.
-				glBindVertexArray(0);
-
-				// Unbinding the Texture
-				glBindTexture(GL_TEXTURE_2D, 0);
-				// Poping the Matrix
-				glPopMatrix();
-			}
-			// Moving the the next letter position
-			xx += (this.size + spacing) * scale;
-		}
-		// Releasing the shader
-		shader.release();
-		// Deactivating the texture
-		glActiveTexture(GL_TEXTURE0);
-		// Disabling the Blend
-		glDisable(GL_BLEND);
 	}
 
 	/**
@@ -273,103 +84,54 @@ public class Font {
 	 *            : Size of the font.
 	 * @param spacing
 	 *            : Spacing between letters.
-	 * @param texture
-	 *            : Texture for the font to use.
 	 */
-	public void drawString(String text, int x, int y, int size, int spacing, int texture) {
-		// Enabling the Blend for render
+	public void drawString(String text, int x, int y, int size, int spacing) {
+
+		// Setting up OpenGL for render
 		glEnable(GL_BLEND);
 		// Enabling Alpha chanel
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		// Activating the third texture
-		glActiveTexture(GL_TEXTURE3);
+		glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
 		// Binding the shader
-		shader.bind();
-		// Setting up some variables
-		float scale = size / 20.0f;
+		this.shader.bind();
+
+		// Setting up the variables for the letter positions.
 		int xx = x;
-		int yy = y;
-		// Going through each letter of the text to render
+		// Running through all the letters
 		for (int i = 0; i < text.length(); i++) {
-			// Getting the right offsets
-			float xOffset = xx / scale;
-			float yOffset = yy / scale;
-			// Getting the char to render
+			// Getting some variables ready.
+			int s = size;
+			int yOffset = y;
+			// What is the letter to be rendered.
 			int currentChar = text.charAt(i);
-			// Getting the right texture for the char
 			int index = chars.indexOf(currentChar);
-			// Checking if the char actually exists or if it isn't a space.
+
+			// If its not a space, render the letter.
 			if (index >= 0 && currentChar != ' ') {
-				// If the char requires y offset add it.
-				if (currentChar == 'p' || currentChar == 'g' || currentChar == 'j' || currentChar == 'q' || currentChar == 'y' || currentChar == ',') yOffset += 40;
-				if (currentChar == ':') {
-					vertices = new float[] { 0.0f, 0.0f, 0.0f, //
-							32, 0.0f, 0.0f, //
-							32, 32, 0.0f, //
-							0.0f, 32, 0.0f //
-					};
-				}
-				// Pushing the Matrix and loading the Identity.
-				glPushMatrix();
-				glLoadIdentity();
-				// Scaling the view
-				glScalef(scale, scale, 0);
-				// Moving to the render position
-				glTranslatef(xOffset, yOffset, 0);
+				// if the letter needs offsetting , offset it.
+				if (currentChar == 'p' || currentChar == 'g' || currentChar == 'j' || currentChar == 'q' || currentChar == 'y' || currentChar == ',') yOffset += s / 2;
+				if (currentChar == ':') s = size / 2;
 
-				// Applying the texture
-				glActiveTexture(GL_TEXTURE4);
-				glBindTexture(GL_TEXTURE_2D, texture);
-
-				// Applying the letter texture.
-				glActiveTexture(GL_TEXTURE3);
-				glBindTexture(GL_TEXTURE_2D, texIDs[index]);
-
-				// Binding the vertex array.
-				glBindVertexArray(vao);
-				// Enabling the vertex attributes
-				glEnableVertexAttribArray(0);
-				glEnableVertexAttribArray(1);
-				{
-					// Moving to the render position
-					glTranslatef(x, y, 0);
-					// Binding the Buffer
-					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vio);
-					// Drawing the elements
-					glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0);
-					// Unbinding the elements
-					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-				}
-				// Disabling the vertex attributes
-				glEnableVertexAttribArray(1);
-				glEnableVertexAttribArray(0);
-				// Unbinding the vertex array.
-				glBindVertexArray(0);
-
-				// Unbinding the Texture
-				glBindTexture(GL_TEXTURE_2D, 0);
-				// Poping the Matrix
-				glPopMatrix();
+				// render it.
+				quad.render(xx, yOffset, texIDs[index], this.shader, size);
 			}
-			// Moving the the next letter position
-			xx += (this.size + spacing) * scale;
+
+			// Apply the spacing for the letter.
+			xx += s + spacing;
 		}
+
 		// Releasing the shader
-		shader.release();
-		// Deactivating the texture
-		glActiveTexture(GL_TEXTURE0);
+		this.shader.release();
 		// Disabling the Blend
 		glDisable(GL_BLEND);
 	}
 
 	/**
-	 * Method to clean up the vertex array and buffers.
+	 * Method to cleanup the memory by removing all the shaders and programs.
+	 * 
+	 * @author Joao Lourenco
 	 */
 	public void cleanup() {
-		glDeleteVertexArrays(vao);
-		glDeleteBuffers(vbo);
-		glDeleteBuffers(vio);
-		glDeleteBuffers(vto);
+		this.shader.cleanUp();
 	}
 
 }

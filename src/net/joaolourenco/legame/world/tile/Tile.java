@@ -41,7 +41,7 @@ import org.lwjgl.input.Keyboard;
  * Abstract Class for all the Tile Types
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public abstract class Tile {
 
@@ -191,17 +191,6 @@ public abstract class Tile {
 	 */
 	public void isLightCollidable(boolean a) {
 		this.lightCollidable = a;
-
-		// If the tile is using a shader that doesnt block the light and the
-		// ligthCollidable is true, change it, and vice versa.
-		// if (this.lightCollidable &&
-		// !this.shade.getFragPath().equalsIgnoreCase(GeneralSettings.lightBlockerPath))
-		// this.shade = new Shader(GeneralSettings.lightBlockerPath,
-		// GeneralSettings.entityVertexPath);
-		// else if (!this.lightCollidable &&
-		// !this.shade.getFragPath().equalsIgnoreCase(GeneralSettings.lightSpreaderPath))
-		// this.shade = new Shader(GeneralSettings.lightSpreaderPath,
-		// GeneralSettings.entityVertexPath);
 	}
 
 	/**

@@ -25,6 +25,7 @@ import net.joaolourenco.legame.Main;
 import net.joaolourenco.legame.entity.Entity;
 import net.joaolourenco.legame.entity.light.Light;
 import net.joaolourenco.legame.entity.light.PointLight;
+import net.joaolourenco.legame.entity.light.SpotLight;
 import net.joaolourenco.legame.graphics.Texture;
 import net.joaolourenco.legame.graphics.font.AnimatedText;
 import net.joaolourenco.legame.settings.GeneralSettings;
@@ -80,8 +81,8 @@ public class World {
 
 		generateLevel();
 
-		for (int y = 0; y < 5; y++) {
-			for (int x = 0; x < 5; x++) {
+		for (int y = 0; y < 2; y++) {
+			for (int x = 0; x < 2; x++) {
 				SolidTile ti = new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt, true);
 				ti.isLightCollidable(false);
 				setTile(x, y, ti);
@@ -100,21 +101,21 @@ public class World {
 		 * TODO: Fix frame drop every x seconds with lights.
 		 */
 		Vector2f location = new Vector2f((0 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
-		PointLight l2 = new PointLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
+		SpotLight l2 = new SpotLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
 		l2.init(this);
 		this.entities.add(l2);
 
 		location = new Vector2f((3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
-		l2 = new PointLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
-		l2.init(this);
-		this.entities.add(l2);
+		PointLight l3 = new PointLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
+		l3.init(this);
+		this.entities.add(l3);
 		// Add an Entity:
 		// Block b = new Block(x, y, GeneralSettings.TILE_SIZE,
 		// GeneralSettings.TILE_SIZE, false);
 		// b.init(this);
 		// this.entities.add(b);
 		// Add Animated Text:
-		new AnimatedText("Ola :D", 50, 5, 5);
+		new AnimatedText("Ola :D pq", 50, 5, 18);
 	}
 
 	/**
