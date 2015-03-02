@@ -16,6 +16,8 @@ uniform float lightSize[LIGHTS_COUNT];
 uniform float lightFacing[LIGHTS_COUNT];
 
 void main() {		
+	float DAY_LIGHT = 0.0005f;
+	
 	vec4 color = vec4(1.0, 1.0, 1.0, 1.0);
 	vec4 tex = texture2D(texture, gl_TexCoord[0].st);
 	color = tex;
@@ -27,7 +29,8 @@ void main() {
 	
 	vec4 result = vec4(color.xyz, alpha);
 	color = result;	
-	vec4 dcolor = vec4(result * vec4(dayLight, dayLight, dayLight, dayLight));	
+	vec4 dcolor = vec4(result * vec4(DAY_LIGHT, DAY_LIGHT, DAY_LIGHT, DAY_LIGHT));	
+	color = vec4(result * vec4(DAY_LIGHT, DAY_LIGHT, DAY_LIGHT, DAY_LIGHT));	
 	 
 	int num = 0;
 	int changed = 0;			
