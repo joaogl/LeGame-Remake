@@ -75,14 +75,17 @@ public abstract class Item {
 		return 0f;
 	}
 
-	public void use(Entity user) {
+	public void use(Entity activator) {
+		useItem(activator);
 		if (this.destructable) {
 			this.current_life--;
 			if (this.current_life == 0) {
-				if (itemBreak()) user.removeItem(this);
+				if (itemBreak()) activator.removeItem(this);
 			}
 		}
 	}
+
+	public abstract void useItem(Entity activator);
 
 	public boolean itemBreak() {
 		return true;

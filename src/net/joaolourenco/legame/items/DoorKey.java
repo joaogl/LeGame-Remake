@@ -18,6 +18,7 @@ package net.joaolourenco.legame.items;
 
 import java.util.*;
 
+import net.joaolourenco.legame.entity.*;
 import net.joaolourenco.legame.entity.block.*;
 
 /**
@@ -55,6 +56,14 @@ public class DoorKey extends Item {
 
 	public void addDoor(String door) {
 		doors.add(door);
+	}
+
+	/**
+	 * @see net.joaolourenco.legame.items.Item#useItem(net.joaolourenco.legame.entity.Entity)
+	 * @author Joao Lourenco
+	 */
+	@Override
+	public void useItem(Entity activator) {
 	}
 
 }

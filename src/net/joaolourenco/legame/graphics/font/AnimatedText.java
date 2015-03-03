@@ -46,6 +46,14 @@ public class AnimatedText {
 	 * finished holds the information on whether is the animation over or not. remove holds the information on whether the text is going to be removed or not.
 	 */
 	private boolean finished = false, remove = false;
+	/**
+	 * Time between each letter.
+	 */
+	private int time = 200;
+	/**
+	 * Time per letter.
+	 */
+	private int timeperletter = 200;
 
 	/**
 	 * Constructor for AnimatedText.
@@ -68,6 +76,38 @@ public class AnimatedText {
 		this.y = y;
 		this.size = size;
 		this.last = System.currentTimeMillis();
+		this.time = 200;
+		this.timeperletter = 300;
+		GeneralSettings.animatedText.add(this);
+	}
+
+	/**
+	 * Constructor for AnimatedText.
+	 * 
+	 * @param text
+	 *            : Text to be rendered after the animation is over.
+	 * @param x
+	 *            : x Location of the text.
+	 * @param y
+	 *            : y Location of the text.
+	 * @param size
+	 *            : Font size.
+	 * @param time
+	 *            : Time between each letter.
+	 * @param tp
+	 *            : Time per letter.
+	 * @author Joao Lourenco
+	 */
+	public AnimatedText(String text, int x, int y, int size, int time, int tp) {
+		this.font = GeneralSettings.font;
+		this.text = "";
+		this.finalText = text;
+		this.x = x;
+		this.y = y;
+		this.size = size;
+		this.last = System.currentTimeMillis();
+		this.time = time;
+		this.timeperletter = tp;
 		GeneralSettings.animatedText.add(this);
 	}
 
@@ -89,12 +129,12 @@ public class AnimatedText {
 		// Current time of this update.
 		long current = System.currentTimeMillis();
 		// If another update is required.
-		if (current - this.last >= 200 && !this.finished) {
-			this.last += 200;
+		if (current - this.last >= this.time && !this.finished) {
+			this.last += this.time;
 			// Adds the letter to the rendering text.
 			addLetter();
 			// If the time is passed and the animation is over, remove the text.
-		} else if (this.finished && current - this.last >= (300 * this.text.length())) this.remove = true;
+		} else if (this.finished && current - this.last >= (timeperletter * this.text.length())) this.remove = true;
 	}
 
 	/**

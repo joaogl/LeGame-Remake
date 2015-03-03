@@ -18,6 +18,7 @@ package net.joaolourenco.legame.entity;
 
 import java.util.*;
 
+import net.joaolourenco.legame.entity.block.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.items.*;
 import net.joaolourenco.legame.settings.*;
@@ -274,6 +275,13 @@ public abstract class Entity extends RenderableComponent {
 	 */
 	public void removeItem(Item item) {
 		inventory.remove(item);
+	}
+
+	public Item hasKeyForDoor(Door door) {
+		for (Item i : inventory)
+			if (i instanceof DoorKey && ((DoorKey) i).canOpenDoor(door)) return i;
+
+		return null;
 	}
 
 }

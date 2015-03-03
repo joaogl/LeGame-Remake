@@ -19,6 +19,7 @@ package net.joaolourenco.legame.entity.block;
 import java.util.*;
 
 import net.joaolourenco.legame.entity.*;
+import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.items.*;
 import net.joaolourenco.legame.utils.*;
 
@@ -58,6 +59,7 @@ public class Door extends Entity {
 		this.state = States.CLOSED;
 		usesKey = false;
 		this.collidable = true;
+		this.locked = true;
 	}
 
 	public Door(int x, int y, int width, int height, String _key) {
@@ -66,6 +68,7 @@ public class Door extends Entity {
 		key = _key;
 		usesKey = true;
 		this.collidable = true;
+		this.locked = true;
 	}
 
 	/**
@@ -301,9 +304,19 @@ public class Door extends Entity {
 		OverrideStatus = true;
 	}
 
-	public void ativateDoor() {
-		if (this.state == States.CLOSED || this.state == States.CLOSING) openDoor();
-		else if (this.state == States.OPEN || this.state == States.OPENING) closeDoor();
+	public void ativateDoor(Entity activator) {
+		Item i = activator.hasKeyForDoor(this);
+		if (i != null || !this.locked) {
+			if (this.state == States.CLOSED || this.state == States.CLOSING) openDoor();
+			else if (this.state == States.OPEN || this.state == States.OPENING) closeDoor();
+			if (i != null) i.use(activator);
+		} else {
+			failedToOpenDoor();
+		}
+	}
+
+	public void failedToOpenDoor() {
+		new AnimatedText("Failed to open Door!", 50, 55, 12, 5, 50);
 	}
 
 	/**
