@@ -187,12 +187,13 @@ public class World {
 	 */
 	public void update() {
 		// Updating all the entities.
-		for (Entity e : this.entities)
-			if (e != null) e.update();
+		for (Entity e : this.entities) {
+			if (e != null && getDistance(Main.player, e) <= GeneralSettings.WIDTH) e.update();
+		}
 
 		// Updating all the world tiles.
 		for (Tile t : this.worldTiles)
-			if (t != null) t.update();
+			if (t != null && getDistance(Main.player, t.getX(), t.getY()) <= GeneralSettings.WIDTH) t.update();
 
 		// Keep increasing and decreasing the Day Light value.
 		if (this.DAY_LIGHT <= 0.1f) this.goingUp = true;
