@@ -96,7 +96,7 @@ public abstract class Entity extends RenderableComponent {
 	public abstract void update();
 
 	/**
-	 * Method called by the World Class once per second.
+	 * Method called by the World Class 10 times per second.
 	 * 
 	 * @author Joao Lourenco
 	 */

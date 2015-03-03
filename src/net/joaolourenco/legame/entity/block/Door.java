@@ -16,8 +16,9 @@
 
 package net.joaolourenco.legame.entity.block;
 
+import java.util.*;
+
 import net.joaolourenco.legame.entity.*;
-import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.items.*;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -35,8 +36,9 @@ public class Door extends Entity {
 
 	public States state;
 	public String key;
-	public boolean usesKey, locked, jammed;
-	public int DoorSize = 64, DoorGap = 0;
+	public boolean usesKey, locked = false, jammed;
+	public int DoorSize = 64;
+	public float DoorGap = 0, MaxDoorGap = 70, DoorRadius = 300;
 	public boolean alongXAxis = true;
 
 	public int texture;
@@ -52,14 +54,14 @@ public class Door extends Entity {
 	 */
 	public Door(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		state = States.CLOSED;
+		this.state = States.CLOSED;
 		usesKey = false;
 		this.collidable = true;
 	}
 
 	public Door(int x, int y, int width, int height, String _key) {
 		super(x, y, width, height);
-		state = States.CLOSED;
+		this.state = States.CLOSED;
 		key = _key;
 		usesKey = true;
 		this.collidable = true;
@@ -260,11 +262,11 @@ public class Door extends Entity {
 
 		// Rendering the Quad.
 		if (this.alongXAxis) {
-			render(x, y, texture, shade, DoorSize);
-			render(x + DoorGap + DoorSize, y, texture, shade, DoorSize);
+			render(x - (DoorGap / 2), y, texture, shade, DoorSize);
+			render(x + (DoorGap / 2) + DoorSize, y, texture, shade, DoorSize);
 		} else {
-			render(x, y + DoorGap + DoorSize, texture, shade, DoorSize);
-			render(x, y, texture, shade, DoorSize);
+			render(x, y + (DoorGap / 2) + DoorSize, texture, shade, DoorSize);
+			render(x, y - (DoorGap / 2), texture, shade, DoorSize);
 		}
 
 		// Disabling BLEND and releasing shader for next render.
@@ -274,21 +276,44 @@ public class Door extends Entity {
 	}
 
 	/**
-	 * @see net.joaolourenco.legame.entity.Entity#update()
+	 * Method called by the World Class 60 times per second.
+	 * 
 	 * @author Joao Lourenco
 	 */
-	@Override
 	public void update() {
+		if (this.state == States.OPENING) {
+			if (DoorGap < MaxDoorGap) DoorGap += 1f;
+			else this.state = States.OPEN;
+		} else if (this.state == States.CLOSING) {
+			if (DoorGap > 0) DoorGap -= 1f;
+			else this.state = States.CLOSED;
+		}
+	}
 
+	public void closeDoor() {
+		if (this.state == States.OPEN && (this.state != States.CLOSED && this.state != States.CLOSING) || this.state == States.OPENING && (this.state != States.CLOSED && this.state != States.CLOSING)) this.state = States.CLOSING;
+	}
+
+	public void openDoor() {
+		if (this.state == States.CLOSED && (this.state != States.OPEN && this.state != States.OPENING) || this.state == States.CLOSING && (this.state != States.OPEN && this.state != States.OPENING)) this.state = States.OPENING;
 	}
 
 	/**
-	 * @see net.joaolourenco.legame.entity.Entity#tick()
+	 * Method called by the World Class once per second.
+	 * 
 	 * @author Joao Lourenco
 	 */
-	@Override
 	public void tick() {
+		List<Entity> aroundDoor = this.world.getNearByEntities(x, y, this.DoorRadius);
+		if (aroundDoor.isEmpty()) closeDoor();
+		else {
+			if (this.locked) {
+				for (Entity a : aroundDoor) {
+					if (a.inventory.contains(this)) {
 
+					}
+				}
+			} else openDoor();
+		}
 	}
-
 }
