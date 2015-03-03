@@ -22,6 +22,7 @@ import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.entity.*;
 import net.joaolourenco.legame.entity.block.*;
 import net.joaolourenco.legame.entity.light.*;
+import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.settings.*;
@@ -150,9 +151,9 @@ public class World {
 
 		// Getting the variables ready to check what tiles to render.
 		int x0 = this.xOffset >> GeneralSettings.TILE_SIZE_MASK;
-		int x1 = (this.xOffset >> GeneralSettings.TILE_SIZE_MASK) + 14;
+		int x1 = (this.xOffset >> GeneralSettings.TILE_SIZE_MASK) + (GeneralSettings.WIDTH * 14 / 800);
 		int y0 = this.yOffset >> GeneralSettings.TILE_SIZE_MASK;
-		int y1 = (this.yOffset >> GeneralSettings.TILE_SIZE_MASK) + 11;
+		int y1 = (this.yOffset >> GeneralSettings.TILE_SIZE_MASK) + (GeneralSettings.HEIGHT * 11 / 600);
 		// Going through all the tiles to render.
 		for (int y = y0; y < y1; y++) {
 			for (int x = x0; x < x1; x++) {
@@ -202,7 +203,7 @@ public class World {
 	}
 
 	/**
-	 * Method to tick everything called by the Main class once per second.
+	 * Method to tick everything called by the Main class 10 times per second.
 	 * 
 	 * @author Joao Lourenco
 	 */
@@ -305,6 +306,26 @@ public class World {
 
 		for (Entity e : entities) {
 			if (e instanceof Light && getDistance(e, x, y) < 800) ent.add(e);
+		}
+
+		return ent;
+	}
+
+	/**
+	 * Method to get the near by entities.
+	 * 
+	 * @param x
+	 *            : x coordinates from where to search.
+	 * @param y
+	 *            : y coordinates from where to search.
+	 * @return ArrayList with all the near by entities.
+	 * @author Joao Lourenco
+	 */
+	public ArrayList<Entity> getNearByEntities(float x, float y, float radius) {
+		ArrayList<Entity> ent = new ArrayList<Entity>();
+
+		for (Entity e : entities) {
+			if (e instanceof Mob && getDistance(e, x, y) < radius) ent.add(e);
 		}
 
 		return ent;
