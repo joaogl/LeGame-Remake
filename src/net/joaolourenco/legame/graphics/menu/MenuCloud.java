@@ -45,7 +45,7 @@ public class MenuCloud extends RenderableComponent {
 
 		width = 128; // (Integer) generateRandom(150, 200, 0);
 		xMax = Registry.getScreenWidth();
-		xOffset = (Float) generateRandom(0.3f, 0.5f, 1);
+		xOffset = (Float) generateRandom(0.255f, 0.455f, 1);
 		if ((Integer) generateRandom(0, 100, 0) > 50) {
 			xOffset = -xOffset;
 			x = xMax;
