@@ -284,4 +284,7 @@ public abstract class Entity extends RenderableComponent {
 		return null;
 	}
 
+	public void giveItem(Item i) {
+		this.inventory.add(i);
+	}
 }

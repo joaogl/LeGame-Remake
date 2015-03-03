@@ -56,17 +56,9 @@ public class Door extends Entity {
 	 */
 	public Door(int x, int y, int width, int height) {
 		super(x, y, width, height);
+		this.key = "DOOR(" + x + "," + y + ")";
 		this.state = States.CLOSED;
 		usesKey = false;
-		this.collidable = true;
-		this.locked = true;
-	}
-
-	public Door(int x, int y, int width, int height, String _key) {
-		super(x, y, width, height);
-		this.state = States.CLOSED;
-		key = _key;
-		usesKey = true;
 		this.collidable = true;
 		this.locked = true;
 	}
@@ -310,9 +302,7 @@ public class Door extends Entity {
 			if (this.state == States.CLOSED || this.state == States.CLOSING) openDoor();
 			else if (this.state == States.OPEN || this.state == States.OPENING) closeDoor();
 			if (i != null) i.use(activator);
-		} else {
-			failedToOpenDoor();
-		}
+		} else failedToOpenDoor();
 	}
 
 	public void failedToOpenDoor() {

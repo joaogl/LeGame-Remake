@@ -80,14 +80,104 @@ public abstract class Item {
 		if (this.destructable) {
 			this.current_life--;
 			if (this.current_life == 0) {
-				if (itemBreak()) activator.removeItem(this);
+				if (itemBreak()) {
+					activator.removeItem(this);
+					itemBroken(activator);
+				}
 			}
 		}
 	}
 
 	public abstract void useItem(Entity activator);
 
+	public abstract void itemBroken(Entity activator);
+
 	public boolean itemBreak() {
 		return true;
 	}
+
+	/**
+	 * 
+	 * @author Joao Lourenco
+	 * 
+	 * @return The name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * 
+	 * @author Joao Lourenco
+	 * 
+	 * @param name
+	 *            The name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * 
+	 * @author Joao Lourenco
+	 * 
+	 * @return The current_life
+	 */
+	public int getCurrent_life() {
+		return current_life;
+	}
+
+	/**
+	 * 
+	 * @author Joao Lourenco
+	 * 
+	 * @param current_life
+	 *            The current_life to set
+	 */
+	public void setCurrent_life(int current_life) {
+		this.current_life = current_life;
+	}
+
+	/**
+	 * 
+	 * @author Joao Lourenco
+	 * 
+	 * @return The inicial_life
+	 */
+	public int getInicial_life() {
+		return inicial_life;
+	}
+
+	/**
+	 * 
+	 * @author Joao Lourenco
+	 * 
+	 * @param inicial_life
+	 *            The inicial_life to set
+	 */
+	public void setInicial_life(int inicial_life) {
+		this.inicial_life = inicial_life;
+	}
+
+	/**
+	 * 
+	 * @author Joao Lourenco
+	 * 
+	 * @return The destructable
+	 */
+	public boolean isDestructable() {
+		return destructable;
+	}
+
+	/**
+	 * 
+	 * @author Joao Lourenco
+	 * 
+	 * @param destructable
+	 *            The destructable to set
+	 */
+	public void setDestructable(boolean destructable) {
+		this.destructable = destructable;
+	}
+
 }

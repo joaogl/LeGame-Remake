@@ -115,11 +115,14 @@ public class Main implements Runnable {
 		// Loading all the textures
 		Texture.preload();
 		Texture.load();
+
+		// CHANGE THIS LATTER
+		player = new Player(100, 100, 64, 64);
+
 		// Creating the world
 		world = new World(30, 30);
 
 		// Creating and adding the player to the world.
-		player = new Player(100, 100, 64, 64);
 		world.addEntity(player);
 
 		// Setting up all the Projections stuff for OpenGL
@@ -184,7 +187,7 @@ public class Main implements Runnable {
 			Display.update();
 			if (System.currentTimeMillis() - tickTimer > 100) {
 				tickTimer += 100;
-				tick();				
+				tick();
 			}
 			if (System.currentTimeMillis() - lastTimer > 1000) {
 				lastTimer += 1000;

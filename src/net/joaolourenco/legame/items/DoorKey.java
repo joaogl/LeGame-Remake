@@ -20,6 +20,7 @@ import java.util.*;
 
 import net.joaolourenco.legame.entity.*;
 import net.joaolourenco.legame.entity.block.*;
+import net.joaolourenco.legame.graphics.font.*;
 
 /**
  * Class to manage door keys.
@@ -58,12 +59,11 @@ public class DoorKey extends Item {
 		doors.add(door);
 	}
 
-	/**
-	 * @see net.joaolourenco.legame.items.Item#useItem(net.joaolourenco.legame.entity.Entity)
-	 * @author Joao Lourenco
-	 */
-	@Override
 	public void useItem(Entity activator) {
+	}
+
+	public void itemBroken(Entity activator) {
+		new AnimatedText("Ho snap! Key broke.", 50, 55, 12, 5, 50);
 	}
 
 }

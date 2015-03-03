@@ -25,6 +25,7 @@ import net.joaolourenco.legame.entity.light.*;
 import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.font.*;
+import net.joaolourenco.legame.items.*;
 import net.joaolourenco.legame.settings.*;
 import net.joaolourenco.legame.utils.*;
 import net.joaolourenco.legame.world.tile.*;
@@ -118,6 +119,9 @@ public class World {
 		door.setTexture(Texture.Player);
 		door.init(this);
 		this.entities.add(door);
+
+		DoorKey key = new DoorKey(1, door.getKey());
+		Main.player.giveItem(key);
 	}
 
 	/**
