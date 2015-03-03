@@ -50,8 +50,8 @@ public class GeneralSettings {
 		public final static String fullname = name + " " + version;
 	
 		// Window Size		
-		public final static int WIDTH = 800;
-		public final static int HEIGHT = 600;
+		public final static int WIDTH = 1200;
+		public final static int HEIGHT = 900;
 		public final static int TILE_SIZE = 64;
 		public final static int TILE_SIZE_MASK = 6;
 

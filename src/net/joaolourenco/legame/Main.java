@@ -162,6 +162,7 @@ public class Main implements Runnable {
 		double ns = 1000000000.0 / 60.0;
 		double delta = 0;
 		long lastTimer = System.currentTimeMillis();
+		long tickTimer = System.currentTimeMillis();
 		int frames = 0;
 		int updates = 0;
 		int checking = 0;
@@ -181,6 +182,10 @@ public class Main implements Runnable {
 			render();
 			frames++;
 			Display.update();
+			if (System.currentTimeMillis() - tickTimer > 100) {
+				tickTimer += 100;
+				tick();				
+			}
 			if (System.currentTimeMillis() - lastTimer > 1000) {
 				lastTimer += 1000;
 				// Once per second this is reached
@@ -188,7 +193,6 @@ public class Main implements Runnable {
 				if (GeneralSettings.useAverageFPS) title += " Average: " + avg;
 				if (GeneralSettings.showLightFloat) title += " Light: " + world.DAY_LIGHT;
 				Display.setTitle(title);
-				tick();
 				if (GeneralSettings.useAverageFPS) {
 					sum += frames;
 					checking++;
@@ -239,7 +243,7 @@ public class Main implements Runnable {
 	}
 
 	/**
-	 * This is the tick Method and it is updated 1 times per second.
+	 * This is the tick Method and it is updated 10 times per second.
 	 * 
 	 * @author Joao Lourenco
 	 */
