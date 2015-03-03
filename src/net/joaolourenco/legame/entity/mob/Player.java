@@ -16,10 +16,11 @@
 
 package net.joaolourenco.legame.entity.mob;
 
-import net.joaolourenco.legame.graphics.Texture;
-import net.joaolourenco.legame.settings.GeneralSettings;
+import net.joaolourenco.legame.entity.block.*;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.settings.*;
 
-import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.*;
 
 /**
  * Player Class.
@@ -79,6 +80,10 @@ public class Player extends Mob {
 	 * @author Joao Lourenco
 	 */
 	public void tick() {
-	}
 
+		if (Keyboard.isKeyDown(Keyboard.KEY_RETURN)) {
+			Door door = this.world.getNearByDoor(this.x, this.y, 300);
+			if (door != null) door.ativateDoor();
+		}
+	}
 }

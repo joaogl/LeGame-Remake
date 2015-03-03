@@ -59,6 +59,8 @@ public class World {
 	 * Variable to keep track of the day rizing.
 	 */
 	protected boolean goingUp = false;
+	
+	PointLight l3;
 
 	/**
 	 * World constructor to generate a new world.
@@ -99,10 +101,10 @@ public class World {
 		Vector2f location = new Vector2f((0 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
 		SpotLight l2 = new SpotLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
 		l2.init(this);
-		this.entities.add(l2);
+		// this.entities.add(l2);
 
 		location = new Vector2f((3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
-		PointLight l3 = new PointLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
+		l3 = new PointLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
 		l3.init(this);
 		this.entities.add(l3);
 
@@ -186,6 +188,9 @@ public class World {
 	 * @author Joao Lourenco
 	 */
 	public void update() {
+		l3.setX(Main.player.getX() - 64);
+		l3.setY(Main.player.getY() - 64);
+
 		// Updating all the entities.
 		for (Entity e : this.entities) {
 			if (e != null && getDistance(Main.player, e) <= GeneralSettings.WIDTH) e.update();
@@ -201,6 +206,7 @@ public class World {
 
 		if (this.goingUp) this.DAY_LIGHT += 0.001f;
 		else this.DAY_LIGHT -= 0.001f;
+		this.DAY_LIGHT = 0.1f;
 	}
 
 	/**
@@ -330,6 +336,31 @@ public class World {
 		}
 
 		return ent;
+	}
+
+	/**
+	 * Method to get the nearest door.
+	 * 
+	 * @param x
+	 *            : x coordinates from where to search.
+	 * @param y
+	 *            : y coordinates from where to search.
+	 * @return The nearest door.
+	 * @author Joao Lourenco
+	 */
+	public Door getNearByDoor(float x, float y, int radius) {
+		Door door = null;
+		double distance = 999999;
+
+		for (Entity e : entities) {
+			double d = getDistance(e, x, y);
+			if (e instanceof Door && d < radius && d < distance) {
+				door = (Door) e;
+				distance = d;
+			}
+		}
+
+		return door;
 	}
 
 	/**

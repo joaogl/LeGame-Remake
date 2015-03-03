@@ -16,16 +16,16 @@
 
 package net.joaolourenco.legame.entity.light;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
-import org.lwjgl.input.Keyboard;
+import net.joaolourenco.legame.entity.*;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.world.tile.*;
 
-import net.joaolourenco.legame.entity.Entity;
-import net.joaolourenco.legame.graphics.Shader;
-import net.joaolourenco.legame.settings.GeneralSettings;
-import net.joaolourenco.legame.utils.Vector2f;
-import net.joaolourenco.legame.world.tile.Tile;
+import org.lwjgl.input.*;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 
@@ -201,29 +201,32 @@ public abstract class Light extends Entity {
 			// Is the entity light collidable.
 			if (entity.isLightCollidable()) {
 				// Get the entities vertices.
-				Vector2f[] vertices = entity.getVertices();
-				// Go through all the vertices.
-				for (int i = 0; i < vertices.length; i++) {
-					// Setup the variables for the shaders calculations.
-					Vector2f currentVertex = vertices[i];
-					Vector2f nextVertex = vertices[(i + 1) % vertices.length];
-					Vector2f edge = Vector2f.sub(nextVertex, currentVertex, null);
-					Vector2f normal = new Vector2f(edge.getY(), -edge.getX());
-					Vector2f lightToCurrent = Vector2f.sub(currentVertex, this.location, null);
-					// Checking if there should be a cast.
-					if (Vector2f.dot(normal, lightToCurrent) > 0) {
-						// Adding two points for the cast.
-						Vector2f point1 = Vector2f.add(currentVertex, (Vector2f) Vector2f.sub(currentVertex, this.location, null).scale(800), null);
-						Vector2f point2 = Vector2f.add(nextVertex, (Vector2f) Vector2f.sub(nextVertex, this.location, null).scale(800), null);
-						// Rendering the casts.
-						glBegin(GL_QUADS);
-						{
-							glVertex2f(currentVertex.getX(), currentVertex.getY());
-							glVertex2f(point1.getX(), point1.getY());
-							glVertex2f(point2.getX(), point2.getY());
-							glVertex2f(nextVertex.getX(), nextVertex.getY());
+				Vector2f[][] vert = entity.getVertices();
+				for (int n = 0; n < vert.length; n++) {
+					Vector2f[] vertices = vert[n];
+					// Go through all the vertices.
+					for (int i = 0; i < vertices.length; i++) {
+						// Setup the variables for the shaders calculations.
+						Vector2f currentVertex = vertices[i];
+						Vector2f nextVertex = vertices[(i + 1) % vertices.length];
+						Vector2f edge = Vector2f.sub(nextVertex, currentVertex, null);
+						Vector2f normal = new Vector2f(edge.getY(), -edge.getX());
+						Vector2f lightToCurrent = Vector2f.sub(currentVertex, this.location, null);
+						// Checking if there should be a cast.
+						if (Vector2f.dot(normal, lightToCurrent) > 0) {
+							// Adding two points for the cast.
+							Vector2f point1 = Vector2f.add(currentVertex, (Vector2f) Vector2f.sub(currentVertex, this.location, null).scale(800), null);
+							Vector2f point2 = Vector2f.add(nextVertex, (Vector2f) Vector2f.sub(nextVertex, this.location, null).scale(800), null);
+							// Rendering the casts.
+							glBegin(GL_QUADS);
+							{
+								glVertex2f(currentVertex.getX(), currentVertex.getY());
+								glVertex2f(point1.getX(), point1.getY());
+								glVertex2f(point2.getX(), point2.getY());
+								glVertex2f(nextVertex.getX(), nextVertex.getY());
+							}
+							glEnd();
 						}
-						glEnd();
 					}
 				}
 			}

@@ -116,10 +116,10 @@ public class Main implements Runnable {
 		Texture.preload();
 		Texture.load();
 		// Creating the world
-		world = new World(12, 16);
+		world = new World(30, 30);
 
 		// Creating and adding the player to the world.
-		player = new Player(570, 500, 64, 64);
+		player = new Player(100, 100, 64, 64);
 		world.addEntity(player);
 
 		// Setting up all the Projections stuff for OpenGL

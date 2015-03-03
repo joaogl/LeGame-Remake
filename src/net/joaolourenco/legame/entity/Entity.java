@@ -136,8 +136,8 @@ public abstract class Entity extends RenderableComponent {
 	 * @return Vector2f[] with the vertices.
 	 * @author Joao Lourenco
 	 */
-	public Vector2f[] getVertices() {
-		return new Vector2f[] { new Vector2f(this.x, this.y), new Vector2f(this.x, this.y + this.height), new Vector2f(this.x + this.width, this.y + this.height), new Vector2f(this.x + this.width, this.y) };
+	public Vector2f[][] getVertices() {
+		return new Vector2f[][] { { new Vector2f(this.x, this.y), new Vector2f(this.x, this.y + this.height), new Vector2f(this.x + this.width, this.y + this.height), new Vector2f(this.x + this.width, this.y) } };
 	}
 
 	/**
