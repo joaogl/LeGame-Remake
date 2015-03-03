@@ -60,7 +60,7 @@ public class Font extends RenderableComponent {
 	 */
 	public Font() {
 		// Loading of the fonts.
-		texIDs = Texture.loadFont("/textures/util/font.png", 13, 7, size);
+		texIDs = Texture.loadAtlas("/textures/util/font.png", 13, 7, size);
 	}
 
 	/**
