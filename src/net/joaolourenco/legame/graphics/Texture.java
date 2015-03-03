@@ -58,6 +58,7 @@ public class Texture {
 	public static int Player = 0;
 	public static int[] Fire = new int[5];
 	public static int[] Menus = new int[5];
+	public static int[] Clouds = new int[8];
 
 	/**
 	 * All the font textures are stored here.
@@ -72,7 +73,8 @@ public class Texture {
 	 * @author Joao Lourenco
 	 */
 	public static void preload() {
-
+		Menus[0] = loadTexture("/textures/menus/sky.png", false);
+		Clouds = loadAtlas("/textures/menus/clouds.png", 4, 4, 128);
 	}
 
 	/**
@@ -219,7 +221,86 @@ public class Texture {
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 				// Adding the font to the font array to be used later.
-				fontTextures.add(texID);
+				// fontTextures.add(texID);
+				ids[index++] = texID;
+				// Unbinding the texture.
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+		}
+
+		// Returning the array with all the texture ID's.
+		return ids;
+	}
+
+	/**
+	 * Method to load a full Texture Atlas from file to the system.
+	 * 
+	 * @param path
+	 *            : Path of the font texture.
+	 * @param hLength
+	 *            : height of the file.
+	 * @param vLength
+	 *            : width of the file.
+	 * @param size
+	 *            : size of each letter.
+	 * @return int[], all the font letters ID's.
+	 * @author Joao Lourenco
+	 */
+	public static int[] loadAtlas(String path, int hLength, int vLength, int size) {
+		// Setting up some variables
+		int width = 0;
+		int height = 0;
+		int index = 0;
+		int[] ids = new int[hLength * vLength];
+		int[] sheet = null;
+		BufferedImage image;
+		try {
+			// Loading the image
+			image = ImageIO.read(Texture.class.getResource(path));
+			width = image.getWidth();
+			height = image.getHeight();
+			sheet = new int[width * height];
+			// Moving the RGB data to the sheet array
+			image.getRGB(0, 0, width, height, sheet, 0, width);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// Going through each line.
+		for (int y0 = 0; y0 < vLength; y0++) {
+			// Going through each column.
+			for (int x0 = 0; x0 < hLength; x0++) {
+				// Creating the Texture pixel array to store the letter pixels.
+				int[] tex = new int[size * size];
+				// Going through each pixel of the letter
+				for (int y = 0; y < size; y++) {
+					for (int x = 0; x < size; x++) {
+						// Getting the color of each pixel.
+						tex[x + y * size] = sheet[(x + x0 * size) + (y + y0 * size) * width];
+					}
+				}
+
+				// Processing the letter array for OpenGL
+				ByteBuffer buffer = BufferUtils.createByteBuffer(size * size * 4);
+				for (int y = 0; y < size; y++) {
+					for (int x = 0; x < size; x++) {
+						byte a = (byte) ((tex[x + y * size] & 0xff000000) >> 24);
+						byte r = (byte) ((tex[x + y * size] & 0xff0000) >> 16);
+						byte g = (byte) ((tex[x + y * size] & 0xff00) >> 8);
+						byte b = (byte) (tex[x + y * size] & 0xff);
+						buffer.put(r).put(g).put(b).put(a);
+					}
+				}
+				buffer.flip();
+				// Generating the texture.
+				int texID = glGenTextures();
+				// Binding the texture in order to define it.
+				glBindTexture(GL_TEXTURE_2D, texID);
+				// Defining the texture.
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size, size, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+				// Defining the texture parameters.
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				// Adding the texture to the texture array to be stored.
 				ids[index++] = texID;
 				// Unbinding the texture.
 				glBindTexture(GL_TEXTURE_2D, 0);
