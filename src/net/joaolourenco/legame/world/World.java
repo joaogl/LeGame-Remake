@@ -80,8 +80,8 @@ public class World {
 
 		generateLevel();
 
-		for (int y = 0; y < 5; y++) {
-			for (int x = 0; x < 5; x++) {
+		for (int y = 0; y < this.height; y++) {
+			for (int x = 0; x < this.width; x++) {
 				SolidTile ti = new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt, true);
 				ti.isLightCollidable(false);
 				setTile(x, y, ti);

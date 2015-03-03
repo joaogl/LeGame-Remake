@@ -119,7 +119,7 @@ public class Main implements Runnable {
 		world = new World(12, 16);
 
 		// Creating and adding the player to the world.
-		player = new Player(50, 50, 64, 64);
+		player = new Player(570, 500, 64, 64);
 		world.addEntity(player);
 
 		// Setting up all the Projections stuff for OpenGL

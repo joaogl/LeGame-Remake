@@ -39,7 +39,7 @@ public class Door extends Entity {
 	public boolean usesKey, locked = false, jammed;
 	public int DoorSize = 64;
 	public float DoorGap = 0, MaxDoorGap = 70, DoorRadius = 300;
-	public boolean alongXAxis = true;
+	public boolean alongXAxis = true, autoOpen = true, autoClose = true;
 
 	public int texture;
 
@@ -304,16 +304,12 @@ public class Door extends Entity {
 	 * @author Joao Lourenco
 	 */
 	public void tick() {
-		List<Entity> aroundDoor = this.world.getNearByEntities(x, y, this.DoorRadius);
-		if (aroundDoor.isEmpty()) closeDoor();
-		else {
-			if (this.locked) {
-				for (Entity a : aroundDoor) {
-					if (a.inventory.contains(this)) {
-
-					}
-				}
-			} else openDoor();
+		if (autoClose || autoOpen) {
+			List<Entity> aroundDoor = this.world.getNearByEntities(x, y, this.DoorRadius);
+			if (aroundDoor.isEmpty() && autoClose) closeDoor();
+			else {
+				if (!this.locked && autoOpen) openDoor();
+			}
 		}
 	}
 }
