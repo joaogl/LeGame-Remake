@@ -16,10 +16,6 @@
 
 package net.joaolourenco.legame.settings;
 
-import java.util.*;
-
-import net.joaolourenco.legame.graphics.*;
-import net.joaolourenco.legame.graphics.font.*;
 
 /**
  * Class to handle General Settings.
@@ -28,16 +24,6 @@ import net.joaolourenco.legame.graphics.font.*;
  *
  */
 public class GeneralSettings {
-
-	/**
-	 * ---------------------------------- // Game Variables // ----------------------------------
-	 **/
-		// This is the array list that will hold all the shaders for a clean up at the end of the running process.
-		public static List<Shader> shaders = new ArrayList<Shader>();	
-		// This is the array list that will hold all the Font's for a clean up at the end of the running process.
-		public static List<Font> fonts = new ArrayList<Font>();	
-		// This is the array list that will hold all the AnimatedText to keep them updated.
-		public static List<AnimatedText> animatedText = new ArrayList<AnimatedText>();
 
 	/**
 	 * ---------------------------------- // General Game Settings // ----------------------------------
@@ -50,8 +36,6 @@ public class GeneralSettings {
 		public final static String fullname = name + " " + version;
 	
 		// Window Size		
-		public final static int WIDTH = 800; // 1200
-		public final static int HEIGHT = 600; // 900
 		public final static int TILE_SIZE = 64;
 		public final static int TILE_SIZE_MASK = 6;
 
@@ -84,7 +68,5 @@ public class GeneralSettings {
 		public final static String lightFragPath = "/shaders/light.frag";
 		public final static String fontFragPath = "/shaders/font.frag";
 		public final static int howManyLightsToShader = 10; // How many lights will be passed to the shaders.
-
-		public final static Font font = new Font();
 
 }

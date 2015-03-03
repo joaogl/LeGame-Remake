@@ -57,6 +57,7 @@ public class Texture {
 	public static int Mob = 0;
 	public static int Player = 0;
 	public static int[] Fire = new int[5];
+	public static int[] Menus = new int[5];
 
 	/**
 	 * All the font textures are stored here.

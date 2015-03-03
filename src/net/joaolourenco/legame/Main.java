@@ -16,31 +16,18 @@
 
 package net.joaolourenco.legame;
 
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
-import static org.lwjgl.opengl.GL11.GL_PROJECTION;
-import static org.lwjgl.opengl.GL11.GL_STENCIL_TEST;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glClearColor;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glLoadIdentity;
-import static org.lwjgl.opengl.GL11.glMatrixMode;
-import static org.lwjgl.opengl.GL11.glOrtho;
-import net.joaolourenco.legame.entity.mob.Player;
-import net.joaolourenco.legame.graphics.Shader;
-import net.joaolourenco.legame.graphics.Texture;
-import net.joaolourenco.legame.graphics.font.AnimatedText;
-import net.joaolourenco.legame.graphics.font.Font;
-import net.joaolourenco.legame.settings.GeneralSettings;
-import net.joaolourenco.legame.world.World;
+import java.util.*;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.PixelFormat;
+import net.joaolourenco.legame.entity.mob.*;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.graphics.font.*;
+import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.world.*;
+
+import org.lwjgl.*;
+import org.lwjgl.opengl.*;
+
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Main Class for the game.
@@ -99,12 +86,15 @@ public class Main implements Runnable {
 	private void init() {
 		// Setting up the Display
 		try {
-			Display.setDisplayMode(new DisplayMode(GeneralSettings.WIDTH, GeneralSettings.HEIGHT));
+			Registry.registerScreen(800, 600);
+			Display.setDisplayMode(new DisplayMode(Registry.getScreenWidth(), Registry.getScreenHeight()));
 			Display.setTitle(GeneralSettings.fullname);
 			Display.create(new PixelFormat(0, 16, 1));
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
+
+		Registry.registerFont(new Font());
 
 		// This is for debug purposes only.
 		System.out.println("OS name " + System.getProperty("os.name"));
@@ -117,18 +107,18 @@ public class Main implements Runnable {
 		Texture.load();
 
 		// CHANGE THIS LATTER
-		player = new Player(100, 100, 64, 64);
+		// player = new Player(100, 100, 64, 64);
 
 		// Creating the world
-		world = new World(30, 30);
+		// world = new Tutorial(30, 30);
 
 		// Creating and adding the player to the world.
-		world.addEntity(player);
+		// world.addEntity(player);
 
 		// Setting up all the Projections stuff for OpenGL
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, GeneralSettings.WIDTH, GeneralSettings.HEIGHT, 0, 1, -1);
+		glOrtho(0, Registry.getScreenWidth(), Registry.getScreenHeight(), 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 
 		glEnable(GL_TEXTURE_2D);
@@ -142,12 +132,8 @@ public class Main implements Runnable {
 	 * @author Joao Lourenco
 	 */
 	private void cleanup() {
-		// Cleaning all the Shaders
-		for (Shader shader : GeneralSettings.shaders)
-			if (shader != null) shader.cleanUp();
-		// Cleaning all the Font
-		for (Font font : GeneralSettings.fonts)
-			if (font != null) font.cleanup();
+		// Cleaning data in the Registry class.
+		Registry.cleanRegistries();
 		// Destroying the Display.
 		Display.destroy();
 	}
@@ -194,7 +180,9 @@ public class Main implements Runnable {
 				// Once per second this is reached
 				String title = GeneralSettings.fullname + " FPS: " + frames + " UPS: " + updates;
 				if (GeneralSettings.useAverageFPS) title += " Average: " + avg;
-				if (GeneralSettings.showLightFloat) title += " Light: " + world.DAY_LIGHT;
+				if (GeneralSettings.showLightFloat) {
+					if (world != null) title += " Light: " + world.DAY_LIGHT;
+				}
 				Display.setTitle(title);
 				if (GeneralSettings.useAverageFPS) {
 					sum += frames;
@@ -224,9 +212,9 @@ public class Main implements Runnable {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 		// Render the new stuff.
-		world.render();
+		if (world != null) world.render();
 		// Render the AnimatedText
-		for (AnimatedText at : GeneralSettings.animatedText)
+		for (AnimatedText at : Registry.getAnimatedTexts())
 			at.render();
 	}
 
@@ -236,12 +224,13 @@ public class Main implements Runnable {
 	 * @author Joao Lourenco
 	 */
 	private void update() {
-		world.update();
+		if (world != null) world.update();
 		// Update the AnimatedText
-		for (int i = 0; i < GeneralSettings.animatedText.size(); i++) {
-			AnimatedText at = GeneralSettings.animatedText.get(i);
+		List<AnimatedText> a = Registry.getAnimatedTexts();
+		for (int i = 0; i < a.size(); i++) {
+			AnimatedText at = a.get(i);
 			if (at != null && !at.isRemoved()) at.update();
-			else if (at != null && at.isRemoved()) GeneralSettings.animatedText.remove(at);
+			else if (at != null && at.isRemoved()) a.remove(at);
 		}
 	}
 
@@ -251,7 +240,7 @@ public class Main implements Runnable {
 	 * @author Joao Lourenco
 	 */
 	private void tick() {
-		world.tick();
+		if (world != null) world.tick();
 	}
 
 }

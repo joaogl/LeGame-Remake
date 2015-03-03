@@ -23,11 +23,7 @@ import net.joaolourenco.legame.entity.*;
 import net.joaolourenco.legame.entity.block.*;
 import net.joaolourenco.legame.entity.light.*;
 import net.joaolourenco.legame.entity.mob.*;
-import net.joaolourenco.legame.graphics.*;
-import net.joaolourenco.legame.graphics.font.*;
-import net.joaolourenco.legame.items.*;
 import net.joaolourenco.legame.settings.*;
-import net.joaolourenco.legame.utils.*;
 import net.joaolourenco.legame.world.tile.*;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -38,7 +34,7 @@ import static org.lwjgl.opengl.GL11.*;
  * @author Joao Lourenco
  * 
  */
-public class World {
+public abstract class World {
 
 	/**
 	 * Variable to hold the current DAY_LIGHT Light value.
@@ -81,13 +77,9 @@ public class World {
 
 		generateLevel();
 
-		for (int y = 0; y < this.height; y++) {
-			for (int x = 0; x < this.width; x++) {
-				SolidTile ti = new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt, true);
-				ti.isLightCollidable(false);
-				setTile(x, y, ti);
-			}
-		}
+		/*
+		 * for (int y = 0; y < this.height; y++) { for (int x = 0; x < this.width; x++) { SolidTile ti = new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt, true); ti.isLightCollidable(false); setTile(x, y, ti); } }
+		 */
 
 		// Add a normal Tile:
 		// setTile(9, 9, new SolidTile(GeneralSettings.TILE_SIZE,
@@ -96,16 +88,14 @@ public class World {
 		// setTile(0, 2, new FireTile(GeneralSettings.TILE_SIZE,
 		// Texture.Fire[0], this));
 		// Add a light:
-
-		Vector2f location = new Vector2f((0 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
-		SpotLight l2 = new SpotLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
-		l2.init(this);
+		/*
+		 * Vector2f location = new Vector2f((0 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2); SpotLight l2 = new SpotLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f); l2.init(this);
+		 */
 		// this.entities.add(l2);
 
-		location = new Vector2f((3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
-		PointLight l3 = new PointLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f);
-		l3.init(this);
-		this.entities.add(l3);
+		/*
+		 * location = new Vector2f((3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (3 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2); PointLight l3 = new PointLight(location, (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10, 0.8f); l3.init(this); this.entities.add(l3);
+		 */
 
 		// Add an Entity:
 		// Block b = new Block(x, y, GeneralSettings.TILE_SIZE,
@@ -113,24 +103,19 @@ public class World {
 		// b.init(this);
 		// this.entities.add(b);
 		// Add Animated Text:
-		new AnimatedText("Ola :D td bem?", 50, 5, 18);
-
-		Door door = new Door(2, 2, 128, 64);
-		door.setTexture(Texture.Player);
-		door.init(this);
-		this.entities.add(door);
-
-		DoorKey key = new DoorKey(1, door.getKey());
-		Main.player.giveItem(key);
+		// new AnimatedText("Ola :D td bem?", 50, 5, 18);
+		/*
+		 * Door door = new Door(2, 2, 128, 64); door.setTexture(Texture.Player); door.init(this); this.entities.add(door);
+		 * 
+		 * DoorKey key = new DoorKey(1, door.getKey()); Main.player.giveItem(key);
+		 */
 	}
 
 	/**
 	 * 
 	 * @author Joao Lourenco
 	 */
-	public void generateLevel() {
-
-	}
+	public abstract void generateLevel();
 
 	/**
 	 * Method to get the world Height
@@ -155,9 +140,9 @@ public class World {
 
 		// Getting the variables ready to check what tiles to render.
 		int x0 = this.xOffset >> GeneralSettings.TILE_SIZE_MASK;
-		int x1 = (this.xOffset >> GeneralSettings.TILE_SIZE_MASK) + (GeneralSettings.WIDTH * 14 / 800);
+		int x1 = (this.xOffset >> GeneralSettings.TILE_SIZE_MASK) + (Registry.getScreenWidth() * 14 / 800);
 		int y0 = this.yOffset >> GeneralSettings.TILE_SIZE_MASK;
-		int y1 = (this.yOffset >> GeneralSettings.TILE_SIZE_MASK) + (GeneralSettings.HEIGHT * 11 / 600);
+		int y1 = (this.yOffset >> GeneralSettings.TILE_SIZE_MASK) + (Registry.getScreenHeight() * 11 / 600);
 		// Going through all the tiles to render.
 		for (int y = y0; y < y1; y++) {
 			for (int x = x0; x < x1; x++) {
@@ -192,12 +177,12 @@ public class World {
 	public void update() {
 		// Updating all the entities.
 		for (Entity e : this.entities) {
-			if (e != null && getDistance(Main.player, e) <= GeneralSettings.WIDTH) e.update();
+			if (e != null && getDistance(Main.player, e) <= Registry.getScreenWidth()) e.update();
 		}
 
 		// Updating all the world tiles.
 		for (Tile t : this.worldTiles)
-			if (t != null && getDistance(Main.player, t.getX(), t.getY()) <= GeneralSettings.WIDTH) t.update();
+			if (t != null && getDistance(Main.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) t.update();
 
 		// Keep increasing and decreasing the Day Light value.
 		if (this.DAY_LIGHT <= 0.1f) this.goingUp = true;

@@ -18,6 +18,7 @@ package net.joaolourenco.legame.entity.light;
 
 import java.util.*;
 
+import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.entity.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.settings.*;
@@ -144,7 +145,7 @@ public abstract class Light extends Entity {
 		float yy = this.location.getY() - this.world.getYOffset();
 		// Sending all the information from the light to the shader.
 		glUniform1f(glGetUniformLocation(shade.getShader(), "lightInt"), this.intensity);
-		glUniform2f(glGetUniformLocation(shade.getShader(), "lightLocation"), xx, GeneralSettings.HEIGHT - yy);
+		glUniform2f(glGetUniformLocation(shade.getShader(), "lightLocation"), xx, Registry.getScreenHeight() - yy);
 		glUniform3f(glGetUniformLocation(shade.getShader(), "lightColor"), this.red, this.green, this.blue);
 		glUniform1f(glGetUniformLocation(shade.getShader(), "lightType"), this.type);
 		glUniform1f(glGetUniformLocation(shade.getShader(), "lightCenter"), this.hasLightSpot);
@@ -169,9 +170,9 @@ public abstract class Light extends Entity {
 		glBegin(GL_QUADS);
 		{
 			glVertex2f(this.world.getXOffset(), this.world.getYOffset());
-			glVertex2f(this.world.getXOffset(), GeneralSettings.HEIGHT + this.world.getYOffset());
-			glVertex2f(GeneralSettings.WIDTH + this.world.getXOffset(), GeneralSettings.HEIGHT + this.world.getYOffset());
-			glVertex2f(GeneralSettings.WIDTH + this.world.getXOffset(), this.world.getYOffset());
+			glVertex2f(this.world.getXOffset(), Registry.getScreenHeight() + this.world.getYOffset());
+			glVertex2f(Registry.getScreenWidth() + this.world.getXOffset(), Registry.getScreenHeight() + this.world.getYOffset());
+			glVertex2f(Registry.getScreenWidth() + this.world.getXOffset(), this.world.getYOffset());
 		}
 		glEnd();
 

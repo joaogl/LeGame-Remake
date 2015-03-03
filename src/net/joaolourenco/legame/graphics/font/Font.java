@@ -59,9 +59,6 @@ public class Font extends RenderableComponent {
 	 * @author Joao Lourenco
 	 */
 	public Font() {
-		// Add this class to the font's to be disposed at the closing of the game.
-		GeneralSettings.fonts.add(this);
-
 		// Loading of the fonts.
 		texIDs = Texture.loadFont("/textures/util/font.png", 13, 7, size);
 	}

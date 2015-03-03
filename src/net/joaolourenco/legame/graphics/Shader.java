@@ -18,7 +18,7 @@ package net.joaolourenco.legame.graphics;
 
 import java.io.*;
 
-import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.*;
 
 import org.lwjgl.opengl.*;
 
@@ -63,7 +63,7 @@ public class Shader {
 	 */
 	public Shader(String fragPath) {
 		// Adding this shader to the public shaders list.
-		GeneralSettings.shaders.add(this);
+		Registry.registerShader(this);
 		// Load the code to a string
 		String frag = loadAsString(fragPath);
 		this.fragmentPath = fragPath;
@@ -82,7 +82,7 @@ public class Shader {
 	 */
 	public Shader(String fragPath, String vertPath) {
 		// Adding this shader to the public shaders list.
-		GeneralSettings.shaders.add(this);
+		Registry.registerShader(this);
 		// Load the code to the strings.
 		String frag = loadAsString(fragPath);
 		String vert = loadAsString(vertPath);

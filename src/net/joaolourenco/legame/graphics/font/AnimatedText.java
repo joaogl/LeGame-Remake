@@ -16,6 +16,7 @@
 
 package net.joaolourenco.legame.graphics.font;
 
+import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.settings.GeneralSettings;
 
 /**
@@ -69,7 +70,7 @@ public class AnimatedText {
 	 * @author Joao Lourenco
 	 */
 	public AnimatedText(String text, int x, int y, int size) {
-		this.font = GeneralSettings.font;
+		this.font = Registry.getFont();
 		this.text = "";
 		this.finalText = text;
 		this.x = x;
@@ -78,7 +79,7 @@ public class AnimatedText {
 		this.last = System.currentTimeMillis();
 		this.time = 200;
 		this.timeperletter = 300;
-		GeneralSettings.animatedText.add(this);
+		Registry.registerAnimatedText(this);
 	}
 
 	/**
@@ -99,7 +100,7 @@ public class AnimatedText {
 	 * @author Joao Lourenco
 	 */
 	public AnimatedText(String text, int x, int y, int size, int time, int tp) {
-		this.font = GeneralSettings.font;
+		this.font = Registry.getFont();
 		this.text = "";
 		this.finalText = text;
 		this.x = x;
@@ -108,7 +109,7 @@ public class AnimatedText {
 		this.last = System.currentTimeMillis();
 		this.time = time;
 		this.timeperletter = tp;
-		GeneralSettings.animatedText.add(this);
+		Registry.registerAnimatedText(this);
 	}
 
 	/**
