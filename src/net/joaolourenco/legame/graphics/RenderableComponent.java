@@ -130,4 +130,58 @@ public class RenderableComponent {
 		glTranslatef(-x, -y, 0);
 	}
 
+	/**
+	 * Method to render a quad on the desired location with the desired size.
+	 * 
+	 * @param x
+	 *            : x location of the quad.
+	 * @param y
+	 *            : y location of the quad.
+	 * @param texture
+	 *            : texture for the quad.
+	 * @param shade
+	 *            : shader the quad is going to use.
+	 * @param width
+	 *            : the quad width.
+	 * @param height
+	 *            : the quad height.
+	 * @author Joao Lourenco
+	 */
+	public void render(float x, float y, int texture, Shader shade, float width, float height) {
+		// Placing the quad in the right location
+		glTranslatef(x, y, 0);
+		// Activating the first texture bank.
+		glActiveTexture(GL_TEXTURE0);
+		// Storing the texture on the bank.
+		glBindTexture(GL_TEXTURE_2D, texture);
+		// Sending the texture location to the shader.
+		glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
+
+		// Drawing the Quad.
+		glBegin(GL_QUADS);
+		{
+			// Each vertice of the Quad
+			glTexCoord2f(0, 0);
+			glVertex2f(0, 0);
+
+			// Each vertice of the Quad
+			glTexCoord2f(0, 1);
+			glVertex2f(0, height);
+
+			// Each vertice of the Quad
+			glTexCoord2f(1, 1);
+			glVertex2f(width, height);
+
+			// Each vertice of the Quad
+			glTexCoord2f(1, 0);
+			glVertex2f(width, 0);
+		}
+		glEnd();
+
+		// Releasing the texture bank.
+		glBindTexture(GL_TEXTURE_2D, 0);
+		// Getting the render position to the center.
+		glTranslatef(-x, -y, 0);
+	}
+
 }

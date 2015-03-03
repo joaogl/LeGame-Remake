@@ -25,7 +25,6 @@ import net.joaolourenco.legame.utils.*;
 import net.joaolourenco.legame.world.*;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL20.*;
 
 /**
@@ -34,7 +33,7 @@ import static org.lwjgl.opengl.GL20.*;
  * @author Joao Lourenco
  * 
  */
-public abstract class Entity {
+public abstract class Entity extends RenderableComponent {
 
 	/**
 	 * Size and location of the Entity.
@@ -106,11 +105,9 @@ public abstract class Entity {
 	/**
 	 * Method called by the World Class to render the Entity.
 	 * 
-	 * @param ent
-	 *            : List of entities that emit light.
 	 * @author Joao Lourenco
 	 */
-	public void render(ArrayList<Entity> ent) {
+	public void render() {
 		// Setting up OpenGL for render
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
@@ -120,42 +117,12 @@ public abstract class Entity {
 
 		// Calculating the required light.
 		float day_light = 1f;
-		if (this.lightAffected) day_light = this.world.DAY_LIGHT;
+		if (lightAffected) day_light = world.DAY_LIGHT;
 		// Sending the required light to the shader.
 		glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), day_light * 2);
 
-		// Updating the Entity coordinates.
-		glTranslatef(x, y, 0);
-		// Activating and Binding the Tile Texture.
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, this.texture);
-		// Sending the texture to the shader.
-		glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
-
-		// Drawing the QUAD.
-		glBegin(GL_QUADS);
-		{
-			// Each vertice of the Quad
-			glTexCoord2f(0, 0);
-			glVertex2f(0, 0);
-
-			// Each vertice of the Quad
-			glTexCoord2f(0, 1);
-			glVertex2f(0, this.height);
-
-			// Each vertice of the Quad
-			glTexCoord2f(1, 1);
-			glVertex2f(this.width, this.height);
-
-			// Each vertice of the Quad
-			glTexCoord2f(1, 0);
-			glVertex2f(this.width, 0);
-		}
-		glEnd();
-		// Releasing the Texture.
-		glBindTexture(GL_TEXTURE_2D, 0);
-		// Getting the location back to the inicial coordinates.
-		glTranslatef(-x, -y, 0);
+		// Rendering the Quad.
+		render(x, y, texture, shade, width, height);
 
 		// Disabling BLEND and releasing shader for next render.
 		glDisable(GL_BLEND);

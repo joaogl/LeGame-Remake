@@ -20,6 +20,7 @@ import java.util.*;
 
 import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.entity.*;
+import net.joaolourenco.legame.entity.block.*;
 import net.joaolourenco.legame.entity.light.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.font.*;
@@ -111,6 +112,11 @@ public class World {
 		// this.entities.add(b);
 		// Add Animated Text:
 		new AnimatedText("Ola :D td bem?", 50, 5, 18);
+
+		Door door = new Door(2, 2, 128, 64);
+		door.setTexture(Texture.Player);
+		door.init(this);
+		this.entities.add(door);
 	}
 
 	/**
@@ -166,7 +172,7 @@ public class World {
 					((Light) e).renderShadows(entities, worldTiles);
 					((Light) e).render();
 					// If not just render the Entity.
-				} else e.render(getNearByLights(e.getX(), e.getY()));
+				} else e.render();
 			}
 		}
 		// Moving the Render back to the default position.

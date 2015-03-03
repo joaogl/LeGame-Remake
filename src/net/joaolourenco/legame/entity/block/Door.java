@@ -17,7 +17,11 @@
 package net.joaolourenco.legame.entity.block;
 
 import net.joaolourenco.legame.entity.*;
+import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.items.*;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.*;
 
 /**
  * @author Joao Lourenco
@@ -32,6 +36,8 @@ public class Door extends Entity {
 	public States state;
 	public String key;
 	public boolean usesKey, locked, jammed;
+	public int DoorSize = 64, DoorGap = 0;
+	public boolean alongXAxis = true;
 
 	public int texture;
 
@@ -48,6 +54,7 @@ public class Door extends Entity {
 		super(x, y, width, height);
 		state = States.CLOSED;
 		usesKey = false;
+		this.collidable = true;
 	}
 
 	public Door(int x, int y, int width, int height, String _key) {
@@ -55,6 +62,7 @@ public class Door extends Entity {
 		state = States.CLOSED;
 		key = _key;
 		usesKey = true;
+		this.collidable = true;
 	}
 
 	/**
@@ -155,6 +163,69 @@ public class Door extends Entity {
 	 * 
 	 * @author Joao Lourenco
 	 * 
+	 * @return The doorSize
+	 */
+	public int getDoorSize() {
+		return DoorSize;
+	}
+
+	/**
+	 * 
+	 * @author Joao Lourenco
+	 * 
+	 * @param doorSize
+	 *            The doorSize to set
+	 */
+	public void setDoorSize(int doorSize) {
+		DoorSize = doorSize;
+	}
+
+	/**
+	 * 
+	 * @author Joao Lourenco
+	 * 
+	 * @return The alongXAxis
+	 */
+	public boolean isAlongXAxis() {
+		return alongXAxis;
+	}
+
+	/**
+	 * 
+	 * @author Joao Lourenco
+	 * 
+	 * @param alongXAxis
+	 *            The alongXAxis to set
+	 */
+	public void setAlongXAxis(boolean alongXAxis) {
+		this.alongXAxis = alongXAxis;
+	}
+
+	/**
+	 * 
+	 * @author Joao Lourenco
+	 * 
+	 * @return The texture
+	 */
+	public int getTexture() {
+		return texture;
+	}
+
+	/**
+	 * 
+	 * @author Joao Lourenco
+	 * 
+	 * @param texture
+	 *            The texture to set
+	 */
+	public void setTexture(int texture) {
+		this.texture = texture;
+	}
+
+	/**
+	 * 
+	 * @author Joao Lourenco
+	 * 
 	 * @param jammed
 	 *            The jammed to set
 	 */
@@ -174,7 +245,32 @@ public class Door extends Entity {
 	}
 
 	public void render() {
-		
+		// Setting up OpenGL for render
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
+
+		// Binding the shader
+		this.shade.bind();
+
+		// Calculating the required light.
+		float day_light = 1f;
+		if (lightAffected) day_light = world.DAY_LIGHT;
+		// Sending the required light to the shader.
+		glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), day_light * 2);
+
+		// Rendering the Quad.
+		if (this.alongXAxis) {
+			render(x, y, texture, shade, DoorSize);
+			render(x + DoorGap + DoorSize, y, texture, shade, DoorSize);
+		} else {
+			render(x, y + DoorGap + DoorSize, texture, shade, DoorSize);
+			render(x, y, texture, shade, DoorSize);
+		}
+
+		// Disabling BLEND and releasing shader for next render.
+		glDisable(GL_BLEND);
+		shade.release();
+		glClear(GL_STENCIL_BUFFER_BIT);
 	}
 
 	/**
