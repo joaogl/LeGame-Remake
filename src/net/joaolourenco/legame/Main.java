@@ -21,6 +21,7 @@ import java.util.*;
 import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.font.*;
+import net.joaolourenco.legame.graphics.menu.*;
 import net.joaolourenco.legame.settings.*;
 import net.joaolourenco.legame.world.*;
 
@@ -54,6 +55,10 @@ public class Main implements Runnable {
 	 * Player Instance.
 	 */
 	public static Player player;
+	/**
+	 * Variable to keep track if the game has loaded or not.
+	 */
+	public boolean gameIsReady = false;
 
 	/**
 	 * Main method that runs the game.
@@ -104,7 +109,9 @@ public class Main implements Runnable {
 
 		// Loading all the textures
 		Texture.preload();
-		Texture.load();
+
+		Registry.registerMenu(new MainMenu());
+		Registry.getMenu(0).open();
 
 		// CHANGE THIS LATTER
 		// player = new Player(100, 100, 64, 64);
@@ -196,6 +203,10 @@ public class Main implements Runnable {
 				updates = 0;
 				frames = 0;
 			}
+			if (!gameIsReady) {
+				gameIsReady = true;
+				Texture.load();
+			}
 			if (Display.isCloseRequested()) running = false;
 		}
 		// If the game is closed, cleanup!
@@ -213,6 +224,9 @@ public class Main implements Runnable {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 		// Render the new stuff.
 		if (world != null) world.render();
+		// Render the Menus
+		for (Menu m : Registry.getMenus())
+			m.render();
 		// Render the AnimatedText
 		for (AnimatedText at : Registry.getAnimatedTexts())
 			at.render();
@@ -225,6 +239,9 @@ public class Main implements Runnable {
 	 */
 	private void update() {
 		if (world != null) world.update();
+		// Update the Menus
+		for (Menu m : Registry.getMenus())
+			m.update();
 		// Update the AnimatedText
 		List<AnimatedText> a = Registry.getAnimatedTexts();
 		for (int i = 0; i < a.size(); i++) {
@@ -241,6 +258,9 @@ public class Main implements Runnable {
 	 */
 	private void tick() {
 		if (world != null) world.tick();
+		// Tick the Menus
+		for (Menu m : Registry.getMenus())
+			m.tick();
 	}
 
 }

@@ -18,11 +18,14 @@ package net.joaolourenco.legame.graphics.menu;
 
 import java.util.*;
 
+import net.joaolourenco.legame.*;
+import net.joaolourenco.legame.graphics.*;
+
 /**
  * @author Joao Lourenco
  * 
  */
-public abstract class Menu {
+public abstract class Menu extends RenderableComponent {
 
 	protected int texture;
 	protected int x, y;
@@ -55,11 +58,13 @@ public abstract class Menu {
 	public void open() {
 		this.hasFocus = true;
 		this.renderMe = true;
+		Registry.unFocusGame();
 	}
 
 	public void close() {
 		this.hasFocus = false;
 		this.renderMe = false;
+		Registry.focusGame();
 	}
 
 }

@@ -67,6 +67,7 @@ public class GeneralSettings {
 		public final static String blockFragPath = "/shaders/block.frag";
 		public final static String lightFragPath = "/shaders/light.frag";
 		public final static String fontFragPath = "/shaders/font.frag";
+		public final static String menuFragPath = "/shaders/menu.frag";
 		public final static int howManyLightsToShader = 10; // How many lights will be passed to the shaders.
 
 }

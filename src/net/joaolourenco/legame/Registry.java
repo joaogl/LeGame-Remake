@@ -20,6 +20,7 @@ import java.util.*;
 
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.font.*;
+import net.joaolourenco.legame.graphics.menu.*;
 import net.joaolourenco.legame.utils.*;
 
 /**
@@ -32,10 +33,14 @@ public class Registry {
 	private static List<Shader> shaders = new ArrayList<Shader>();
 	// This is the array list that will hold all the AnimatedText to keep them updated.
 	private static List<AnimatedText> animatedText = new ArrayList<AnimatedText>();
+	// This is the array list that will hold all the AnimatedText to keep them updated.
+	private static List<Menu> menus = new ArrayList<Menu>();
 	// Where the screen information is saved.
 	private static Screen screen;
-	// Font used to render fonts in the game
+	// Font used to render fonts in the game.
 	private static Font font;
+	// Is the game focused.
+	private static boolean focused = true;
 
 	public static void registerShader(Shader s) {
 		shaders.add(s);
@@ -53,12 +58,28 @@ public class Registry {
 		font = f;
 	}
 
+	public static void registerMenu(Menu m) {
+		menus.add(m);
+	}
+
+	public static void focusGame() {
+		focused = true;
+	}
+
+	public static void unFocusGame() {
+		focused = false;
+	}
+
 	public static List<Shader> getShaders() {
 		return shaders;
 	}
 
 	public static List<AnimatedText> getAnimatedTexts() {
 		return animatedText;
+	}
+
+	public static List<Menu> getMenus() {
+		return menus;
 	}
 
 	public static Shader getShader(int id) {
@@ -83,6 +104,14 @@ public class Registry {
 
 	public static Font getFont() {
 		return font;
+	}
+
+	public static Menu getMenu(int i) {
+		return menus.get(i);
+	}
+
+	public static boolean isGameFocused() {
+		return focused;
 	}
 
 	public static void cleanRegistries() {
