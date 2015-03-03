@@ -18,7 +18,6 @@ TO-DO
 ====
 - Create the basic textures.
 - Add GUI.
-- Add doors to the game.
 - Create a level generation algorithm.
 - Finish the Mob system.
 - Add the figth system.
@@ -40,6 +39,7 @@ MAYBE TO-DO
 
 DONE
 ====
+- Add doors to the game.
 - Text now works on computers with graphic cards from 2006 and newer. 
 - All the game now uses the same render code. 
 - Test if there is a faster way to render the tiles.
