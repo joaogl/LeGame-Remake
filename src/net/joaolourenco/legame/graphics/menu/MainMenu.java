@@ -35,7 +35,7 @@ public class MainMenu extends Menu {
 	 */
 	public Shader shader = new Shader(GeneralSettings.menuFragPath, GeneralSettings.defaultVertexPath);
 
-	public int maxClouds = 10;
+	public int maxClouds = Registry.getScreenWidth() * 10 / 800;
 	public MenuCloud[] clouds = new MenuCloud[maxClouds];
 
 	/**
@@ -59,30 +59,31 @@ public class MainMenu extends Menu {
 		int i = 0;
 		int size = 30;
 		int spacing = -5;
-
-		this.buttons.add(new MenuButton("New Game", this.xMax / 2, 300 + (50 * i++), size, spacing, this));
+		int yPos = (Registry.getScreenHeight() - 50 * 5) / 2;
+		
+		this.buttons.add(new MenuButton("New Game", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 		this.buttons.get(i - 1).addClickAction(new ClickAction() {
 			public void onClick(Menu m) {
 			}
 		});
-		this.buttons.add(new MenuButton("Tutorial", this.xMax / 2, 300 + (50 * i++), size, spacing, this));
+		this.buttons.add(new MenuButton("Tutorial", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 		this.buttons.get(i - 1).addClickAction(new ClickAction() {
 			public void onClick(Menu m) {
 				Registry.getMainClass().setWorld(new Tutorial());
 				m.close();
 			}
 		});
-		this.buttons.add(new MenuButton("Load", this.xMax / 2, 300 + (50 * i++), size, spacing, this));
+		this.buttons.add(new MenuButton("Load", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 		this.buttons.get(i - 1).addClickAction(new ClickAction() {
 			public void onClick(Menu m) {
 			}
 		});
-		this.buttons.add(new MenuButton("Options", this.xMax / 2, 300 + (50 * i++), size, spacing, this));
+		this.buttons.add(new MenuButton("Options", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 		this.buttons.get(i - 1).addClickAction(new ClickAction() {
 			public void onClick(Menu m) {
 			}
 		});
-		this.buttons.add(new MenuButton("Exit", this.xMax / 2, 300 + (50 * i++), size, spacing, this));
+		this.buttons.add(new MenuButton("Exit", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 		this.buttons.get(i - 1).addClickAction(new ClickAction() {
 			public void onClick(Menu m) {
 				Registry.getMainClass().stop();

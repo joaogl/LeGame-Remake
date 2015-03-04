@@ -36,7 +36,7 @@ public class Loading extends Menu {
 	 */
 	public Shader shader = new Shader(GeneralSettings.menuFragPath, GeneralSettings.defaultVertexPath);
 
-	public int maxClouds = 10;
+	public int maxClouds = Registry.getScreenWidth() * 10 / 800;
 	public MenuCloud[] clouds = new MenuCloud[maxClouds];
 	public float rot = 0, rotOffset = 0;
 
