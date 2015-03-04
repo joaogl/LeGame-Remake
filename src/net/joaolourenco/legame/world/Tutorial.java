@@ -183,10 +183,12 @@ public class Tutorial extends World {
 	public void stopLoading() {
 		this.loading.remove();
 
-		AnimatedText a = new AnimatedText("This game has a simple objective.", Registry.getScreenWidth() / 2, 100, 25, 100, 200, -1);
-		new AnimatedText("Get to the end of each level. ALIVE!", Registry.getScreenWidth() / 2, 150, 25, 100, 200, -5, a);
+		int yPos = (Registry.getScreenHeight() / 4);
 
-		this.text.add(new TutorialText("End Mark", Registry.getScreenWidth() / 2, 400, 25));
+		AnimatedText a = new AnimatedText("This game has a simple objective.", Registry.getScreenWidth() / 2, yPos, 25, 100, 200, -1);
+		new AnimatedText("Get to the end of each level. ALIVE!", Registry.getScreenWidth() / 2, yPos + 50, 25, 100, 200, -5, a);
+
+		this.text.add(new TutorialText("End Mark", Registry.getScreenWidth() / 2, (Registry.getScreenHeight() / 8) * 5, 25));
 		this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
 
 		new Timer("Tutorial-Step-1", 10000, 1, new TimerResult(this) {
