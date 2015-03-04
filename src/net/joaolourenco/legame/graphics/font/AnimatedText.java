@@ -17,7 +17,6 @@
 package net.joaolourenco.legame.graphics.font;
 
 import net.joaolourenco.legame.*;
-import net.joaolourenco.legame.settings.GeneralSettings;
 
 /**
  * Class that processes Animated Text.
@@ -55,6 +54,10 @@ public class AnimatedText {
 	 * Time per letter.
 	 */
 	private int timeperletter = 200;
+	/**
+	 * The spacing between each letter.
+	 */
+	private int spacing;
 
 	/**
 	 * Constructor for AnimatedText.
@@ -73,12 +76,42 @@ public class AnimatedText {
 		this.font = Registry.getFont();
 		this.text = "";
 		this.finalText = text;
-		this.x = x;
 		this.y = y;
 		this.size = size;
 		this.last = System.currentTimeMillis();
 		this.time = 200;
 		this.timeperletter = 300;
+		this.spacing = 5;
+		this.x = x - (this.font.getStringSize(this.finalText, this.size, this.spacing) / 2);
+		Registry.registerAnimatedText(this);
+	}
+
+	/**
+	 * Constructor for AnimatedText.
+	 * 
+	 * @param text
+	 *            : Text to be rendered after the animation is over.
+	 * @param x
+	 *            : x Location of the text.
+	 * @param y
+	 *            : y Location of the text.
+	 * @param size
+	 *            : Font size.
+	 * @param spacing
+	 *            : The spacing between each letter.
+	 * @author Joao Lourenco
+	 */
+	public AnimatedText(String text, int x, int y, int size, int spacing) {
+		this.font = Registry.getFont();
+		this.text = "";
+		this.finalText = text;
+		this.y = y;
+		this.size = size;
+		this.last = System.currentTimeMillis();
+		this.time = 200;
+		this.timeperletter = 300;
+		this.spacing = spacing;
+		this.x = x - (this.font.getStringSize(this.finalText, this.size, this.spacing) / 2);
 		Registry.registerAnimatedText(this);
 	}
 
@@ -103,12 +136,116 @@ public class AnimatedText {
 		this.font = Registry.getFont();
 		this.text = "";
 		this.finalText = text;
-		this.x = x;
 		this.y = y;
 		this.size = size;
 		this.last = System.currentTimeMillis();
 		this.time = time;
 		this.timeperletter = tp;
+		this.spacing = 5;
+		this.x = x - (this.font.getStringSize(this.finalText, this.size, this.spacing) / 2);
+		Registry.registerAnimatedText(this);
+	}
+
+	/**
+	 * Constructor for AnimatedText.
+	 * 
+	 * @param text
+	 *            : Text to be rendered after the animation is over.
+	 * @param x
+	 *            : x Location of the text.
+	 * @param y
+	 *            : y Location of the text.
+	 * @param size
+	 *            : Font size.
+	 * @param time
+	 *            : Time between each letter.
+	 * @param tp
+	 *            : Time per letter.
+	 * @param spacing
+	 *            : The spacing between each letter.
+	 * @author Joao Lourenco
+	 */
+	public AnimatedText(String text, int x, int y, int size, int time, int tp, int spacing) {
+		this.font = Registry.getFont();
+		this.text = "";
+		this.finalText = text;
+		this.y = y;
+		this.size = size;
+		this.last = System.currentTimeMillis();
+		this.time = time;
+		this.timeperletter = tp;
+		this.spacing = spacing;
+		this.x = x - (this.font.getStringSize(this.finalText, this.size, this.spacing) / 2);
+		Registry.registerAnimatedText(this);
+	}
+
+	/**
+	 * Constructor for AnimatedText.
+	 * 
+	 * @param text
+	 *            : Text to be rendered after the animation is over.
+	 * @param x
+	 *            : x Location of the text.
+	 * @param y
+	 *            : y Location of the text.
+	 * @param size
+	 *            : Font size.
+	 * @param time
+	 *            : Time between each letter.
+	 * @param tp
+	 *            : Time per letter.
+	 * @param spacing
+	 *            : The spacing between each letter.
+	 * @param off
+	 *            : The timing offset desired for the text animation.
+	 * @author Joao Lourenco
+	 */
+	public AnimatedText(String text, int x, int y, int size, int time, int tp, int spacing, int off) {
+		this.font = Registry.getFont();
+		this.text = "";
+		this.finalText = text;
+		this.y = y;
+		this.size = size;
+		this.time = time;
+		this.timeperletter = tp;
+		this.spacing = spacing;
+		this.x = x - (this.font.getStringSize(this.finalText, this.size, this.spacing) / 2);
+		this.last = System.currentTimeMillis() + off;
+		Registry.registerAnimatedText(this);
+	}
+
+	/**
+	 * Constructor for AnimatedText.
+	 * 
+	 * @param text
+	 *            : Text to be rendered after the animation is over.
+	 * @param x
+	 *            : x Location of the text.
+	 * @param y
+	 *            : y Location of the text.
+	 * @param size
+	 *            : Font size.
+	 * @param time
+	 *            : Time between each letter.
+	 * @param tp
+	 *            : Time per letter.
+	 * @param spacing
+	 *            : The spacing between each letter.
+	 * @param off
+	 *            : Which AnimatedText is being rendered before the new one.
+	 * @author Joao Lourenco
+	 */
+	public AnimatedText(String text, int x, int y, int size, int time, int tp, int spacing, AnimatedText off) {
+		this.font = Registry.getFont();
+		this.text = "";
+		this.finalText = text;
+		this.y = y;
+		this.size = size;
+		this.time = time;
+		this.timeperletter = tp;
+		this.spacing = spacing;
+		this.x = x - (this.font.getStringSize(this.finalText, this.size, this.spacing) / 2);
+		this.last = System.currentTimeMillis() + off.getRenderTiming();
 		Registry.registerAnimatedText(this);
 	}
 
@@ -118,7 +255,7 @@ public class AnimatedText {
 	 * @author Joao Lourenco
 	 */
 	public void render() {
-		font.drawString(this.text, this.x, this.y, this.size, 5);
+		font.drawString(this.text, this.x, this.y, this.size, this.spacing);
 	}
 
 	/**
@@ -157,6 +294,10 @@ public class AnimatedText {
 	 */
 	public boolean isRemoved() {
 		return this.remove;
+	}
+
+	public int getRenderTiming() {
+		return this.finalText.length() * this.time;
 	}
 
 }
