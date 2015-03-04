@@ -16,11 +16,12 @@
 
 package net.joaolourenco.legame.graphics.menu;
 
+import java.util.*;
+
 import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.menu.objects.*;
 import net.joaolourenco.legame.settings.*;
-import net.joaolourenco.legame.world.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -28,7 +29,7 @@ import static org.lwjgl.opengl.GL11.*;
  * @author Joao Lourenco
  * 
  */
-public class MainMenu extends Menu {
+public class Loading extends Menu {
 
 	/**
 	 * Shader ID for the font.
@@ -37,6 +38,7 @@ public class MainMenu extends Menu {
 
 	public int maxClouds = 10;
 	public MenuCloud[] clouds = new MenuCloud[maxClouds];
+	public float rot = 0, rotOffset = 0;
 
 	/**
 	 * @param texture
@@ -46,48 +48,16 @@ public class MainMenu extends Menu {
 	 * @param height
 	 * @author Joao Lourenco
 	 */
-	public MainMenu() {
+	public Loading() {
 		super(Texture.Menus[0], 0, 0, Registry.getScreenWidth(), Registry.getScreenHeight());
 
 		for (int i = 0; i < clouds.length; i++) {
-			MenuCloud nc = new MenuCloud(shader);
+			MenuCloud nc = new MenuCloud(this.shader);
 			nc.setX((Float) nc.generateRandom(0, Registry.getScreenWidth(), 1));
 			nc.setY((Float) nc.generateRandom(0, 100, 1));
 			clouds[i] = nc;
 		}
 
-		int i = 0;
-		int size = 30;
-		int spacing = -5;
-
-		this.buttons.add(new MenuButton("New Game", this.xMax / 2, 300 + (50 * i++), size, spacing, this));
-		this.buttons.get(i - 1).addClickAction(new ClickAction() {
-			public void onClick(Menu m) {
-			}
-		});
-		this.buttons.add(new MenuButton("Tutorial", this.xMax / 2, 300 + (50 * i++), size, spacing, this));
-		this.buttons.get(i - 1).addClickAction(new ClickAction() {
-			public void onClick(Menu m) {
-				Registry.getMainClass().setWorld(new Tutorial());
-				m.close();
-			}
-		});
-		this.buttons.add(new MenuButton("Load", this.xMax / 2, 300 + (50 * i++), size, spacing, this));
-		this.buttons.get(i - 1).addClickAction(new ClickAction() {
-			public void onClick(Menu m) {
-			}
-		});
-		this.buttons.add(new MenuButton("Options", this.xMax / 2, 300 + (50 * i++), size, spacing, this));
-		this.buttons.get(i - 1).addClickAction(new ClickAction() {
-			public void onClick(Menu m) {
-			}
-		});
-		this.buttons.add(new MenuButton("Exit", this.xMax / 2, 300 + (50 * i++), size, spacing, this));
-		this.buttons.get(i - 1).addClickAction(new ClickAction() {
-			public void onClick(Menu m) {
-				Registry.getMainClass().stop();
-			}
-		});
 	}
 
 	/**
@@ -104,12 +74,16 @@ public class MainMenu extends Menu {
 
 		// Render it.
 		render(this.x, this.y, Texture.Menus[0], this.shader, this.width, this.height);
+		render((xMax ) / 2, (yMax / 2) + 150, Texture.loading, this.shader, 90, 90, rot);
 
 		for (MenuCloud c : clouds)
 			if (c != null) c.render();
 
 		for (MenuButton b : this.buttons)
 			if (b != null) b.render();
+
+		this.font.drawString("Your PC ain't good enough", (xMax - this.font.getStringSize("Your Pc ain't good enough", 18, -5)) / 2, yMax / 2, 18, -5);
+		this.font.drawString("Just wait for the load to finish", (xMax - this.font.getStringSize("Just wait for the load to finish", 18, -5)) / 2, (yMax / 2) + 50, 18, -5);
 
 		// Releasing the shader
 		this.shader.release();
@@ -131,6 +105,8 @@ public class MainMenu extends Menu {
 
 		for (MenuButton b : this.buttons)
 			if (b != null) b.update();
+
+		rot += rotOffset;
 	}
 
 	/**
@@ -140,6 +116,43 @@ public class MainMenu extends Menu {
 	public void tick() {
 		for (MenuCloud c : clouds)
 			if (c != null) c.tick();
+		rotOffset = (Float) generateRandom(0.5f, 1, 1);
+	}
+
+	/**
+	 * Method to generate a random value.
+	 * 
+	 * @param min
+	 *            : from
+	 * @param max
+	 *            : to
+	 * @param type
+	 *            : 0 for Integers, 1 for Floats
+	 * @return Object, if type is 0 will return integer, if its 1 will return float.
+	 * @author Joao Lourenco
+	 */
+	public Object generateRandom(float min, float max, int type) {
+		// This method accepts two types of returns, 0 for Ints and 1 for Floats.
+		if (type == 0) {
+			// Generate an int random.
+			Random rand = new Random();
+			int out = rand.nextInt((int) max);
+			// if its out of the bounds, keep trying.
+			while (out > max || out < min)
+				out = rand.nextInt((int) max);
+			// return the random value.
+			return out;
+		} else if (type == 1) {
+			// Generate an float random.
+			Random rand = new Random();
+			double out = min + (max - min) * rand.nextDouble();
+			// if its out of the bounds, keep trying.
+			while (out > max || out < min)
+				out = min + (max - min) * rand.nextDouble();
+			// return the random value.
+			return (float) out;
+		}
+		return 0f;
 	}
 
 }

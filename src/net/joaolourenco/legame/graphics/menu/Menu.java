@@ -20,6 +20,8 @@ import java.util.*;
 
 import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.graphics.font.*;
+import net.joaolourenco.legame.graphics.menu.objects.*;
 
 /**
  * @author Joao Lourenco
@@ -29,9 +31,11 @@ public abstract class Menu extends RenderableComponent {
 
 	protected int texture;
 	protected int x, y;
+	protected int xMax, yMax;
 	protected int width, height;
-	protected List<String> buttons = new ArrayList<String>();
-	protected boolean hasFocus = false, renderMe = false;
+	protected List<MenuButton> buttons = new ArrayList<MenuButton>();
+	protected boolean hasFocus = false, renderMe = false, toRemove = false;
+	protected Font font;
 
 	/**
 	 * @param texture
@@ -45,8 +49,11 @@ public abstract class Menu extends RenderableComponent {
 		this.texture = texture;
 		this.x = x;
 		this.y = y;
+		this.xMax = Registry.getScreenWidth();
+		this.yMax = Registry.getScreenHeight();
 		this.width = width;
 		this.height = height;
+		this.font = Registry.getFont();
 	}
 
 	public abstract void render();
@@ -64,7 +71,16 @@ public abstract class Menu extends RenderableComponent {
 	public void close() {
 		this.hasFocus = false;
 		this.renderMe = false;
+		this.toRemove = true;
 		Registry.focusGame();
+	}
+
+	public boolean toRemove() {
+		return this.toRemove;
+	}
+
+	public void remove() {
+		this.toRemove = true;
 	}
 
 }
