@@ -23,6 +23,7 @@ import net.joaolourenco.legame.entity.*;
 import net.joaolourenco.legame.entity.block.*;
 import net.joaolourenco.legame.entity.light.*;
 import net.joaolourenco.legame.entity.mob.*;
+import net.joaolourenco.legame.graphics.menu.*;
 import net.joaolourenco.legame.settings.*;
 import net.joaolourenco.legame.world.tile.*;
 
@@ -57,6 +58,10 @@ public abstract class World {
 	 */
 	protected boolean goingUp = false;
 
+	protected Player player;
+
+	protected Menu loading;
+
 	/**
 	 * World constructor to generate a new world.
 	 * 
@@ -67,6 +72,9 @@ public abstract class World {
 	 * @author Joao Lourenco
 	 */
 	public World(int width, int height) {
+		loading = new Loading();
+		Registry.registerMenu(loading);
+
 		// Setting up the variables
 		this.width = width;
 		this.height = height;
@@ -74,6 +82,9 @@ public abstract class World {
 		this.yOffset = 0;
 		this.height = height;
 		this.worldTiles = new Tile[this.width * this.height];
+
+		this.player = Registry.getPlayer();
+		this.addEntity(this.player);
 
 		generateLevel();
 
@@ -115,7 +126,9 @@ public abstract class World {
 	 * 
 	 * @author Joao Lourenco
 	 */
-	public abstract void generateLevel();
+	public void generateLevel() {
+		loading.remove();
+	}
 
 	/**
 	 * Method to get the world Height
@@ -156,7 +169,7 @@ public abstract class World {
 		// Going througth all the entities
 		for (Entity e : this.entities) {
 			// Checking if they are close to the player.
-			if (e != null && getDistance(e, Main.player) < 800) {
+			if (e != null && getDistance(e, this.player) < 800) {
 				if (e instanceof Light) {
 					// If its a Light render it and its shadows.
 					((Light) e).renderShadows(entities, worldTiles);
@@ -175,14 +188,16 @@ public abstract class World {
 	 * @author Joao Lourenco
 	 */
 	public void update() {
+		loading.update();
+
 		// Updating all the entities.
 		for (Entity e : this.entities) {
-			if (e != null && getDistance(Main.player, e) <= Registry.getScreenWidth()) e.update();
+			if (e != null && getDistance(this.player, e) <= Registry.getScreenWidth()) e.update();
 		}
 
 		// Updating all the world tiles.
 		for (Tile t : this.worldTiles)
-			if (t != null && getDistance(Main.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) t.update();
+			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) t.update();
 
 		// Keep increasing and decreasing the Day Light value.
 		if (this.DAY_LIGHT <= 0.1f) this.goingUp = true;

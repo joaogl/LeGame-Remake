@@ -16,6 +16,10 @@
 
 package net.joaolourenco.legame.world;
 
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.world.tile.*;
+
 /**
  * @author Joao Lourenco
  * 
@@ -27,8 +31,8 @@ public class Tutorial extends World {
 	 * @param height
 	 * @author Joao Lourenco
 	 */
-	public Tutorial(int width, int height) {
-		super(width, height);
+	public Tutorial() {
+		super(10, 10);
 	}
 
 	/**
@@ -37,10 +41,15 @@ public class Tutorial extends World {
 	 */
 	@Override
 	public void generateLevel() {
-		/**
-		
-		**/
+		for (int y = 0; y < 5; y++) {
+			for (int x = 0; x < 5; x++) {
+				SolidTile ti = new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt, true);
+				ti.isLightCollidable(false);
+				setTile(x, y, ti);
+			}
+		}
 
+		super.generateLevel();
 	}
 
 }
