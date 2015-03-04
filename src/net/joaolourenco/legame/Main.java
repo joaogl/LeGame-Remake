@@ -269,4 +269,7 @@ public class Main implements Runnable {
 		this.world = w;
 	}
 
+	public boolean isRunning() {
+		return this.running;
+	}
 }
