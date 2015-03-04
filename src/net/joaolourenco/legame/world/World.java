@@ -25,6 +25,8 @@ import net.joaolourenco.legame.entity.light.*;
 import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.menu.*;
 import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.utils.Timer;
 import net.joaolourenco.legame.world.tile.*;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -74,7 +76,6 @@ public abstract class World {
 	 * @author Joao Lourenco
 	 */
 	public World(int width, int height) {
-		preLoad();
 		loading = new Loading();
 		Registry.registerMenu(loading);
 
@@ -124,8 +125,6 @@ public abstract class World {
 		 * DoorKey key = new DoorKey(1, door.getKey()); Main.player.giveItem(key);
 		 */
 	}
-
-	public abstract void preLoad();
 
 	/**
 	 * 

@@ -18,8 +18,6 @@ package net.joaolourenco.legame.world;
 
 import java.util.*;
 
-import org.lwjgl.input.*;
-
 import static org.lwjgl.opengl.GL11.*;
 
 import net.joaolourenco.legame.*;
@@ -40,7 +38,6 @@ public class Tutorial extends World {
 
 	boolean firstUpdate = false, needUpdates = false;
 	List<TutorialText> text = new ArrayList<TutorialText>();
-	int step = 0;
 
 	/**
 	 * @param width
@@ -49,9 +46,6 @@ public class Tutorial extends World {
 	 */
 	public Tutorial() {
 		super(100, 100);
-	}
-
-	public void preLoad() {
 
 		Registry.getPlayer().setRenderable(false);
 
@@ -63,8 +57,6 @@ public class Tutorial extends World {
 				obj.timerOver = true;
 			}
 		});
-
-		Texture.load();
 	}
 
 	/**
@@ -73,21 +65,13 @@ public class Tutorial extends World {
 	 */
 	@Override
 	public void generateLevel() {
-		SolidTile t = new SolidTile(GeneralSettings.TILE_SIZE, Texture.FinishPod[0], true);
-		t.setSecondTexture(Texture.Dirt);
-		setTile(0, 0, t);
-
-		t = new SolidTile(GeneralSettings.TILE_SIZE, Texture.FinishPod[1], true);
-		t.setSecondTexture(Texture.Dirt);
-		setTile(1, 0, t);
-
-		t = new SolidTile(GeneralSettings.TILE_SIZE, Texture.FinishPod[2], true);
-		t.setSecondTexture(Texture.Dirt);
-		setTile(0, 1, t);
-
-		t = new SolidTile(GeneralSettings.TILE_SIZE, Texture.FinishPod[3], true);
-		t.setSecondTexture(Texture.Dirt);
-		setTile(1, 1, t);
+		for (int y = 0; y < 2; y++) {
+			for (int x = 0; x < 2; x++) {
+				SolidTile ti = new SolidTile(GeneralSettings.TILE_SIZE, Texture.Dirt, true);
+				ti.isLightCollidable(false);
+				setTile(x, y, ti);
+			}
+		}
 
 		if (timerOver) super.generateLevel();
 		finished = true;
@@ -134,12 +118,8 @@ public class Tutorial extends World {
 		// Moving the Render back to the default position.
 		glTranslatef(this.xOffset, this.yOffset, 0f);
 
-		try {
-			for (TutorialText t : text)
-				t.render();
-		} catch (ConcurrentModificationException e) {
-		} catch (NoSuchElementException e) {
-		}
+		for (TutorialText t : text)
+			t.render();
 	}
 
 	/**
@@ -158,12 +138,6 @@ public class Tutorial extends World {
 		// Updating all the world tiles.
 		for (Tile t : this.worldTiles)
 			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) t.update();
-
-		if (step == 0 && Keyboard.isKeyDown(Keyboard.KEY_RETURN)) {
-			text.clear();
-			step++;
-			Registry.clearAnimatedTexts();
-		}
 	}
 
 	/**
@@ -185,7 +159,7 @@ public class Tutorial extends World {
 		this.loading.remove();
 
 		AnimatedText a = new AnimatedText("This game has a simple objective.", Registry.getScreenWidth() / 2, 100, 25, 100, 200, -1);
-		new AnimatedText("Get to the end of each level. ALIVE!", Registry.getScreenWidth() / 2, 150, 25, 100, 200, -5, a);
+		new AnimatedText("Get to the end of each level.", Registry.getScreenWidth() / 2, 150, 25, 100, 200, -5, a);
 
 		this.text.add(new TutorialText("End Mark", Registry.getScreenWidth() / 2, 400, 25));
 		this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
@@ -193,12 +167,9 @@ public class Tutorial extends World {
 		new Timer("Tutorial-Step-1", 10000, 1, new TimerResult(this) {
 			public void timerCall() {
 				Tutorial obj = (Tutorial) this.object;
-
-				if (obj.step == 0) {
-					obj.text.clear();
-					step++;
-					Registry.clearAnimatedTexts();
-				}
+				
+				obj.text.clear();
+				Registry.clearAnimatedTexts();
 			}
 		});
 	}

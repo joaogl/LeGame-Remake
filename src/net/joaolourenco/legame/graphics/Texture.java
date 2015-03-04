@@ -17,6 +17,7 @@
 package net.joaolourenco.legame.graphics;
 
 import java.awt.image.*;
+import java.io.*;
 import java.nio.*;
 
 import javax.imageio.*;
@@ -42,7 +43,6 @@ public class Texture {
 	public static int Mob = 0;
 	public static int Player = 0;
 	public static int loading = 0;
-	public static int[] FinishPod = new int[4];
 	public static int[] Fire = new int[5];
 	public static int[] Menus = new int[5];
 	public static int[] Clouds = new int[8];
@@ -64,7 +64,6 @@ public class Texture {
 	 * @author Joao Lourenco
 	 */
 	public static void load() {
-		FinishPod = loadAtlas("/textures/FinishPod.png", 2, 2);
 		Grass = loadTexture("/textures/grass.png", false);
 		Dirt = loadTexture("/textures/dirt.png", false);
 		Mob = loadTexture("/textures/mob.png", false);
@@ -100,7 +99,7 @@ public class Texture {
 			pixels = new int[width * height];
 			// Moving the RGB data to the pixels array
 			image.getRGB(0, 0, width, height, pixels, 0, width);
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
@@ -164,7 +163,7 @@ public class Texture {
 			sheet = new int[width * height];
 			// Moving the RGB data to the sheet array
 			image.getRGB(0, 0, width, height, sheet, 0, width);
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 

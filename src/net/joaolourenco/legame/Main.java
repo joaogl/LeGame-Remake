@@ -51,6 +51,10 @@ public class Main implements Runnable {
 	 * This is the instance for the world.
 	 */
 	public World world;
+	/**
+	 * Variable to keep track if the game has loaded or not.
+	 */
+	public boolean gameIsReady = false;
 
 	/**
 	 * Main method that runs the game.
@@ -198,6 +202,10 @@ public class Main implements Runnable {
 				updates = 0;
 				frames = 0;
 			}
+			if (!gameIsReady) {
+				gameIsReady = true;
+				Texture.load();
+			}
 			if (Display.isCloseRequested()) running = false;
 		}
 		// If the game is closed, cleanup!
@@ -218,13 +226,13 @@ public class Main implements Runnable {
 		// Render the Menus
 		for (Menu m : Registry.getMenus())
 			m.render();
-
+		
 		// Render the AnimatedText
 		try {
-			for (AnimatedText at : Registry.getAnimatedTexts())
-				at.render();
+			List<AnimatedText> t = Registry.getAnimatedTexts();
+			for (int i = 0; i < t.size(); i++)
+				if (t.get(i) != null) t.get(i).render();
 		} catch (ConcurrentModificationException e) {
-		} catch (NoSuchElementException e) {
 		}
 	}
 

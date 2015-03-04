@@ -46,17 +46,13 @@ public abstract class Tile extends RenderableComponent {
 	 */
 	protected int width, height, x = 9999999, y = 9999999;
 	/**
-	 * Texture ID for the main and second tile texture.
+	 * Texture ID for the tile.
 	 */
-	protected int tex, stex;
+	protected int tex;
 	/**
 	 * Shader ID for the tiles.
 	 */
 	public Shader shade = new Shader(GeneralSettings.blockFragPath, GeneralSettings.defaultVertexPath);
-	/**
-	 * Is this tile double? (Uses two textures)
-	 */
-	protected boolean doubleTile = false;
 
 	/**
 	 * Constructor for tiles with a different with and height.
@@ -150,7 +146,6 @@ public abstract class Tile extends RenderableComponent {
 
 		// Rendering the Quad.
 		render(x, y, tex, shade);
-		if (this.doubleTile) render(x, y, stex, shade);
 
 		// Disabling BLEND and releasing shader for next render.
 		glDisable(GL_BLEND);
@@ -249,12 +244,6 @@ public abstract class Tile extends RenderableComponent {
 	 */
 	public int getY() {
 		return this.y;
-	}
-
-	public void setSecondTexture(int stexture) {
-		this.doubleTile = true;
-		this.stex = tex;
-		this.tex = stexture;
 	}
 
 }
