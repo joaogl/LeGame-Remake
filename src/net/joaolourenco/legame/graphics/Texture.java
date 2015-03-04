@@ -42,6 +42,7 @@ public class Texture {
 	public static int Dirt = 0;
 	public static int Mob = 0;
 	public static int Player = 0;
+	public static int loading = 0;
 	public static int[] Fire = new int[5];
 	public static int[] Menus = new int[5];
 	public static int[] Clouds = new int[8];
@@ -53,7 +54,8 @@ public class Texture {
 	 */
 	public static void preload() {
 		Menus[0] = loadTexture("/textures/menus/sky.png", false);
-		Clouds = loadAtlas("/textures/menus/clouds.png", 4, 4, 128);
+		Clouds = loadAtlas("/textures/menus/clouds2.png", 4, 4);
+		loading = loadAtlas("/textures/menus/loading.png", 1, 1)[0];
 	}
 
 	/**
@@ -145,7 +147,7 @@ public class Texture {
 	 * @return int[], all the font letters ID's.
 	 * @author Joao Lourenco
 	 */
-	public static int[] loadAtlas(String path, int hLength, int vLength, int size) {
+	public static int[] loadAtlas(String path, int hLength, int vLength) {
 		// Setting up some variables
 		int width = 0;
 		int height = 0;
@@ -164,6 +166,9 @@ public class Texture {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		int size = width / hLength;
+
 		// Going through each line.
 		for (int y0 = 0; y0 < vLength; y0++) {
 			// Going through each column.
