@@ -16,6 +16,8 @@
 
 package net.joaolourenco.legame.utils;
 
+import net.joaolourenco.legame.*;
+
 /**
  * @author Joao Lourenco
  * 
@@ -71,18 +73,20 @@ public class Timer implements Runnable {
 
 	public void run() {
 		this.lastTimer = System.currentTimeMillis();
+		Main main = Registry.getMainClass();
 		while (this.running) {
 			if (System.currentTimeMillis() - this.lastTimer > this.spacing) {
 				this.lastTimer += this.spacing;
 				call();
 			}
+			if (!main.isRunning()) this.running = false;
 		}
 	}
 
 	public void call() {
 		if (this.finit) {
 			this.left--;
-			this.result.timerCall();
+			this.result.timerCall(this.name);
 			if (this.left <= 0) this.running = false;
 		}
 	}
