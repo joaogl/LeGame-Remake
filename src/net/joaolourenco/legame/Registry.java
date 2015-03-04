@@ -155,6 +155,11 @@ public class Registry {
 		menus.remove(m);
 	}
 
+	public static void clearAnimatedTexts() {
+		// Clear the array.
+		animatedText.clear();
+	}
+
 	public static void cleanRegistries() {
 		// Cleaning all the Shaders.
 		for (Shader shader : shaders)

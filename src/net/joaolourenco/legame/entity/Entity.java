@@ -68,6 +68,10 @@ public abstract class Entity extends RenderableComponent {
 	 * Array o store all the Items in the entityies inventory.
 	 */
 	public List<Item> inventory = new ArrayList<Item>();
+	/**
+	 * This tells the game if this entity is going to be rendered or not.
+	 */
+	public boolean renderable = true;
 
 	/**
 	 * Constructor for the Entities.
@@ -109,26 +113,28 @@ public abstract class Entity extends RenderableComponent {
 	 * @author Joao Lourenco
 	 */
 	public void render() {
-		// Setting up OpenGL for render
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
+		if (this.renderable) {
+			// Setting up OpenGL for render
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
 
-		// Binding the shader
-		this.shade.bind();
+			// Binding the shader
+			this.shade.bind();
 
-		// Calculating the required light.
-		float day_light = 1f;
-		if (lightAffected) day_light = world.DAY_LIGHT;
-		// Sending the required light to the shader.
-		glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), day_light * 2);
+			// Calculating the required light.
+			float day_light = 1f;
+			if (lightAffected) day_light = world.DAY_LIGHT;
+			// Sending the required light to the shader.
+			glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), day_light * 2);
 
-		// Rendering the Quad.
-		render(x, y, texture, shade, width, height);
+			// Rendering the Quad.
+			render(x, y, texture, shade, width, height);
 
-		// Disabling BLEND and releasing shader for next render.
-		glDisable(GL_BLEND);
-		shade.release();
-		glClear(GL_STENCIL_BUFFER_BIT);
+			// Disabling BLEND and releasing shader for next render.
+			glDisable(GL_BLEND);
+			shade.release();
+			glClear(GL_STENCIL_BUFFER_BIT);
+		}
 	}
 
 	/**
@@ -286,5 +292,13 @@ public abstract class Entity extends RenderableComponent {
 
 	public void giveItem(Item i) {
 		this.inventory.add(i);
+	}
+
+	public boolean isRenderable() {
+		return renderable;
+	}
+
+	public void setRenderable(boolean r) {
+		this.renderable = r;
 	}
 }

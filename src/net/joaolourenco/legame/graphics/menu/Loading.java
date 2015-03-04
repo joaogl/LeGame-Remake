@@ -57,7 +57,6 @@ public class Loading extends Menu {
 			nc.setY((Float) nc.generateRandom(0, 100, 1));
 			clouds[i] = nc;
 		}
-
 	}
 
 	/**

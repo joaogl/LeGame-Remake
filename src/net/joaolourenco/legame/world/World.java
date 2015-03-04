@@ -25,6 +25,8 @@ import net.joaolourenco.legame.entity.light.*;
 import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.menu.*;
 import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.utils.Timer;
 import net.joaolourenco.legame.world.tile.*;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -52,11 +54,13 @@ public abstract class World {
 	/**
 	 * Map with, height and the offset's for the map moving.
 	 */
-	private int width, height, xOffset, yOffset;
+	protected int width, height, xOffset, yOffset;
 	/**
 	 * Variable to keep track of the day rizing.
 	 */
 	protected boolean goingUp = false;
+
+	protected boolean finished = false, timerOver = false;
 
 	protected Player player;
 
@@ -127,7 +131,7 @@ public abstract class World {
 	 * @author Joao Lourenco
 	 */
 	public void generateLevel() {
-		loading.remove();
+		this.stopLoading();
 	}
 
 	/**
@@ -188,8 +192,6 @@ public abstract class World {
 	 * @author Joao Lourenco
 	 */
 	public void update() {
-		loading.update();
-
 		// Updating all the entities.
 		for (Entity e : this.entities) {
 			if (e != null && getDistance(this.player, e) <= Registry.getScreenWidth()) e.update();
@@ -403,6 +405,10 @@ public abstract class World {
 	public Tile getTile(int x, int y) {
 		if (x < 0 || x >= width || y < 0 || y >= height) return null;
 		return this.worldTiles[x + y * this.width];
+	}
+
+	public void stopLoading() {
+		this.loading.remove();
 	}
 
 }
