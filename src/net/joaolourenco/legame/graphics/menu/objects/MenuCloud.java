@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package net.joaolourenco.legame.graphics.menu;
+package net.joaolourenco.legame.graphics.menu.objects;
 
 import java.util.*;
 
 import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.graphics.*;
-
-import static org.lwjgl.opengl.GL11.*;
 
 /**
  * @author Joao Lourenco
@@ -43,19 +41,19 @@ public class MenuCloud extends RenderableComponent {
 	public MenuCloud(Shader shade) {
 		this.shade = shade;
 
-		width = 128; // (Integer) generateRandom(150, 200, 0);
+		width = (Integer) generateRandom(200, 400, 0);
 		xMax = Registry.getScreenWidth();
-		xOffset = (Float) generateRandom(0.255f, 0.455f, 1);
+		xOffset = (Float) generateRandom(0.001f, 0.455f, 1);
 		if ((Integer) generateRandom(0, 100, 0) > 50) {
 			xOffset = -xOffset;
 			x = xMax;
 		} else x = -width;
 
-		height = 128; // (Integer) generateRandom(100, 150, 0);
+		height = (Integer) generateRandom(200, 400, 0);
 		yMax = Registry.getScreenHeight();
 		y = (Integer) generateRandom(0, 200, 0);
 
-		this.texture = Texture.Clouds[(Integer) generateRandom(0, Texture.Clouds.length, 0)];
+		this.texture = Texture.Clouds[(Integer) generateRandom(0, 11, 0)];
 	}
 
 	public void setX(float x) {
@@ -67,20 +65,7 @@ public class MenuCloud extends RenderableComponent {
 	}
 
 	public void render() {
-		// Setting up OpenGL for render
-		glEnable(GL_BLEND);
-		// Enabling Alpha chanel
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		// Binding the shader
-		this.shade.bind();
-
-		// Render it.
 		render(this.x, this.y, this.texture, this.shade, this.width, this.height);
-
-		// Releasing the shader
-		this.shade.release();
-		// Disabling the Blend
-		glDisable(GL_BLEND);
 	}
 
 	public void update() {
