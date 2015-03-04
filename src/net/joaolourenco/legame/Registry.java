@@ -18,6 +18,7 @@ package net.joaolourenco.legame;
 
 import java.util.*;
 
+import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.graphics.menu.*;
@@ -29,18 +30,38 @@ import net.joaolourenco.legame.utils.*;
  */
 public class Registry {
 
-	// This is the array list that will hold all the shaders for a clean up at the end of the running process.
+	/**
+	 * This is the array list that will hold all the shaders for a clean up at the end of the running process.
+	 */
 	private static List<Shader> shaders = new ArrayList<Shader>();
-	// This is the array list that will hold all the AnimatedText to keep them updated.
+	/**
+	 * This is the array list that will hold all the AnimatedText to keep them updated.
+	 */
 	private static List<AnimatedText> animatedText = new ArrayList<AnimatedText>();
-	// This is the array list that will hold all the AnimatedText to keep them updated.
+	/**
+	 * This is the array list that will hold all the AnimatedText to keep them updated.
+	 */
 	private static List<Menu> menus = new ArrayList<Menu>();
-	// Where the screen information is saved.
+	/**
+	 * Where the screen information is saved.
+	 */
 	private static Screen screen;
-	// Font used to render fonts in the game.
+	/**
+	 * Font used to render fonts in the game.
+	 */
 	private static Font font;
-	// Is the game focused.
+	/**
+	 * Is the game focused.
+	 */
 	private static boolean focused = true;
+	/**
+	 * Main class of the game.
+	 */
+	private static Main main;
+	/**
+	 * Player Instance.
+	 */
+	private static Player player;
 
 	public static void registerShader(Shader s) {
 		shaders.add(s);
@@ -60,6 +81,14 @@ public class Registry {
 
 	public static void registerMenu(Menu m) {
 		menus.add(m);
+	}
+
+	public static void registerMainClass(Main m) {
+		main = m;
+	}
+
+	public static void registerPlayer(Player p) {
+		player = p;
 	}
 
 	public static void focusGame() {
@@ -112,6 +141,18 @@ public class Registry {
 
 	public static boolean isGameFocused() {
 		return focused;
+	}
+
+	public static Main getMainClass() {
+		return main;
+	}
+
+	public static Player getPlayer() {
+		return player;
+	}
+
+	public static void removeMenu(Menu m) {
+		menus.remove(m);
 	}
 
 	public static void cleanRegistries() {

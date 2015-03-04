@@ -50,11 +50,7 @@ public class Main implements Runnable {
 	/**
 	 * This is the instance for the world.
 	 */
-	public static World world;
-	/**
-	 * Player Instance.
-	 */
-	public static Player player;
+	public World world;
 	/**
 	 * Variable to keep track if the game has loaded or not.
 	 */
@@ -84,6 +80,15 @@ public class Main implements Runnable {
 	}
 
 	/**
+	 * Method that stops the game.
+	 * 
+	 * @author Joao Lourenco
+	 */
+	public synchronized void stop() {
+		running = false;
+	}
+
+	/**
 	 * Method that initializes the game.
 	 * 
 	 * @author Joao Lourenco
@@ -110,11 +115,12 @@ public class Main implements Runnable {
 		// Loading all the textures
 		Texture.preload();
 
+		Registry.registerMainClass(this);
 		Registry.registerMenu(new MainMenu());
 		Registry.getMenu(0).open();
 
 		// CHANGE THIS LATTER
-		// player = new Player(100, 100, 64, 64);
+		Registry.registerPlayer(new Player(0, 0, 64, 64));
 
 		// Creating the world
 		// world = new Tutorial(30, 30);
@@ -240,8 +246,13 @@ public class Main implements Runnable {
 	private void update() {
 		if (world != null) world.update();
 		// Update the Menus
-		for (Menu m : Registry.getMenus())
-			m.update();
+		List<Menu> menus = Registry.getMenus();
+		for (int i = 0; i < menus.size(); i++) {
+			if (menus.get(i) != null) {
+				if (menus.get(i).toRemove()) Registry.removeMenu(menus.get(i));
+				else menus.get(i).update();
+			}
+		}
 		// Update the AnimatedText
 		List<AnimatedText> a = Registry.getAnimatedTexts();
 		for (int i = 0; i < a.size(); i++) {
@@ -261,6 +272,10 @@ public class Main implements Runnable {
 		// Tick the Menus
 		for (Menu m : Registry.getMenus())
 			m.tick();
+	}
+
+	public void setWorld(World w) {
+		this.world = w;
 	}
 
 }
