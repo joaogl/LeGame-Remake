@@ -28,6 +28,6 @@ public abstract class TimerResult {
 		this.object = o;
 	}
 
-	public abstract void timerCall();
+	public abstract void timerCall(String caller);
 
 }
