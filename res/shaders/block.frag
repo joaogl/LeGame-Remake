@@ -18,14 +18,11 @@ uniform float lightFacing[LIGHTS_COUNT];
 void main() {		
 	vec4 color = vec4(1.0, 1.0, 1.0, 1.0);
 	vec4 tex = texture2D(texture, gl_TexCoord[0].st);
-	color = tex;
-		
-	float alpha = 1.0;
-	if (tex.x == 1.0 && tex.y == 0.0 && tex.z == 1.0) {
-		alpha = 0.0;
-	}
 	
-	vec4 result = vec4(color.xyz, alpha);
+	vec4 result = vec4(tex.xyz, tex.a);
+	if (tex.a <= 0.5f) 
+		discard;
+
 	color = result;	
 	vec4 dcolor = vec4(result * vec4(dayLight, dayLight, dayLight, dayLight));	
 	 
