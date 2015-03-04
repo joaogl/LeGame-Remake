@@ -92,6 +92,7 @@ public class Main implements Runnable {
 	private void init() {
 		// Setting up the Display
 		try {
+			// Registry.registerScreen(1400, 1000);
 			Registry.registerScreen(800, 600);
 			Display.setDisplayMode(new DisplayMode(Registry.getScreenWidth(), Registry.getScreenHeight()));
 			Display.setTitle(GeneralSettings.fullname);
