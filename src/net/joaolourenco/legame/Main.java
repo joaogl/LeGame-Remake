@@ -119,14 +119,7 @@ public class Main implements Runnable {
 		Registry.registerMenu(new MainMenu());
 		Registry.getMenu(0).open();
 
-		// CHANGE THIS LATTER
-		Registry.registerPlayer(new Player(0, 0, 64, 64));
-
-		// Creating the world
-		// world = new Tutorial(30, 30);
-
-		// Creating and adding the player to the world.
-		// world.addEntity(player);
+		Registry.registerPlayer(new Player(32, 32, 64, 64));
 
 		// Setting up all the Projections stuff for OpenGL
 		glMatrixMode(GL_PROJECTION);
@@ -233,9 +226,14 @@ public class Main implements Runnable {
 		// Render the Menus
 		for (Menu m : Registry.getMenus())
 			m.render();
+		
 		// Render the AnimatedText
-		for (AnimatedText at : Registry.getAnimatedTexts())
-			at.render();
+		try {
+			List<AnimatedText> t = Registry.getAnimatedTexts();
+			for (int i = 0; i < t.size(); i++)
+				if (t.get(i) != null) t.get(i).render();
+		} catch (ConcurrentModificationException e) {
+		}
 	}
 
 	/**
