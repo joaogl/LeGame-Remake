@@ -300,4 +300,8 @@ public class AnimatedText {
 		return this.finalText.length() * this.time;
 	}
 
+	public int getTotalTiming() {
+		return (this.finalText.length() * this.time) + (this.finalText.length() * this.timeperletter);
+	}
+
 }

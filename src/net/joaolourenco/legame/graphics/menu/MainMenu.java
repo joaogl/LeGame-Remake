@@ -59,7 +59,7 @@ public class MainMenu extends Menu {
 		int i = 0;
 		int size = 30;
 		int spacing = -5;
-		int yPos = (Registry.getScreenHeight() - 50 * 5) / 2;
+		int yPos = ((Registry.getScreenHeight() - 50 * 5) / 2) + 100;
 		
 		this.buttons.add(new MenuButton("New Game", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 		this.buttons.get(i - 1).addClickAction(new ClickAction() {

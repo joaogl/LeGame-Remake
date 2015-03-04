@@ -40,7 +40,7 @@ public class Tutorial extends World {
 
 	boolean firstUpdate = false, needUpdates = false;
 	List<TutorialText> text = new ArrayList<TutorialText>();
-	int step = 0;
+	int step = -1;
 
 	/**
 	 * @param width
@@ -55,7 +55,7 @@ public class Tutorial extends World {
 		Registry.getPlayer().setRenderable(false);
 
 		new Timer("Map Loading", 2000, 1, new TimerResult(this) {
-			public void timerCall() {
+			public void timerCall(String caller) {
 				World obj = (World) this.object;
 				if (obj.finished) obj.stopLoading();
 
@@ -72,21 +72,7 @@ public class Tutorial extends World {
 	 */
 	@Override
 	public void generateLevel() {
-		SolidTile t = new SolidTile(GeneralSettings.TILE_SIZE, Texture.FinishPod[0], true);
-		t.setSecondTexture(Texture.Dirt);
-		setTile(0, 0, t);
-
-		t = new SolidTile(GeneralSettings.TILE_SIZE, Texture.FinishPod[1], true);
-		t.setSecondTexture(Texture.Dirt);
-		setTile(1, 0, t);
-
-		t = new SolidTile(GeneralSettings.TILE_SIZE, Texture.FinishPod[2], true);
-		t.setSecondTexture(Texture.Dirt);
-		setTile(0, 1, t);
-
-		t = new SolidTile(GeneralSettings.TILE_SIZE, Texture.FinishPod[3], true);
-		t.setSecondTexture(Texture.Dirt);
-		setTile(1, 1, t);
+		new FinishPoint(this, 0, 0);
 
 		if (timerOver) super.generateLevel();
 		finished = true;
@@ -158,11 +144,7 @@ public class Tutorial extends World {
 		for (Tile t : this.worldTiles)
 			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) t.update();
 
-		if (step == 0 && Keyboard.isKeyDown(Keyboard.KEY_RETURN)) {
-			text.clear();
-			step++;
-			Registry.clearAnimatedTexts();
-		}
+		if (step >= 0 && step <= 1 && KeyboardFilter.isKeyDown(Keyboard.KEY_RETURN)) changeStep();
 	}
 
 	/**
@@ -182,25 +164,45 @@ public class Tutorial extends World {
 
 	public void stopLoading() {
 		this.loading.remove();
+		changeStep();
+	}
 
-		int yPos = (Registry.getScreenHeight() / 4);
+	public void changeStep() {
+		text.clear();
+		step++;
+		Registry.clearAnimatedTexts();
 
-		AnimatedText a = new AnimatedText("This game has a simple objective.", Registry.getScreenWidth() / 2, yPos, 25, 100, 200, -1);
-		new AnimatedText("Get to the end of each level. ALIVE!", Registry.getScreenWidth() / 2, yPos + 50, 25, 100, 200, -5, a);
+		if (step == 0) {
+			int yPos = (Registry.getScreenHeight() / 4);
 
-		this.text.add(new TutorialText("End Mark", Registry.getScreenWidth() / 2, (Registry.getScreenHeight() / 8) * 5, 25));
-		this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
+			AnimatedText a = new AnimatedText("This game has a simple objective.", Registry.getScreenWidth() / 2, yPos, 25, 100, 200, -1);
+			new AnimatedText("Get to the end of each level. ALIVE!", Registry.getScreenWidth() / 2, yPos + 50, 25, 100, 200, -5, a);
 
-		new Timer("Tutorial-Step-1", 10000, 1, new TimerResult(this) {
-			public void timerCall() {
-				Tutorial obj = (Tutorial) this.object;
-				if (obj.step == 0) {
-					obj.text.clear();
-					step++;
-					Registry.clearAnimatedTexts();
+			this.text.add(new TutorialText("End Mark", Registry.getScreenWidth() / 2, (Registry.getScreenHeight() / 8) * 5, 25));
+			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
+
+			new Timer("Tutorial-Step-" + step, 10000, 1, new TimerResult(this) {
+				public void timerCall(String caller) {
+					Tutorial obj = (Tutorial) this.object;
+					if (obj.step == 0) obj.changeStep();
 				}
-			}
-		});
+			});
+		} else if (step == 1) {
+
+			int yPos = (Registry.getScreenHeight() / 4);
+
+			AnimatedText a = new AnimatedText("You can move using the WASD", Registry.getScreenWidth() / 2, yPos, 25, 100, 200, -1);
+			new AnimatedText("keys or the arrow keys.", Registry.getScreenWidth() / 2, yPos + 50, 25, 100, 200, -1, a);
+
+			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
+
+			new Timer("Tutorial-Step-" + step, a.getTotalTiming(), 1, new TimerResult(this) {
+				public void timerCall(String caller) {
+					Tutorial obj = (Tutorial) this.object;
+					if (obj.step == 1) obj.changeStep();
+				}
+			});
+		}
 	}
 
 }
