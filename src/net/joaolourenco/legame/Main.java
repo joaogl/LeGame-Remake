@@ -200,6 +200,7 @@ public class Main implements Runnable {
 				frames = 0;
 			}
 			if (Display.isCloseRequested()) running = false;
+			Display.sync(120);
 		}
 		// If the game is closed, cleanup!
 		cleanup();
