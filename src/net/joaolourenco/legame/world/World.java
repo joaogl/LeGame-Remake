@@ -83,10 +83,10 @@ public abstract class World {
 		this.height = height;
 		this.xOffset = 0;
 		this.yOffset = 0;
-		this.height = height;
 		this.worldTiles = new Tile[this.width * this.height];
 
 		this.player = Registry.getPlayer();
+		this.player.init(this);
 		this.addEntity(this.player);
 
 		generateLevel();
@@ -410,6 +410,12 @@ public abstract class World {
 
 	public void stopLoading() {
 		this.loading.remove();
+	}
+
+	public void setSize(int w, int h) {
+		this.width = w;
+		this.height = h;
+		this.worldTiles = new Tile[this.width * this.height];
 	}
 
 }

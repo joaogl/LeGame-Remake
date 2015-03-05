@@ -47,4 +47,5 @@ public class FinishPoint {
 		t.setSecondTexture(texture);
 		w.setTile(x + 1, y + 1, t);
 	}
+
 }

@@ -72,7 +72,7 @@ public class Texture {
 		Mob = loadTexture("/textures/mob.png", false);
 		Player = loadAtlas("/textures/player.png", 3, 4);
 		Registry.getPlayer().setTextureAtlas(Player, 3, 4, 1);
-		Tiles = loadAtlas("/textures/GroundTiles.png", 2, 2);
+		Tiles = loadAtlas("/textures/GroundTiles2.png", 2, 2);
 		Fire[0] = loadTexture("/textures/fire1.png", false);
 		Fire[1] = loadTexture("/textures/fire2.png", false);
 		Fire[2] = loadTexture("/textures/fire3.png", false);

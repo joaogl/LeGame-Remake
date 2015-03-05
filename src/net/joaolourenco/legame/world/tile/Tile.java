@@ -59,6 +59,9 @@ public abstract class Tile extends RenderableComponent {
 	protected boolean doubleTile = false;
 	protected int rotation = 0;
 
+	public Tile() {
+	}
+
 	/**
 	 * Constructor for tiles with a different with and height.
 	 * 
@@ -154,9 +157,9 @@ public abstract class Tile extends RenderableComponent {
 		if (this.doubleTile) render(x, y, stex, shade, this.rotation, true);
 
 		// Disabling BLEND and releasing shader for next render.
-		glDisable(GL_BLEND);
 		shade.release();
 		glClear(GL_STENCIL_BUFFER_BIT);
+		glDisable(GL_BLEND);
 	}
 
 	/**

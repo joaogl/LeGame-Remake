@@ -52,6 +52,8 @@ public abstract class Mob extends Entity {
 	 */
 	protected AnimatedSprite animation;
 
+	protected float minX, minY, maxX, maxY;
+
 	/**
 	 * Constructor for a normal Mob.
 	 * 
@@ -135,6 +137,18 @@ public abstract class Mob extends Entity {
 
 		if (xa != 0 || ya != 0) this.moving = true;
 		else this.moving = false;
+	}
+
+	public float moveX(float a) {
+		if ((this.x + a) < 0) return 0;
+		if ((this.x + a) > (this.world.getWidth() * 64) - 64) return 0;
+		return a;
+	}
+
+	public float moveY(float a) {
+		if ((this.y + a) < 0) return 0;
+		if ((this.y + a) > (this.world.getHeight() * 64) - 64) return 0;
+		return a;
 	}
 
 	public void updateTexture() {

@@ -62,6 +62,9 @@ public class Player extends Mob {
 		if (Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT)) xa -= speed;
 		else if (Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) xa += speed;
 
+		xa = moveX(xa);
+		ya = moveY(ya);
+		
 		// Updating the player facing side.
 		getSide(xa, ya);
 
