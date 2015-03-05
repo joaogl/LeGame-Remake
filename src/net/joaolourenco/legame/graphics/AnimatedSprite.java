@@ -38,6 +38,7 @@ public class AnimatedSprite {
 		this.full_textures = tex;
 		this.length = length;
 		this.defaultFrame = defaultFrame;
+		this.texture = full_textures[defaultFrame];
 	}
 
 	public void update() {
