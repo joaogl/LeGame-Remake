@@ -21,6 +21,7 @@ import java.nio.*;
 
 import javax.imageio.*;
 
+import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.utils.Buffer;
 
 import org.lwjgl.*;
@@ -40,12 +41,13 @@ public class Texture {
 	public static int Grass = 0;
 	public static int Dirt = 0;
 	public static int Mob = 0;
-	public static int Player = 0;
+	public static int[] Player;
+	public static int[] Tiles;
 	public static int loading = 0;
-	public static int[] FinishPod = new int[4];
+	public static int[] FinishPod;
 	public static int[] Fire = new int[5];
 	public static int[] Menus = new int[5];
-	public static int[] Clouds = new int[8];
+	public static int[] Clouds;
 
 	/**
 	 * Function to load some early needed resorces.
@@ -68,7 +70,9 @@ public class Texture {
 		Grass = loadTexture("/textures/grass.png", false);
 		Dirt = loadTexture("/textures/dirt.png", false);
 		Mob = loadTexture("/textures/mob.png", false);
-		Player = loadTexture("/textures/player.png", false);
+		Player = loadAtlas("/textures/player.png", 3, 4);
+		Registry.getPlayer().setTextureAtlas(Player, 3, 4, 1);
+		Tiles = loadAtlas("/textures/GroundTiles.png", 2, 2);
 		Fire[0] = loadTexture("/textures/fire1.png", false);
 		Fire[1] = loadTexture("/textures/fire2.png", false);
 		Fire[2] = loadTexture("/textures/fire3.png", false);

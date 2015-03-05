@@ -38,7 +38,7 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class Tutorial extends World {
 
-	boolean firstUpdate = false, needUpdates = false;
+	boolean firstUpdate = false, needUpdates = false, readyToAdd = false;
 	List<TutorialText> text = new ArrayList<TutorialText>();
 	int step = -1;
 
@@ -72,7 +72,7 @@ public class Tutorial extends World {
 	 */
 	@Override
 	public void generateLevel() {
-		new FinishPoint(this, 0, 0);
+		new FinishPoint(this, 0, 0, Texture.Tiles[2]);
 
 		if (timerOver) super.generateLevel();
 		finished = true;
@@ -144,6 +144,10 @@ public class Tutorial extends World {
 		for (Tile t : this.worldTiles)
 			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) t.update();
 
+		if (readyToAdd) {
+			changeStep();
+			readyToAdd = false;
+		}
 		if (step >= 0 && step <= 1 && KeyboardFilter.isKeyDown(Keyboard.KEY_RETURN)) changeStep();
 	}
 
@@ -184,11 +188,10 @@ public class Tutorial extends World {
 			new Timer("Tutorial-Step-" + step, 10000, 1, new TimerResult(this) {
 				public void timerCall(String caller) {
 					Tutorial obj = (Tutorial) this.object;
-					if (obj.step == 0) obj.changeStep();
+					if (obj.step == 0) obj.readyToAdd = true;
 				}
 			});
 		} else if (step == 1) {
-
 			int yPos = (Registry.getScreenHeight() / 4);
 
 			AnimatedText a = new AnimatedText("You can move using the WASD", Registry.getScreenWidth() / 2, yPos, 25, 100, 200, -1);
@@ -196,10 +199,32 @@ public class Tutorial extends World {
 
 			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
 
+			new FinishPoint(this, 3, 1, Texture.Tiles[2]);
+
+			setTile(0, 0, new SolidTile(64, Texture.Tiles[0]));
+			for (int i = 1; i < 5; i++) {
+				setTile(i, 0, new SolidTile(64, Texture.Tiles[1]));
+				setTile(i, 3, new SolidTile(64, Texture.Tiles[1], 180));
+			}
+			for (int i = 1; i < 3; i++) {
+				setTile(0, i, new SolidTile(64, Texture.Tiles[1], -90));
+				setTile(5, i, new SolidTile(64, Texture.Tiles[1], 90));
+			}
+			for (int y = 1; y < 3; y++)
+				for (int x = 1; x < 3; x++)
+					setTile(x, y, new SolidTile(64, Texture.Tiles[2], 0));
+
+			setTile(5, 3, new SolidTile(64, Texture.Tiles[0], 180));
+			setTile(5, 0, new SolidTile(64, Texture.Tiles[0], 90));
+			setTile(0, 3, new SolidTile(64, Texture.Tiles[0], -90));
+
+			Registry.getPlayer().renderable = true;
+			this.needUpdates = true;
+
 			new Timer("Tutorial-Step-" + step, a.getTotalTiming(), 1, new TimerResult(this) {
 				public void timerCall(String caller) {
 					Tutorial obj = (Tutorial) this.object;
-					if (obj.step == 1) obj.changeStep();
+					if (obj.step == 1) obj.readyToAdd = true;
 				}
 			});
 		}

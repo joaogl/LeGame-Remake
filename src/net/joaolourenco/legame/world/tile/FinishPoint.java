@@ -30,21 +30,21 @@ public class FinishPoint {
 	 * 
 	 * @author Joao Lourenco
 	 */
-	public FinishPoint(World w, int x, int y) {
+	public FinishPoint(World w, int x, int y, int texture) {
 		SolidTile t = new SolidTile(GeneralSettings.TILE_SIZE, Texture.FinishPod[0], true);
-		t.setSecondTexture(Texture.Dirt);
+		t.setSecondTexture(texture);
 		w.setTile(x, y, t);
 
 		t = new SolidTile(GeneralSettings.TILE_SIZE, Texture.FinishPod[1], true);
-		t.setSecondTexture(Texture.Dirt);
+		t.setSecondTexture(texture);
 		w.setTile(x + 1, y, t);
 
 		t = new SolidTile(GeneralSettings.TILE_SIZE, Texture.FinishPod[2], true);
-		t.setSecondTexture(Texture.Dirt);
+		t.setSecondTexture(texture);
 		w.setTile(x, y + 1, t);
 
 		t = new SolidTile(GeneralSettings.TILE_SIZE, Texture.FinishPod[3], true);
-		t.setSecondTexture(Texture.Dirt);
+		t.setSecondTexture(texture);
 		w.setTile(x + 1, y + 1, t);
 	}
 }

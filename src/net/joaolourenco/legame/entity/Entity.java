@@ -301,4 +301,5 @@ public abstract class Entity extends RenderableComponent {
 	public void setRenderable(boolean r) {
 		this.renderable = r;
 	}
+
 }

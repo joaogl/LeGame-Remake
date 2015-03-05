@@ -35,6 +35,21 @@ public class SolidTile extends Tile {
 	 */
 	public SolidTile(int size, int tex) {
 		super(size, tex);
+		setRotation(0);
+	}
+
+	/**
+	 * Constructor to create a square Tile.
+	 * 
+	 * @param size
+	 *            : with and height for the Tile.
+	 * @param tex
+	 *            : Texture ID from the Texture class for the Tile.
+	 * @author Joao Lourenco
+	 */
+	public SolidTile(int size, int tex, int rotation) {
+		super(size, tex);
+		setRotation(rotation);
 	}
 
 	/**
@@ -51,6 +66,7 @@ public class SolidTile extends Tile {
 	public SolidTile(int size, int tex, boolean light) {
 		super(size, tex);
 		this.isLightCollidable(light);
+		setRotation(0);
 	}
 
 	/**

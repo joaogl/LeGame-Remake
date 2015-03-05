@@ -16,7 +16,8 @@
 
 package net.joaolourenco.legame.entity.mob;
 
-import net.joaolourenco.legame.entity.Entity;
+import net.joaolourenco.legame.entity.*;
+import net.joaolourenco.legame.graphics.*;
 
 /**
  * Abstract class for all the Mob
@@ -35,9 +36,21 @@ public abstract class Mob extends Entity {
 	 */
 	protected boolean inBed = false;
 	/**
+	 * Is the player moving
+	 */
+	protected boolean moving = false;
+	/**
 	 * Where is the player facing
 	 */
 	protected int side;
+	/**
+	 * Texture Animations for the Entity.
+	 */
+	protected AnimatedSprite[] textures;
+	/**
+	 * Current Animation playing.
+	 */
+	protected AnimatedSprite animation;
 
 	/**
 	 * Constructor for a normal Mob.
@@ -119,6 +132,29 @@ public abstract class Mob extends Entity {
 		else if (xa < 0) this.side = 1;
 		if (ya > 0) this.side = 2;
 		else if (ya < 0) this.side = 3;
+
+		if (xa != 0 || ya != 0) this.moving = true;
+		else this.moving = false;
 	}
 
+	public void updateTexture() {
+		if (this.side == 0) this.animation = textures[2];
+		else if (this.side == 1) this.animation = textures[1];
+		else if (this.side == 2) this.animation = textures[0];
+		else if (this.side == 3) this.animation = textures[3];
+
+		if (this.moving) this.animation.update();
+		else this.animation.resetAnimation();
+		this.texture = this.animation.getTexture();
+	}
+
+	public void setTextureAtlas(int[] textures, int animation_Size, int total_animations, int holding) {
+		this.textures = new AnimatedSprite[total_animations];
+		for (int i = 0; i < this.textures.length; i++) {
+			int[] toSend = new int[animation_Size];
+			for (int n = 0; n < toSend.length; n++)
+				toSend[n] = textures[n + animation_Size * i];
+			this.textures[i] = new AnimatedSprite(toSend, animation_Size, holding);
+		}
+	}
 }

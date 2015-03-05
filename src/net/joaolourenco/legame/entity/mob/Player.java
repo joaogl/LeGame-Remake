@@ -18,7 +18,6 @@ package net.joaolourenco.legame.entity.mob;
 
 import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.entity.block.*;
-import net.joaolourenco.legame.graphics.*;
 
 import org.lwjgl.input.*;
 
@@ -38,7 +37,7 @@ public class Player extends Mob {
 	public Player(int x, int y, int w, int h) {
 		super(x, y, w, h);
 		this.isLightCollidable(true);
-		this.texture = Texture.Player;
+		// this.texture = Texture.Player[0];
 	}
 
 	/**
@@ -72,6 +71,7 @@ public class Player extends Mob {
 
 		// Update the Offset of the world.
 		this.world.setOffset((int) ((this.x + (this.width / 2)) - Registry.getScreenWidth() / 2), (int) (this.y + (this.height / 2) - Registry.getScreenHeight() / 2));
+		this.updateTexture();
 	}
 
 	/**

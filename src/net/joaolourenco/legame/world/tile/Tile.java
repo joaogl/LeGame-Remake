@@ -57,6 +57,7 @@ public abstract class Tile extends RenderableComponent {
 	 * Is this tile double? (Uses two textures)
 	 */
 	protected boolean doubleTile = false;
+	protected int rotation = 0;
 
 	/**
 	 * Constructor for tiles with a different with and height.
@@ -149,8 +150,8 @@ public abstract class Tile extends RenderableComponent {
 		glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), day_light * 2);
 
 		// Rendering the Quad.
-		render(x, y, tex, shade);
-		if (this.doubleTile) render(x, y, stex, shade);
+		render(x, y, tex, shade, this.rotation, true);
+		if (this.doubleTile) render(x, y, stex, shade, this.rotation, true);
 
 		// Disabling BLEND and releasing shader for next render.
 		glDisable(GL_BLEND);
@@ -255,6 +256,10 @@ public abstract class Tile extends RenderableComponent {
 		this.doubleTile = true;
 		this.stex = tex;
 		this.tex = stexture;
+	}
+
+	public void setRotation(int x) {
+		this.rotation = x;
 	}
 
 }
