@@ -45,7 +45,7 @@ public class AnimatedText {
 	/**
 	 * finished holds the information on whether is the animation over or not. remove holds the information on whether the text is going to be removed or not.
 	 */
-	private boolean finished = false, remove = false;
+	private boolean finished = false, remove = false, toRemove = true;
 	/**
 	 * Time between each letter.
 	 */
@@ -141,6 +141,7 @@ public class AnimatedText {
 		this.last = System.currentTimeMillis();
 		this.time = time;
 		this.timeperletter = tp;
+		if (tp > 5000) this.toRemove = false;
 		this.spacing = 5;
 		this.x = x - (this.font.getStringSize(this.finalText, this.size, this.spacing) / 2);
 		Registry.registerAnimatedText(this);
@@ -174,6 +175,7 @@ public class AnimatedText {
 		this.last = System.currentTimeMillis();
 		this.time = time;
 		this.timeperletter = tp;
+		if (tp > 5000) this.toRemove = false;
 		this.spacing = spacing;
 		this.x = x - (this.font.getStringSize(this.finalText, this.size, this.spacing) / 2);
 		Registry.registerAnimatedText(this);
@@ -208,6 +210,7 @@ public class AnimatedText {
 		this.size = size;
 		this.time = time;
 		this.timeperletter = tp;
+		if (tp > 5000) this.toRemove = false;
 		this.spacing = spacing;
 		this.x = x - (this.font.getStringSize(this.finalText, this.size, this.spacing) / 2);
 		this.last = System.currentTimeMillis() + off;
@@ -243,6 +246,7 @@ public class AnimatedText {
 		this.size = size;
 		this.time = time;
 		this.timeperletter = tp;
+		if (tp >= 5000) this.toRemove = false;
 		this.spacing = spacing;
 		this.x = x - (this.font.getStringSize(this.finalText, this.size, this.spacing) / 2);
 		this.last = System.currentTimeMillis() + off.getRenderTiming();
@@ -272,7 +276,7 @@ public class AnimatedText {
 			// Adds the letter to the rendering text.
 			addLetter();
 			// If the time is passed and the animation is over, remove the text.
-		} else if (this.finished && current - this.last >= (timeperletter * this.text.length())) this.remove = true;
+		} else if (this.toRemove && this.finished && current - this.last >= (timeperletter * this.text.length())) this.remove = true;
 	}
 
 	/**

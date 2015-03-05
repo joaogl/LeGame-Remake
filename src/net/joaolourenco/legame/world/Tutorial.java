@@ -151,10 +151,17 @@ public class Tutorial extends World {
 			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) t.update();
 
 		if (readyToAdd) {
-			changeStep();
+			changeStep(true);
 			readyToAdd = false;
 		}
-		if (step >= 0 && step <= 1 && KeyboardFilter.isKeyDown(Keyboard.KEY_RETURN)) changeStep();
+		if (step == 1) {
+			if (Keyboard.isKeyDown(Keyboard.KEY_W) || Keyboard.isKeyDown(Keyboard.KEY_UP)) changeStep(false);
+			else if (Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_DOWN)) changeStep(false);
+			else if (Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT)) changeStep(false);
+			else if (Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) changeStep(false);
+		}
+
+		if (step >= 0 && step <= 1 && KeyboardFilter.isKeyDown(Keyboard.KEY_RETURN)) changeStep(true);
 	}
 
 	/**
@@ -174,11 +181,11 @@ public class Tutorial extends World {
 
 	public void stopLoading() {
 		this.loading.remove();
-		changeStep();
+		changeStep(true);
 	}
 
-	public void changeStep() {
-		text.clear();
+	public void changeStep(boolean removeText) {
+		if (removeText) text.clear();
 		step++;
 		Registry.clearAnimatedTexts();
 
@@ -200,8 +207,8 @@ public class Tutorial extends World {
 		} else if (step == 1) {
 			int yPos = (Registry.getScreenHeight() / 4);
 
-			AnimatedText a = new AnimatedText("You can move using the WASD", Registry.getScreenWidth() / 2, yPos, 25, 100, 200, -1);
-			new AnimatedText("keys or the arrow keys.", Registry.getScreenWidth() / 2, yPos + 50, 25, 100, 200, -1, a);
+			AnimatedText a = new AnimatedText("You can move using the WASD", Registry.getScreenWidth() / 2, yPos, 25, 100, 5000, -1);
+			new AnimatedText("keys or the arrow keys.", Registry.getScreenWidth() / 2, yPos + 50, 25, 100, 5000, -1, a);
 
 			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
 
@@ -228,11 +235,15 @@ public class Tutorial extends World {
 
 			Registry.getPlayer().renderable = true;
 			this.needUpdates = true;
+		} else if (step == 2) {
+			int yPos = (Registry.getScreenHeight() / 4);
+
+			AnimatedText a = new AnimatedText("Go to the End Mark", Registry.getScreenWidth() / 2, yPos, 25, 100, 200, -1);
 
 			new Timer("Tutorial-Step-" + step, a.getTotalTiming(), 1, new TimerResult(this) {
 				public void timerCall(String caller) {
 					Tutorial obj = (Tutorial) this.object;
-					if (obj.step == 1) obj.readyToAdd = true;
+					if (obj.step == 2) obj.readyToAdd = true;
 				}
 			});
 		}
