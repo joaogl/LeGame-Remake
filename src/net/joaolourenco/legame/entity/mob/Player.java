@@ -18,6 +18,7 @@ package net.joaolourenco.legame.entity.mob;
 
 import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.entity.block.*;
+import net.joaolourenco.legame.graphics.*;
 
 import org.lwjgl.input.*;
 
@@ -53,8 +54,15 @@ public class Player extends Mob {
 		float speed = 0;
 
 		// Getting the moving speed for the player.
-		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) speed = getSpeed(true);
-		else speed = getSpeed(false);
+		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+			speed = getSpeed(true);
+			for (AnimatedSprite s : this.textures )
+				s.setFrameRate(5);
+		} else {
+			speed = getSpeed(false);
+			for (AnimatedSprite s : this.textures )
+				s.setFrameRate(6);
+		}
 
 		// Where is the player going to move.
 		if (Keyboard.isKeyDown(Keyboard.KEY_W) || Keyboard.isKeyDown(Keyboard.KEY_UP)) ya -= speed;
@@ -64,7 +72,7 @@ public class Player extends Mob {
 
 		xa = moveX(xa);
 		ya = moveY(ya);
-		
+
 		// Updating the player facing side.
 		getSide(xa, ya);
 

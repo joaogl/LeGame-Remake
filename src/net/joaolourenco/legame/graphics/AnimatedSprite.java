@@ -25,7 +25,7 @@ public class AnimatedSprite {
 	private int frame = 0;
 	private int[] full_textures;
 	private int texture;
-	private int rate = 5;
+	private int rate = 6;
 	private int length = -1;
 	private int time = 0;
 	private int defaultFrame = 0;
