@@ -38,7 +38,6 @@ public class KeyboardFilter {
 				public void timerCall(String caller) {
 					int id = getID(Integer.parseInt(caller.split("-")[1]));
 					((List<Integer>) object).remove(id);
-					System.out.println(caller.split("-")[1]);
 				}
 
 				@SuppressWarnings("unchecked")
