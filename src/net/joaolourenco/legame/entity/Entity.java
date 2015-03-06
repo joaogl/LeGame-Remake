@@ -302,4 +302,12 @@ public abstract class Entity extends RenderableComponent {
 		this.renderable = r;
 	}
 
+	public float getWidth() {
+		return width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
 }

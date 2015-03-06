@@ -16,6 +16,8 @@
 
 package net.joaolourenco.legame.world.tile;
 
+import net.joaolourenco.legame.entity.*;
+
 /**
  * Class for all the Solid, this is, collidable Tiles.
  * 
@@ -76,6 +78,13 @@ public class SolidTile extends Tile {
 	 */
 	public void update() {
 		super.update();
+	}
+
+	/**
+	 * @author Joao Lourenco
+	 */
+	@Override
+	public void entityOver(Entity e) {
 	}
 
 }

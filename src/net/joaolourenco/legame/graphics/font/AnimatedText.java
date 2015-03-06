@@ -59,6 +59,8 @@ public class AnimatedText {
 	 */
 	private int spacing;
 
+	private long delay = 0;
+
 	/**
 	 * Constructor for AnimatedText.
 	 * 
@@ -249,7 +251,8 @@ public class AnimatedText {
 		if (tp >= 5000) this.toRemove = false;
 		this.spacing = spacing;
 		this.x = x - (this.font.getStringSize(this.finalText, this.size, this.spacing) / 2);
-		this.last = System.currentTimeMillis() + off.getRenderTiming();
+		this.delay = off.getRenderTiming() + off.getDelayTime();
+		this.last = System.currentTimeMillis() + off.getRenderTiming() + off.getDelayTime();
 		Registry.registerAnimatedText(this);
 	}
 
@@ -306,6 +309,10 @@ public class AnimatedText {
 
 	public int getTotalTiming() {
 		return (this.finalText.length() * this.time) + (this.finalText.length() * this.timeperletter);
+	}
+	
+	public long getDelayTime(){
+		return this.delay;
 	}
 
 }

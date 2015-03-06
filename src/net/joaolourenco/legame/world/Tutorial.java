@@ -53,17 +53,14 @@ public class Tutorial extends World {
 
 	public void preLoad() {
 		Registry.getPlayer().setRenderable(false);
+		super.preLoad();
+	}
 
-		new Timer("Map Loading", 2000, 1, new TimerResult(this) {
-			public void timerCall(String caller) {
-				World obj = (World) this.object;
-				if (obj.finished) obj.stopLoading();
-
-				obj.timerOver = true;
-			}
-		});
-
-		Texture.load();
+	/**
+	 * @author Joao Lourenco
+	 */
+	@Override
+	public void levelEnd() {
 	}
 
 	/**
@@ -148,20 +145,29 @@ public class Tutorial extends World {
 		}
 		// Updating all the world tiles.
 		for (Tile t : this.worldTiles)
-			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) t.update();
+			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) {
+				t.update();
+				for (Entity e : this.entities)
+					if (getDistance(e, t.getX(), t.getY()) <= 64) t.entityOver(e);
+			}
 
 		if (readyToAdd) {
 			changeStep(true);
 			readyToAdd = false;
 		}
+
+		if (this.levelOver && step >= 2) {
+			this.levelOver = false;
+			this.changeStep(true);
+		}
+
 		if (step == 1) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_W) || Keyboard.isKeyDown(Keyboard.KEY_UP)) changeStep(false);
 			else if (Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_DOWN)) changeStep(false);
 			else if (Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT)) changeStep(false);
 			else if (Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) changeStep(false);
 		}
-
-		if (step >= 0 && step <= 1 && KeyboardFilter.isKeyDown(Keyboard.KEY_RETURN)) changeStep(true);
+		if (step >= 0 && step <= 3 && KeyboardFilter.isKeyDown(Keyboard.KEY_RETURN)) changeStep(true);
 	}
 
 	/**
@@ -182,6 +188,7 @@ public class Tutorial extends World {
 	public void stopLoading() {
 		this.loading.remove();
 		changeStep(true);
+		this.levelEndable = false;
 	}
 
 	public void changeStep(boolean removeText) {
@@ -238,14 +245,22 @@ public class Tutorial extends World {
 		} else if (step == 2) {
 			int yPos = (Registry.getScreenHeight() / 4);
 
-			AnimatedText a = new AnimatedText("Go to the End Mark", Registry.getScreenWidth() / 2, yPos, 25, 100, 200, -1);
+			this.levelEndable = true;
 
-			new Timer("Tutorial-Step-" + step, a.getTotalTiming(), 1, new TimerResult(this) {
-				public void timerCall(String caller) {
-					Tutorial obj = (Tutorial) this.object;
-					if (obj.step == 2) obj.readyToAdd = true;
-				}
-			});
+			new AnimatedText("Go to the End Mark", Registry.getScreenWidth() / 2, yPos, 25, 100, 5000, -1);
+		} else if (step == 3) {
+			this.levelEndable = false;
+			this.setSize(20, 20);
+
+			AnimatedText a = new AnimatedText("There are some Enemies that", Registry.getScreenWidth() / 2, 30, 25, 100, 5000, -1);
+			AnimatedText b = new AnimatedText("you will face. some will shoot", Registry.getScreenWidth() / 2, 80, 25, 100, 5000, -1, a);	
+			AnimatedText c = new AnimatedText("you, some will follow you untill", Registry.getScreenWidth() / 2, 130, 25, 100, 5000, -1, b);	
+			AnimatedText d = new AnimatedText("you die.", Registry.getScreenWidth() / 2, 180, 25, 100, 5000, -1, c);			
+
+			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
+			
+			Registry.getPlayer().renderable = false;
+			this.needUpdates = false;
 		}
 	}
 

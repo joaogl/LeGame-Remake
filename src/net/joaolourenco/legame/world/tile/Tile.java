@@ -265,4 +265,6 @@ public abstract class Tile extends RenderableComponent {
 		this.rotation = x;
 	}
 
+	public abstract void entityOver(Entity e);
+
 }

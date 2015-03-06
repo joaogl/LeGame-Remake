@@ -23,8 +23,11 @@ import net.joaolourenco.legame.entity.*;
 import net.joaolourenco.legame.entity.block.*;
 import net.joaolourenco.legame.entity.light.*;
 import net.joaolourenco.legame.entity.mob.*;
+import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.menu.*;
 import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.utils.Timer;
 import net.joaolourenco.legame.world.tile.*;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -59,6 +62,8 @@ public abstract class World {
 	protected boolean goingUp = false;
 
 	protected boolean finished = false, timerOver = false;
+
+	public boolean levelOver = false, levelEndable = false;
 
 	protected Player player;
 
@@ -125,7 +130,18 @@ public abstract class World {
 		 */
 	}
 
-	public abstract void preLoad();
+	public void preLoad() {
+		new Timer("Map Loading", 2000, 1, new TimerResult(this) {
+			public void timerCall(String caller) {
+				World obj = (World) this.object;
+				if (obj.finished) obj.stopLoading();
+
+				obj.timerOver = true;
+			}
+		});
+
+		Texture.load();
+	}
 
 	/**
 	 * 
@@ -200,7 +216,16 @@ public abstract class World {
 
 		// Updating all the world tiles.
 		for (Tile t : this.worldTiles)
-			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) t.update();
+			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) {
+				t.update();
+				for (Entity e : this.entities)
+					if (getDistance(e, t.getX(), t.getY()) <= 64) t.entityOver(e);
+			}
+
+		if (this.levelOver && this.levelEndable) {
+			this.levelOver = false;
+			this.levelEnd();
+		}
 
 		// Keep increasing and decreasing the Day Light value.
 		if (this.DAY_LIGHT <= 0.1f) this.goingUp = true;
@@ -209,6 +234,8 @@ public abstract class World {
 		if (this.goingUp) this.DAY_LIGHT += 0.001f;
 		else this.DAY_LIGHT -= 0.001f;
 	}
+
+	public abstract void levelEnd();
 
 	/**
 	 * Method to tick everything called by the Main class 10 times per second.
@@ -410,6 +437,7 @@ public abstract class World {
 
 	public void stopLoading() {
 		this.loading.remove();
+		this.levelEndable = true;
 	}
 
 	public void setSize(int w, int h) {

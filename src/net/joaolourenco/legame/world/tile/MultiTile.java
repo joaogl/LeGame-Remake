@@ -110,4 +110,11 @@ public class MultiTile extends Tile {
 		}
 	}
 
+	/**
+	 * @author Joao Lourenco
+	 */
+	@Override
+	public void entityOver(Entity e) {
+	}
+
 }

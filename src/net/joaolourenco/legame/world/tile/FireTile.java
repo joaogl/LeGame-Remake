@@ -18,6 +18,7 @@ package net.joaolourenco.legame.world.tile;
 
 import java.util.Random;
 
+import net.joaolourenco.legame.entity.*;
 import net.joaolourenco.legame.entity.light.specific.FireLight;
 import net.joaolourenco.legame.graphics.Texture;
 import net.joaolourenco.legame.utils.Vector2f;
@@ -128,6 +129,13 @@ public class FireTile extends Tile {
 			return (float) out;
 		}
 		return 0f;
+	}
+
+	/**
+	 * @author Joao Lourenco
+	 */
+	@Override
+	public void entityOver(Entity e) {
 	}
 
 }
