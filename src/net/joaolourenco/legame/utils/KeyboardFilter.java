@@ -32,7 +32,7 @@ public class KeyboardFilter {
 		if (Keyboard.isKeyDown(key) && !blackList.contains(key)) {
 			blackList.add(key);
 
-			new Timer("KeyCoolDown-" + key, 1000, 1, new TimerResult(blackList) {
+			new Timer("KeyCoolDown-" + key, 500, 1, new TimerResult(blackList) {
 				@SuppressWarnings("unchecked")
 				@Override
 				public void timerCall(String caller) {
