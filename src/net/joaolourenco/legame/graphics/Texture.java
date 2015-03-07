@@ -41,13 +41,18 @@ public class Texture {
 	public static int Grass = 0;
 	public static int Dirt = 0;
 	public static int Mob = 0;
-	public static int[] Player;
 	public static int[] Tiles;
 	public static int loading = 0;
 	public static int[] FinishPod;
 	public static int[] Fire = new int[5];
 	public static int[] Menus = new int[5];
 	public static int[] Clouds;
+
+	public static int[] PlayerWalking;
+	public static int[] PlayerDying;
+	public static int[] Citizen;
+	public static int[] Dragon;
+	public static int[] Ogre;
 
 	/**
 	 * Function to load some early needed resorces.
@@ -70,14 +75,21 @@ public class Texture {
 		Grass = loadTexture("/textures/grass.png", false);
 		Dirt = loadTexture("/textures/dirt.png", false);
 		Mob = loadTexture("/textures/mob.png", false);
-		Player = loadAtlas("/textures/player.png", 3, 4);
-		Registry.getPlayer().setTextureAtlas(Player, 3, 4, 1);
 		Tiles = loadAtlas("/textures/GroundTiles2.png", 2, 2);
 		Fire[0] = loadTexture("/textures/fire1.png", false);
 		Fire[1] = loadTexture("/textures/fire2.png", false);
 		Fire[2] = loadTexture("/textures/fire3.png", false);
 		Fire[3] = loadTexture("/textures/fire4.png", false);
 		Fire[4] = loadTexture("/textures/fire5.png", false);
+
+		PlayerWalking = loadAtlas("/textures/mobs/Player-Walking.png", 3, 4);
+		PlayerDying = loadAtlas("/textures/mobs/Player-Dying.png", 3, 3);
+		Registry.getPlayer().setTextureAtlas(PlayerWalking, 3, 4, 1);
+		Registry.getPlayer().setDyingTextureAtlas(PlayerDying, 3, 3, 1);
+		
+		Dragon = loadAtlas("/textures/mobs/Dragon.png", 3, 4);
+		Ogre = loadAtlas("/textures/mobs/Ogre.png", 3, 4);
+		Citizen = loadAtlas("/textures/mobs/Citizen.png", 3, 4);
 	}
 
 	/**
@@ -172,30 +184,31 @@ public class Texture {
 			e.printStackTrace();
 		}
 
-		int size = width / hLength;
+		int wsize = width / hLength;
+		int hsize = height / vLength;
 
 		// Going through each line.
 		for (int y0 = 0; y0 < vLength; y0++) {
 			// Going through each column.
 			for (int x0 = 0; x0 < hLength; x0++) {
 				// Creating the Texture pixel array to store the letter pixels.
-				int[] tex = new int[size * size];
+				int[] tex = new int[wsize * hsize];
 				// Going through each pixel of the letter
-				for (int y = 0; y < size; y++) {
-					for (int x = 0; x < size; x++) {
+				for (int y = 0; y < hsize; y++) {
+					for (int x = 0; x < wsize; x++) {
 						// Getting the color of each pixel.
-						tex[x + y * size] = sheet[(x + x0 * size) + (y + y0 * size) * width];
+						tex[x + y * wsize] = sheet[(x + x0 * wsize) + (y + y0 * hsize) * width];
 					}
 				}
 
 				// Processing the letter array for OpenGL
-				ByteBuffer buffer = BufferUtils.createByteBuffer(size * size * 4);
-				for (int y = 0; y < size; y++) {
-					for (int x = 0; x < size; x++) {
-						byte a = (byte) ((tex[x + y * size] & 0xff000000) >> 24);
-						byte r = (byte) ((tex[x + y * size] & 0xff0000) >> 16);
-						byte g = (byte) ((tex[x + y * size] & 0xff00) >> 8);
-						byte b = (byte) (tex[x + y * size] & 0xff);
+				ByteBuffer buffer = BufferUtils.createByteBuffer(wsize * hsize * 4);
+				for (int y = 0; y < hsize; y++) {
+					for (int x = 0; x < wsize; x++) {
+						byte a = (byte) ((tex[x + y * wsize] & 0xff000000) >> 24);
+						byte r = (byte) ((tex[x + y * wsize] & 0xff0000) >> 16);
+						byte g = (byte) ((tex[x + y * wsize] & 0xff00) >> 8);
+						byte b = (byte) (tex[x + y * wsize] & 0xff);
 						buffer.put(r).put(g).put(b).put(a);
 					}
 				}
@@ -205,7 +218,7 @@ public class Texture {
 				// Binding the texture in order to define it.
 				glBindTexture(GL_TEXTURE_2D, texID);
 				// Defining the texture.
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size, size, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, wsize, hsize, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 				// Defining the texture parameters.
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);

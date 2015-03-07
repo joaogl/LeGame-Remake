@@ -21,6 +21,7 @@ import java.util.*;
 import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.entity.*;
 import net.joaolourenco.legame.entity.light.*;
+import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.settings.*;
@@ -52,8 +53,8 @@ public class Tutorial extends World {
 	}
 
 	public void preLoad() {
-		Registry.getPlayer().setRenderable(false);
 		super.preLoad();
+		Registry.getPlayer().setRenderable(false);
 	}
 
 	/**
@@ -136,6 +137,13 @@ public class Tutorial extends World {
 	 * @author Joao Lourenco
 	 */
 	public void update() {
+		if (this.levelOver && step >= 2) {
+			this.levelOver = false;
+			Registry.getPlayer().setX(5 * 64);
+			Registry.getPlayer().setY(2 * 64);
+			this.changeStep(true);
+		}
+
 		if (!firstUpdate || needUpdates) {
 			// Updating all the entities.
 			for (Entity e : this.entities) {
@@ -148,17 +156,12 @@ public class Tutorial extends World {
 			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) {
 				t.update();
 				for (Entity e : this.entities)
-					if (getDistance(e, t.getX(), t.getY()) <= 64) t.entityOver(e);
+					if (getDistance(e, t.getX(), t.getY()) <= 32) t.entityOver(e);
 			}
 
 		if (readyToAdd) {
 			changeStep(true);
 			readyToAdd = false;
-		}
-
-		if (this.levelOver && step >= 2) {
-			this.levelOver = false;
-			this.changeStep(true);
 		}
 
 		if (step == 1) {
@@ -167,7 +170,13 @@ public class Tutorial extends World {
 			else if (Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT)) changeStep(false);
 			else if (Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) changeStep(false);
 		}
-		if (step >= 0 && step <= 3 && KeyboardFilter.isKeyDown(Keyboard.KEY_RETURN)) changeStep(true);
+		if (step >= 0 && step <= 3 && KeyboardFilter.isKeyDown(Keyboard.KEY_RETURN)) {
+			if (step == 3) {
+				Registry.getPlayer().setX(5 * 64);
+				Registry.getPlayer().setY(2 * 64);
+			}
+			changeStep(true);
+		}
 	}
 
 	/**
@@ -192,9 +201,9 @@ public class Tutorial extends World {
 	}
 
 	public void changeStep(boolean removeText) {
-		if (removeText) text.clear();
 		step++;
-		Registry.clearAnimatedTexts();
+		if (removeText && step != 4) text.clear();
+		if (step != 4) Registry.clearAnimatedTexts();
 
 		if (step == 0) {
 			int yPos = (Registry.getScreenHeight() / 4);
@@ -253,14 +262,47 @@ public class Tutorial extends World {
 			this.setSize(20, 20);
 
 			AnimatedText a = new AnimatedText("There are some Enemies that", Registry.getScreenWidth() / 2, 30, 25, 100, 5000, -1);
-			AnimatedText b = new AnimatedText("you will face. some will shoot", Registry.getScreenWidth() / 2, 80, 25, 100, 5000, -1, a);	
-			AnimatedText c = new AnimatedText("you, some will follow you untill", Registry.getScreenWidth() / 2, 130, 25, 100, 5000, -1, b);	
-			AnimatedText d = new AnimatedText("you die.", Registry.getScreenWidth() / 2, 180, 25, 100, 5000, -1, c);			
+			AnimatedText b = new AnimatedText("you will face, some will shoot", Registry.getScreenWidth() / 2, 80, 25, 100, 5000, -1, a);
+			AnimatedText c = new AnimatedText("you, some will follow you untill", Registry.getScreenWidth() / 2, 130, 25, 100, 5000, -1, b);
+			AnimatedText d = new AnimatedText("you die.", Registry.getScreenWidth() / 2, 180, 25, 100, 5000, -1, c);
+
+			new Timer("Tutorial-Step-" + step, (int) d.getDelayTime(), 1, new TimerResult(this) {
+				public void timerCall(String caller) {
+					Tutorial obj = (Tutorial) this.object;
+					if (obj.step == 3) obj.readyToAdd = true;
+				}
+			});
 
 			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
-			
+
 			Registry.getPlayer().renderable = false;
-			this.needUpdates = false;
+			// Registry.getPlayer().freeze();
+			this.needUpdates = true;
+		} else if (step == 4) {
+			Enemy e1 = new Enemy(0, (3 * 64), 64, 64);
+			e1.setTextureAtlas(Texture.Citizen, 3, 4, 1);
+			e1.init(this);
+			this.entities.add(e1);
+
+			Enemy e2 = new Enemy(2 * 64, (2 * 64), 64, 124);
+			e2.setTextureAtlas(Texture.Ogre, 3, 4, 1);
+			e2.init(this);
+			this.entities.add(e2);
+
+			Enemy e3 = new Enemy(4 * 64, (1 * 64), 184, 184);
+			e3.setTextureAtlas(Texture.Dragon, 3, 4, 1);
+			e3.init(this);
+			this.entities.add(e3);
+
+			Enemy e4 = new Enemy(8 * 64, (2 * 64), 64, 124);
+			e4.setTextureAtlas(Texture.Ogre, 3, 4, 1);
+			e4.init(this);
+			this.entities.add(e4);
+
+			Enemy e5 = new Enemy(10 * 64, (2 * 64), 64, 124);
+			e5.setTextureAtlas(Texture.Ogre, 3, 4, 1);
+			e5.init(this);
+			this.entities.add(e5);
 		}
 	}
 

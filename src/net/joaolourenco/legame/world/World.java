@@ -219,7 +219,7 @@ public abstract class World {
 			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) {
 				t.update();
 				for (Entity e : this.entities)
-					if (getDistance(e, t.getX(), t.getY()) <= 64) t.entityOver(e);
+					if (getDistance(e, t.getX(), t.getY()) <= 32) t.entityOver(e);
 			}
 
 		if (this.levelOver && this.levelEndable) {
@@ -323,7 +323,7 @@ public abstract class World {
 	 * @author Joao Lourenco
 	 */
 	public double getDistance(Entity a, float x, float y) {
-		return Math.sqrt(Math.pow((x - a.getX()), 2) + Math.pow((y - a.getY()), 2));
+		return Math.sqrt(Math.pow((x - (a.getX() + (a.getWidth() / 2))), 2) + Math.pow((y - (a.getY() + (a.getHeight() / 2))), 2));
 	}
 
 	/**

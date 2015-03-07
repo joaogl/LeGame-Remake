@@ -19,6 +19,7 @@ package net.joaolourenco.legame.entity.mob;
 import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.entity.block.*;
 import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.utils.*;
 
 import org.lwjgl.input.*;
 
@@ -56,11 +57,11 @@ public class Player extends Mob {
 		// Getting the moving speed for the player.
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
 			speed = getSpeed(true);
-			for (AnimatedSprite s : this.textures )
+			for (AnimatedSprite s : this.textures)
 				s.setFrameRate(5);
 		} else {
 			speed = getSpeed(false);
-			for (AnimatedSprite s : this.textures )
+			for (AnimatedSprite s : this.textures)
 				s.setFrameRate(6);
 		}
 
@@ -83,6 +84,26 @@ public class Player extends Mob {
 		// Update the Offset of the world.
 		this.world.setOffset((int) ((this.x + (this.width / 2)) - Registry.getScreenWidth() / 2), (int) (this.y + (this.height / 2) - Registry.getScreenHeight() / 2));
 		this.updateTexture();
+
+		if (KeyboardFilter.isKeyDown(Keyboard.KEY_F)) this.died();
+		if (KeyboardFilter.isKeyDown(Keyboard.KEY_G)) this.attacking = !this.attacking;
+	}
+
+	public void updateTexture() {
+		if (this.dying) this.animation = texturesDying[1];
+		else {
+			if (this.side == 0) this.animation = textures[2];
+			else if (this.side == 1) this.animation = textures[1];
+			else if (this.side == 2) this.animation = textures[0];
+			else if (this.side == 3) this.animation = textures[3];
+		}
+
+		if (this.moving || this.dying || this.attacking) {
+			if (this.dying) {
+				if (this.animation.getFrame() < (this.animation.getLength() - 1)) this.animation.update();
+			} else this.animation.update();
+		} else this.animation.resetAnimation();
+		this.texture = this.animation.getTexture();
 	}
 
 	/**

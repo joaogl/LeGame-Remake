@@ -69,4 +69,12 @@ public class AnimatedSprite {
 		return texture;
 	}
 
+	public int getFrame() {
+		return frame;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
 }

@@ -72,6 +72,8 @@ public abstract class Entity extends RenderableComponent {
 	 * This tells the game if this entity is going to be rendered or not.
 	 */
 	public boolean renderable = true;
+	protected boolean dying = false;
+	protected int time, rate = 10;
 
 	/**
 	 * Constructor for the Entities.
@@ -114,6 +116,10 @@ public abstract class Entity extends RenderableComponent {
 	 */
 	public void render() {
 		if (this.renderable) {
+			if (this.dying) {
+				time++;
+				if (time % rate != 0)return;
+			}
 			// Setting up OpenGL for render
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
@@ -308,6 +314,11 @@ public abstract class Entity extends RenderableComponent {
 
 	public float getHeight() {
 		return height;
+	}
+
+	public void setSize(float x, float y) {
+		this.width = x;
+		this.height = y;
 	}
 
 }

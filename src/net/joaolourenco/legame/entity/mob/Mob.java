@@ -18,6 +18,8 @@ package net.joaolourenco.legame.entity.mob;
 
 import net.joaolourenco.legame.entity.*;
 import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.world.*;
 
 /**
  * Abstract class for all the Mob
@@ -48,11 +50,21 @@ public abstract class Mob extends Entity {
 	 */
 	protected AnimatedSprite[] textures;
 	/**
+	 * Texture Animations for the Entity.
+	 */
+	protected AnimatedSprite[] texturesDying;
+	/**
+	 * Texture Animations for the Entity.
+	 */
+	protected AnimatedSprite[] texturesAttacking;
+	/**
 	 * Current Animation playing.
 	 */
 	protected AnimatedSprite animation;
 
 	protected float minX, minY, maxX, maxY;
+
+	protected boolean attacking = false;
 
 	/**
 	 * Constructor for a normal Mob.
@@ -141,13 +153,15 @@ public abstract class Mob extends Entity {
 
 	public float moveX(float a) {
 		if ((this.x + a) < 0) return 0;
-		if ((this.x + a) > (this.world.getWidth() * 64) - 64) return 0;
+		if (this.frozen) return 0;
+		if ((this.x + a) > (this.world.getWidth() * 64) - this.width) return 0;
 		return a;
 	}
 
 	public float moveY(float a) {
 		if ((this.y + a) < 0) return 0;
-		if ((this.y + a) > (this.world.getHeight() * 64) - 64) return 0;
+		if (this.frozen) return 0;
+		if ((this.y + a) > (this.world.getHeight() * 64) - this.height) return 0;
 		return a;
 	}
 
@@ -171,4 +185,36 @@ public abstract class Mob extends Entity {
 			this.textures[i] = new AnimatedSprite(toSend, animation_Size, holding);
 		}
 	}
+
+	public void setDyingTextureAtlas(int[] textures, int animation_Size, int total_animations, int holding) {
+		this.texturesDying = new AnimatedSprite[total_animations];
+		for (int i = 0; i < this.texturesDying.length; i++) {
+			int[] toSend = new int[animation_Size];
+			for (int n = 0; n < toSend.length; n++)
+				toSend[n] = textures[n + animation_Size * i];
+			this.texturesDying[i] = new AnimatedSprite(toSend, animation_Size, holding);
+		}
+	}
+
+	public void setAttackingTextureAtlas(int[] textures, int animation_Size, int total_animations, int holding) {
+		this.texturesAttacking = new AnimatedSprite[total_animations];
+		for (int i = 0; i < this.texturesAttacking.length; i++) {
+			int[] toSend = new int[animation_Size];
+			for (int n = 0; n < toSend.length; n++)
+				toSend[n] = textures[n + animation_Size * i];
+			this.texturesAttacking[i] = new AnimatedSprite(toSend, animation_Size, holding);
+		}
+	}
+
+	public void died() {
+		this.dying = true;
+		this.frozen = true;
+
+		new Timer("KilledAnimation", 1000, 1, new TimerResult(this) {
+			public void timerCall(String caller) {
+				((Entity) this.object).renderable = false;
+			}
+		});
+	}
+
 }
