@@ -47,6 +47,7 @@ public class Texture {
 	public static int[] Fire = new int[5];
 	public static int[] Menus = new int[5];
 	public static int[] Clouds;
+	public static int[] Door;
 
 	public static int[] PlayerWalking;
 	public static int[] PlayerDying;
@@ -76,6 +77,7 @@ public class Texture {
 		Dirt = loadTexture("/textures/dirt.png", false);
 		Mob = loadTexture("/textures/mob.png", false);
 		Tiles = loadAtlas("/textures/GroundTiles2.png", 2, 2);
+		Door = loadAtlas("/textures/Door.png", 2, 1);
 		Fire[0] = loadTexture("/textures/fire1.png", false);
 		Fire[1] = loadTexture("/textures/fire2.png", false);
 		Fire[2] = loadTexture("/textures/fire3.png", false);
@@ -86,7 +88,7 @@ public class Texture {
 		PlayerDying = loadAtlas("/textures/mobs/Player-Dying.png", 3, 3);
 		Registry.getPlayer().setTextureAtlas(PlayerWalking, 3, 4, 1);
 		Registry.getPlayer().setDyingTextureAtlas(PlayerDying, 3, 3, 1);
-		
+
 		Dragon = loadAtlas("/textures/mobs/Dragon.png", 3, 4);
 		Ogre = loadAtlas("/textures/mobs/Ogre.png", 3, 4);
 		Citizen = loadAtlas("/textures/mobs/Citizen.png", 3, 4);

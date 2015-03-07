@@ -19,7 +19,6 @@ package net.joaolourenco.legame.entity.mob;
 import net.joaolourenco.legame.entity.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.utils.*;
-import net.joaolourenco.legame.world.*;
 
 /**
  * Abstract class for all the Mob

@@ -44,6 +44,7 @@ public class Door extends Entity {
 	public boolean alongXAxis = true, autoOpen = true, autoClose = true, OverrideStatus = false;
 
 	public int texture;
+	public int texture2;
 
 	/**
 	 * Method to create a new Door.
@@ -55,12 +56,11 @@ public class Door extends Entity {
 	 * @author Joao Lourenco
 	 */
 	public Door(int x, int y, int width, int height) {
-		super(x, y, width, height);
+		super(x + (width / 4), y + (height / 2), width, height);
 		this.key = "DOOR(" + x + "," + y + ")";
 		this.state = States.CLOSED;
 		usesKey = false;
 		this.collidable = true;
-		this.locked = true;
 	}
 
 	/**
@@ -216,8 +216,9 @@ public class Door extends Entity {
 	 * @param texture
 	 *            The texture to set
 	 */
-	public void setTexture(int texture) {
-		this.texture = texture;
+	public void setTexture(int[] texture) {
+		this.texture = texture[0];
+		this.texture2 = texture[1];
 	}
 
 	/**
@@ -259,10 +260,10 @@ public class Door extends Entity {
 		// Rendering the Quad.
 		if (this.alongXAxis) {
 			render(x - (DoorGap / 2), y, texture, shade, DoorSize);
-			render(x + (DoorGap / 2) + DoorSize, y, texture, shade, DoorSize);
+			render(x + (DoorGap / 2) + DoorSize, y, texture2, shade, DoorSize);
 		} else {
-			render(x, y + (DoorGap / 2) + DoorSize, texture, shade, DoorSize);
-			render(x, y - (DoorGap / 2), texture, shade, DoorSize);
+			render(x, y + (DoorGap / 2) + DoorSize, texture2, shade, DoorSize, DoorSize, 90);
+			render(x, y - (DoorGap / 2), texture, shade, DoorSize, DoorSize, 90);
 		}
 
 		// Disabling BLEND and releasing shader for next render.

@@ -403,7 +403,7 @@ public abstract class World {
 	 * @author Joao Lourenco
 	 */
 	public void setTile(int x, int y, Tile tile) {
-		this.worldTiles[x + y * this.width] = tile;
+		if (x + y * this.width < this.worldTiles.length) this.worldTiles[x + y * this.width] = tile;
 	}
 
 	/**

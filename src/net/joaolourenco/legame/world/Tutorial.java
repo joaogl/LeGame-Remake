@@ -20,6 +20,7 @@ import java.util.*;
 
 import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.entity.*;
+import net.joaolourenco.legame.entity.block.*;
 import net.joaolourenco.legame.entity.light.*;
 import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.*;
@@ -170,7 +171,7 @@ public class Tutorial extends World {
 			else if (Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT)) changeStep(false);
 			else if (Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) changeStep(false);
 		}
-		if (step >= 0 && step <= 3 && KeyboardFilter.isKeyDown(Keyboard.KEY_RETURN)) {
+		if (step >= 0 && step <= 4 && KeyboardFilter.isKeyDown(Keyboard.KEY_RETURN)) {
 			if (step == 3) {
 				Registry.getPlayer().setX(5 * 64);
 				Registry.getPlayer().setY(2 * 64);
@@ -276,7 +277,7 @@ public class Tutorial extends World {
 			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
 
 			Registry.getPlayer().renderable = false;
-			// Registry.getPlayer().freeze();
+			Registry.getPlayer().freeze();
 			this.needUpdates = true;
 		} else if (step == 4) {
 			Enemy e1 = new Enemy(0, (3 * 64), 64, 64);
@@ -303,7 +304,43 @@ public class Tutorial extends World {
 			e5.setTextureAtlas(Texture.Ogre, 3, 4, 1);
 			e5.init(this);
 			this.entities.add(e5);
+		} else if (step == 5) {
+			this.entities.clear();
+			this.entities.add(Registry.getPlayer());
+			this.setSize(13, 8);
+			this.needUpdates = true;
+			Registry.getPlayer().renderable = true;
+			Registry.getPlayer().unFreeze();
+			Registry.getPlayer().setX((2 * 64));
+			Registry.getPlayer().setY((2 * 64));
+
+			for (int y = 1; y < (this.height - 1); y++)
+				for (int x = 1; x < (this.width - 1); x++)
+					setTile(x, y, new SolidTile(64, Texture.Tiles[2], 0));
+
+			for (int x = 1; x < (this.width - 1); x++) {
+				setTile(x, 0, new SolidTile(64, Texture.Tiles[1], 0));
+				setTile(x, this.height - 1, new SolidTile(64, Texture.Tiles[1], 180));
+			}
+			for (int y = 1; y < (this.height - 1); y++) {
+				setTile(0, y, new SolidTile(64, Texture.Tiles[1], -90));
+				setTile(this.width - 1, y, new SolidTile(64, Texture.Tiles[1], 90));
+			}
+
+			setTile(0, 0, new SolidTile(64, Texture.Tiles[0], 0));
+			setTile(this.width - 1, 0, new SolidTile(64, Texture.Tiles[0], 90));
+			setTile(0, this.height - 1, new SolidTile(64, Texture.Tiles[0], 270));
+			setTile(this.width - 1, this.height - 1, new SolidTile(64, Texture.Tiles[0], 180));
+
+			Door door = new Door((8 * 64), (3 * 64), 128, 64);
+			door.setAlongXAxis(false);
+			door.setTexture(Texture.Door);
+			door.init(this);
+			this.entities.add(door);
+
+			/* *
+			 * DoorKey key = new DoorKey(1, door.getKey()); Main.player.giveItem(key);
+			 */
 		}
 	}
-
 }
