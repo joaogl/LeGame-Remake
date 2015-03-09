@@ -79,6 +79,7 @@ public abstract class World {
 	 * @author Joao Lourenco
 	 */
 	public World(int width, int height) {
+		this.player = Registry.getPlayer();
 		preLoad();
 		loading = new Loading();
 		Registry.registerMenu(loading);
@@ -90,7 +91,6 @@ public abstract class World {
 		this.yOffset = 0;
 		this.worldTiles = new Tile[this.width * this.height];
 
-		this.player = Registry.getPlayer();
 		this.player.init(this);
 		this.addEntity(this.player);
 
@@ -149,16 +149,6 @@ public abstract class World {
 	 */
 	public void generateLevel() {
 		this.stopLoading();
-	}
-
-	/**
-	 * Method to get the world Height
-	 * 
-	 * @return int with the world Height
-	 * @author Joao Lourenco
-	 */
-	public int getHeight() {
-		return this.height;
 	}
 
 	/**
@@ -297,6 +287,16 @@ public abstract class World {
 	}
 
 	/**
+	 * Method to get the world Height
+	 * 
+	 * @return int with the world Height
+	 * @author Joao Lourenco
+	 */
+	public int getHeight() {
+		return this.height;
+	}
+
+	/**
 	 * Method to get the distance between two entities.
 	 * 
 	 * @param a
@@ -360,7 +360,7 @@ public abstract class World {
 		ArrayList<Entity> ent = new ArrayList<Entity>();
 
 		for (Entity e : entities) {
-			if (e instanceof Mob && getDistance(e, x, y) < radius) ent.add(e);
+			if (e instanceof Entity && getDistance(e, x, y) < radius) ent.add(e);
 		}
 
 		return ent;

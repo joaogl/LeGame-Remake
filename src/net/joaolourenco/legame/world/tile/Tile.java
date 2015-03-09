@@ -40,7 +40,7 @@ public abstract class Tile extends RenderableComponent {
 	/**
 	 * Is the tile collidable? Will the light end on the tile or keep spreading?
 	 */
-	protected boolean collidable = true, lightCollidable = true, lightAffected = true;
+	protected boolean collidable = false, lightCollidable = false, lightAffected = true;
 	/**
 	 * Size and location of the tile.
 	 */

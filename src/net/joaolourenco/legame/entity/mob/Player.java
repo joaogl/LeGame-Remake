@@ -16,12 +16,13 @@
 
 package net.joaolourenco.legame.entity.mob;
 
-import net.joaolourenco.legame.*;
-import net.joaolourenco.legame.entity.block.*;
-import net.joaolourenco.legame.graphics.*;
-import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.Registry;
+import net.joaolourenco.legame.entity.block.Door;
+import net.joaolourenco.legame.graphics.AnimatedSprite;
+import net.joaolourenco.legame.utils.KeyboardFilter;
+import net.joaolourenco.legame.utils.Vector2f;
 
-import org.lwjgl.input.*;
+import org.lwjgl.input.Keyboard;
 
 /**
  * Player Class.
@@ -71,25 +72,37 @@ public class Player extends Mob {
 		if (Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT)) xa -= speed;
 		else if (Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) xa += speed;
 
-		xa = moveX(xa);
-		ya = moveY(ya);
-
 		// Updating the player facing side.
 		getSide(xa, ya);
+
+		// Checking for Collision
+		Vector2f a = move(xa, ya);
+		xa = a.x;
+		ya = a.y;
 
 		// Moving the player to the final destination.
 		this.x += xa;
 		this.y += ya;
 
 		// Update the Offset of the world.
-		this.world.setOffset((int) ((this.x + (this.width / 2)) - Registry.getScreenWidth() / 2), (int) (this.y + (this.height / 2) - Registry.getScreenHeight() / 2));
-		this.updateTexture();
+		int xOff = (int) ((this.x + (this.width / 2)) - Registry.getScreenWidth() / 2);
+		int yOff = (int) (this.y + (this.height / 2) - Registry.getScreenHeight() / 2);
+
+		// if (xOff < 0) xOff = 1;
+		// if (yOff < 0) yOff = 1;
+
+		this.world.setOffset(xOff, yOff);
+
+		this.updateTexture((int) xa, (int) ya);
 
 		if (KeyboardFilter.isKeyDown(Keyboard.KEY_F)) this.died();
 		if (KeyboardFilter.isKeyDown(Keyboard.KEY_G)) this.attacking = !this.attacking;
 	}
 
-	public void updateTexture() {
+	public void updateTexture(int xa, int ya) {
+		if (xa != 0 || ya != 0) this.moving = true;
+		else this.moving = false;
+
 		if (this.dying) this.animation = texturesDying[1];
 		else {
 			if (this.side == 0) this.animation = textures[2];
@@ -112,10 +125,37 @@ public class Player extends Mob {
 	 * @author Joao Lourenco
 	 */
 	public void tick() {
-		if (Keyboard.isKeyDown(Keyboard.KEY_RETURN)) {
+		if (KeyboardFilter.isKeyDown(Keyboard.KEY_RETURN)) {
 			Door door = this.world.getNearByDoor(this.x, this.y, 300);
 			if (door != null) door.ativateDoor(this);
 		}
+	}
+
+	/**
+	 * Method to return the Enity vertices.
+	 * 
+	 * @return Vector2f[] with the vertices.
+	 * @author Joao Lourenco
+	 */
+	public Vector2f[][] getVertices() {
+		int xSize = 25;
+		int yOffset = 2;
+		Vector2f[] d1 = new Vector2f[] { //
+		//
+				new Vector2f(this.x + xSize, this.y + yOffset + 5), //
+				new Vector2f(this.x + xSize, this.y + this.height), //
+				new Vector2f(this.x - xSize + this.width, this.y + this.height), //
+				new Vector2f(this.x - xSize + this.width, this.y + 5) //
+		};
+		xSize = 20;
+		Vector2f[] d2 = new Vector2f[] { //
+		//
+				new Vector2f(this.x + xSize, this.y + yOffset + 5), //
+				new Vector2f(this.x + xSize, this.y + this.height - 5), //
+				new Vector2f(this.x - xSize + this.width, this.y + this.height - 5), //
+				new Vector2f(this.x - xSize + this.width, this.y + 5) //
+		};
+		return new Vector2f[][] { d1, d2 };
 	}
 
 }

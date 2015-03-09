@@ -44,8 +44,8 @@ public class Enemy extends Mob {
 	@Override
 	public void update() {
 		this.side = 2;
-		this.updateTexture();
-		for (AnimatedSprite s : this.textures )
+		this.updateTexture(0, 0);
+		for (AnimatedSprite s : this.textures)
 			s.setFrameRate(5);
 	}
 

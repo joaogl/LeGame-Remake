@@ -16,15 +16,25 @@
 
 package net.joaolourenco.legame.entity.block;
 
-import java.util.*;
+import java.util.List;
 
-import net.joaolourenco.legame.entity.*;
-import net.joaolourenco.legame.graphics.font.*;
-import net.joaolourenco.legame.items.*;
-import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.entity.Entity;
+import net.joaolourenco.legame.entity.mob.Mob;
+import net.joaolourenco.legame.graphics.font.AnimatedText;
+import net.joaolourenco.legame.items.DoorKey;
+import net.joaolourenco.legame.items.Item;
+import net.joaolourenco.legame.utils.Vector2f;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_STENCIL_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_ZERO;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glUniform1f;
 
 /**
  * @author Joao Lourenco
@@ -210,6 +220,26 @@ public class Door extends Entity {
 	}
 
 	/**
+	 * Method to get the current Entity x coordinates.
+	 * 
+	 * @return int with the position.
+	 * @author Joao Lourenco
+	 */
+	public int getX() {
+		return (int) (this.x - (this.width / 4));
+	}
+
+	/**
+	 * Method to get the current Entity y coordinates.
+	 * 
+	 * @return int with the position.
+	 * @author Joao Lourenco
+	 */
+	public int getY() {
+		return (int) (this.y - (this.height / 2));
+	}
+
+	/**
 	 * 
 	 * @author Joao Lourenco
 	 * 
@@ -288,8 +318,40 @@ public class Door extends Entity {
 	}
 
 	public void closeDoor() {
-		if (this.state == States.OPEN && (this.state != States.CLOSED && this.state != States.CLOSING) || this.state == States.OPENING && (this.state != States.CLOSED && this.state != States.CLOSING)) this.state = States.CLOSING;
-		OverrideStatus = true;
+		float pX0, pY0, pX1, pY3;
+
+		if (this.alongXAxis) {
+			pX1 = this.getX() + (this.DoorSize / 4) - (this.DoorGap / 2) + this.DoorSize;
+			pX0 = this.getX() + (this.DoorSize / 4) + (this.DoorGap / 2) + this.DoorSize + this.DoorSize;
+
+			pY0 = this.y;
+			pY3 = this.y + this.DoorSize;
+		} else {
+			pX1 = this.getX();
+			pX0 = this.getX() + this.DoorSize;
+
+			pY0 = this.getY() - (this.DoorGap / 2) + this.DoorSize;
+			pY3 = this.getY() + (this.DoorGap / 2) + this.DoorSize;
+		}
+
+		List<Entity> ent = this.world.getNearByEntities(this.getX(), this.getY(), 160);
+		boolean clear = true;
+
+		for (Entity e : ent) {
+			if (e.isCollidable() && e instanceof Mob) {
+				Vector2f[][] v = e.getVertices();
+				for (int n = 0; n < v.length; n++) {
+					Vector2f[] vertices = v[n];
+
+					if ((vertices[0].x > pX1 && vertices[0].x < pX0 || vertices[3].x > pX1 && vertices[3].x < pX0) && ((vertices[3].y + 24) > pY0 && (vertices[3].y + 24) < pY3 || vertices[2].y > pY0 && vertices[2].y < pY3)) clear = false;
+				}
+			}
+		}
+
+		if (clear) {
+			if (this.state == States.OPEN && (this.state != States.CLOSED && this.state != States.CLOSING) || this.state == States.OPENING && (this.state != States.CLOSED && this.state != States.CLOSING)) this.state = States.CLOSING;
+			OverrideStatus = true;
+		}
 	}
 
 	public void openDoor() {
@@ -340,33 +402,33 @@ public class Door extends Entity {
 		if (this.alongXAxis) {
 			Vector2f[] d1 = new Vector2f[] { //
 			//
-					new Vector2f(this.x - (this.DoorGap / 2), this.y), //
-					new Vector2f(this.x - (this.DoorGap / 2), this.y + this.DoorSize), //
-					new Vector2f(this.x - (this.DoorGap / 2) + this.DoorSize, this.y + this.DoorSize), //
-					new Vector2f(this.x - (this.DoorGap / 2) + this.DoorSize, this.y) //
+					new Vector2f(this.getX() + (this.DoorSize / 4) - (this.DoorGap / 2), this.y), //
+					new Vector2f(this.getX() + (this.DoorSize / 4) - (this.DoorGap / 2), this.y + this.DoorSize), //
+					new Vector2f(this.getX() + (this.DoorSize / 4) - (this.DoorGap / 2) + this.DoorSize, this.y + this.DoorSize), //
+					new Vector2f(this.getX() + (this.DoorSize / 4) - (this.DoorGap / 2) + this.DoorSize, this.y) //
 			};
 			Vector2f[] d2 = new Vector2f[] { //
 			//
-					new Vector2f(this.x + (this.DoorGap / 2) + this.DoorSize, this.y), //
-					new Vector2f(this.x + (this.DoorGap / 2) + this.DoorSize, this.y + this.DoorSize), //
-					new Vector2f(this.x + (this.DoorGap / 2) + this.DoorSize + this.DoorSize, this.y + this.DoorSize), //
-					new Vector2f(this.x + (this.DoorGap / 2) + this.DoorSize + this.DoorSize, this.y) //
+					new Vector2f(this.getX() + (this.DoorSize / 4) + (this.DoorGap / 2) + this.DoorSize, this.y), //
+					new Vector2f(this.getX() + (this.DoorSize / 4) + (this.DoorGap / 2) + this.DoorSize, this.y + this.DoorSize), //
+					new Vector2f(this.getX() + (this.DoorSize / 4) + (this.DoorGap / 2) + this.DoorSize + this.DoorSize, this.y + this.DoorSize), //
+					new Vector2f(this.getX() + (this.DoorSize / 4) + (this.DoorGap / 2) + this.DoorSize + this.DoorSize, this.y) //
 			};
 			return new Vector2f[][] { d1, d2 };
 		} else {
 			Vector2f[] d1 = new Vector2f[] { //
 			//
-					new Vector2f(this.x, this.y + (this.DoorGap / 2) + this.DoorSize), //
-					new Vector2f(this.x + this.DoorSize, this.y + (this.DoorGap / 2) + this.DoorSize), //
-					new Vector2f(this.x + this.DoorSize, this.y + (this.DoorGap / 2) + this.DoorSize + this.DoorSize), //
-					new Vector2f(this.x, this.y + (this.DoorGap / 2) + this.DoorSize + this.DoorSize) //
+					new Vector2f(this.getX(), this.getY() + (this.DoorGap / 2) + this.DoorSize), //
+					new Vector2f(this.getX() + this.DoorSize, this.getY() + (this.DoorGap / 2) + this.DoorSize), //
+					new Vector2f(this.getX() + this.DoorSize, this.getY() + (this.DoorGap / 2) + this.DoorSize + this.DoorSize), //
+					new Vector2f(this.getX(), this.getY() + (this.DoorGap / 2) + this.DoorSize + this.DoorSize) //
 			};
 			Vector2f[] d2 = new Vector2f[] { //
 			//
-					new Vector2f(this.x, this.y - (this.DoorGap / 2)), //
-					new Vector2f(this.x + this.DoorSize, this.y - (this.DoorGap / 2)), //
-					new Vector2f(this.x + this.DoorSize, this.y - (this.DoorGap / 2) + this.DoorSize), //
-					new Vector2f(this.x, this.y - (this.DoorGap / 2) + this.DoorSize) //
+					new Vector2f(this.getX(), this.getY() - (this.DoorGap / 2)), //
+					new Vector2f(this.getX() + this.DoorSize, this.getY() - (this.DoorGap / 2)), //
+					new Vector2f(this.getX() + this.DoorSize, this.getY() - (this.DoorGap / 2) + this.DoorSize), //
+					new Vector2f(this.getX(), this.getY() - (this.DoorGap / 2) + this.DoorSize) //
 			};
 			return new Vector2f[][] { d1, d2 };
 		}

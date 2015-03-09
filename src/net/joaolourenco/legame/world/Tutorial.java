@@ -16,23 +16,33 @@
 
 package net.joaolourenco.legame.world;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.List;
+import java.util.NoSuchElementException;
 
-import net.joaolourenco.legame.*;
-import net.joaolourenco.legame.entity.*;
-import net.joaolourenco.legame.entity.block.*;
-import net.joaolourenco.legame.entity.light.*;
-import net.joaolourenco.legame.entity.mob.*;
-import net.joaolourenco.legame.graphics.*;
-import net.joaolourenco.legame.graphics.font.*;
-import net.joaolourenco.legame.settings.*;
-import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.Registry;
+import net.joaolourenco.legame.entity.Entity;
+import net.joaolourenco.legame.entity.block.Door;
+import net.joaolourenco.legame.entity.light.Light;
+import net.joaolourenco.legame.entity.light.PointLight;
+import net.joaolourenco.legame.entity.mob.Enemy;
+import net.joaolourenco.legame.graphics.Texture;
+import net.joaolourenco.legame.graphics.font.AnimatedText;
+import net.joaolourenco.legame.settings.GeneralSettings;
+import net.joaolourenco.legame.utils.KeyboardFilter;
 import net.joaolourenco.legame.utils.Timer;
-import net.joaolourenco.legame.world.tile.*;
+import net.joaolourenco.legame.utils.TimerResult;
+import net.joaolourenco.legame.utils.TutorialText;
+import net.joaolourenco.legame.utils.Vector2f;
+import net.joaolourenco.legame.world.tile.FinishPoint;
+import net.joaolourenco.legame.world.tile.SolidTile;
+import net.joaolourenco.legame.world.tile.Tile;
 
-import org.lwjgl.input.*;
+import org.lwjgl.input.Keyboard;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.glColor3f;
+import static org.lwjgl.opengl.GL11.glTranslatef;
 
 /**
  * @author Joao Lourenco
@@ -55,7 +65,7 @@ public class Tutorial extends World {
 
 	public void preLoad() {
 		super.preLoad();
-		Registry.getPlayer().setRenderable(false);
+		this.player.setRenderable(false);
 	}
 
 	/**
@@ -97,8 +107,8 @@ public class Tutorial extends World {
 		// Getting the variables ready to check what tiles to render.
 		int x0 = this.xOffset >> GeneralSettings.TILE_SIZE_MASK;
 		int x1 = (this.xOffset >> GeneralSettings.TILE_SIZE_MASK) + (Registry.getScreenWidth() * 14 / 800);
-		int y0 = this.yOffset >> GeneralSettings.TILE_SIZE_MASK;
-		int y1 = (this.yOffset >> GeneralSettings.TILE_SIZE_MASK) + (Registry.getScreenHeight() * 11 / 600);
+		int y0 = this.yOffset >> GeneralSettings.TILE_SIZE_MASK + 1;
+		int y1 = (this.yOffset >> GeneralSettings.TILE_SIZE_MASK) + (Registry.getScreenHeight() * 12 / 600);
 		// Going through all the tiles to render.
 		for (int y = y0; y < y1; y++) {
 			for (int x = x0; x < x1; x++) {
@@ -140,8 +150,8 @@ public class Tutorial extends World {
 	public void update() {
 		if (this.levelOver && step >= 2) {
 			this.levelOver = false;
-			Registry.getPlayer().setX(5 * 64);
-			Registry.getPlayer().setY(2 * 64);
+			this.player.setX(5 * 64);
+			this.player.setY(2 * 64);
 			this.changeStep(true);
 		}
 
@@ -173,8 +183,8 @@ public class Tutorial extends World {
 		}
 		if (step >= 0 && step <= 4 && KeyboardFilter.isKeyDown(Keyboard.KEY_RETURN)) {
 			if (step == 3) {
-				Registry.getPlayer().setX(5 * 64);
-				Registry.getPlayer().setY(2 * 64);
+				this.player.setX(5 * 64);
+				this.player.setY(2 * 64);
 			}
 			changeStep(true);
 		}
@@ -250,7 +260,7 @@ public class Tutorial extends World {
 			setTile(5, 0, new SolidTile(64, Texture.Tiles[0], 90));
 			setTile(0, 3, new SolidTile(64, Texture.Tiles[0], -90));
 
-			Registry.getPlayer().renderable = true;
+			this.player.renderable = true;
 			this.needUpdates = true;
 		} else if (step == 2) {
 			int yPos = (Registry.getScreenHeight() / 4);
@@ -276,8 +286,8 @@ public class Tutorial extends World {
 
 			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
 
-			Registry.getPlayer().renderable = false;
-			Registry.getPlayer().freeze();
+			this.player.renderable = false;
+			this.player.freeze();
 			this.needUpdates = true;
 		} else if (step == 4) {
 			Enemy e1 = new Enemy(0, (3 * 64), 64, 64);
@@ -306,13 +316,13 @@ public class Tutorial extends World {
 			this.entities.add(e5);
 		} else if (step == 5) {
 			this.entities.clear();
-			this.entities.add(Registry.getPlayer());
-			this.setSize(13, 8);
+			this.setSize(13, 13);
+			this.player.init(this);
 			this.needUpdates = true;
-			Registry.getPlayer().renderable = true;
-			Registry.getPlayer().unFreeze();
-			Registry.getPlayer().setX((2 * 64));
-			Registry.getPlayer().setY((2 * 64));
+			this.player.renderable = true;
+			this.player.unFreeze();
+			this.player.setX((2 * 64));
+			this.player.setY((2 * 64));
 
 			for (int y = 1; y < (this.height - 1); y++)
 				for (int x = 1; x < (this.width - 1); x++)
@@ -332,15 +342,25 @@ public class Tutorial extends World {
 			setTile(0, this.height - 1, new SolidTile(64, Texture.Tiles[0], 270));
 			setTile(this.width - 1, this.height - 1, new SolidTile(64, Texture.Tiles[0], 180));
 
-			Door door = new Door((8 * 64), (3 * 64), 128, 64);
+			Door door = new Door((8 * 64), (3 * 64), 124, 64);
 			door.setAlongXAxis(false);
 			door.setTexture(Texture.Door);
+			door.isCollidable(true);
 			door.init(this);
 			this.entities.add(door);
+
+			Vector2f location = new Vector2f((6 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (6 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
+			PointLight l2 = new PointLight(location, 10f, 10f, 10f, 0.8f);
+			l2.init(this);
+			l2.isCollidable(false);
+			this.entities.add(l2);
+
+			this.DAY_LIGHT = 0.5f;
 
 			/* *
 			 * DoorKey key = new DoorKey(1, door.getKey()); Main.player.giveItem(key);
 			 */
+			this.entities.add(this.player);
 		}
 	}
 }

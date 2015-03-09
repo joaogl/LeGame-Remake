@@ -16,9 +16,14 @@
 
 package net.joaolourenco.legame.entity.mob;
 
-import net.joaolourenco.legame.entity.*;
-import net.joaolourenco.legame.graphics.*;
-import net.joaolourenco.legame.utils.*;
+import java.util.List;
+
+import net.joaolourenco.legame.entity.Entity;
+import net.joaolourenco.legame.graphics.AnimatedSprite;
+import net.joaolourenco.legame.utils.Timer;
+import net.joaolourenco.legame.utils.TimerResult;
+import net.joaolourenco.legame.utils.Vector2f;
+import net.joaolourenco.legame.world.tile.Tile;
 
 /**
  * Abstract class for all the Mob
@@ -145,26 +150,78 @@ public abstract class Mob extends Entity {
 		else if (xa < 0) this.side = 1;
 		if (ya > 0) this.side = 2;
 		else if (ya < 0) this.side = 3;
-
-		if (xa != 0 || ya != 0) this.moving = true;
-		else this.moving = false;
 	}
 
 	public float moveX(float a) {
-		if ((this.x + a) < 0) return 0;
-		if (this.frozen) return 0;
-		if ((this.x + a) > (this.world.getWidth() * 64) - this.width) return 0;
+		// Check for mob states.
+		if (this.frozen || this.inBed) return 0;
+		// Check for normal collision.
+
+		// Check for Tile Collision.
+		for (int c = 0; c < 4; c++) {
+			int xt = (int) ((x + a) + c % 2 * 26 + 20) / 64;
+			int yt = (int) (y + c / 2 * 42 + 40) / 64;
+
+			Tile t = this.world.getTile(xt, yt);
+			if (t != null && t.isCollidable()) return 0;
+		}
+
+		// Check for Entity Collision
+
 		return a;
 	}
 
-	public float moveY(float a) {
-		if ((this.y + a) < 0) return 0;
-		if (this.frozen) return 0;
-		if ((this.y + a) > (this.world.getHeight() * 64) - this.height) return 0;
-		return a;
+	public Vector2f move(float xa, float ya) {
+		Vector2f none = new Vector2f(0, 0);
+		// Check for mob states.
+		if (this.frozen || this.inBed) return none;
+		// Check for normal collision.
+		if ((this.y + ya) < 0) ya = 0;
+		if ((this.x + xa) < 0) xa = 0;
+		if ((this.y + ya) > (this.world.getHeight() * 64) - this.height) ya = 0;
+		if ((this.x + xa) > (this.world.getWidth() * 64) - this.width) xa = 0;
+
+		// Check for Tile Collision.
+		for (int c = 0; c < 4; c++) {
+			int x1 = 23;
+			int x2 = 20;
+
+			int y1 = 32;
+			int y2 = 30;
+
+			int xt = (int) ((x + xa) + c % 2 * x1 + x2) / 64;
+			int yt = (int) (y + c / 2 * y1 + y2) / 64;
+
+			Tile t = this.world.getTile(xt, yt);
+			if (t != null && t.isCollidable()) xa = 0;
+
+			xt = (int) (x + c % 2 * x1 + x2) / 64;
+			yt = (int) ((y + ya) + c / 2 * y1 + y2) / 64;
+
+			t = this.world.getTile(xt, yt);
+			if (t != null && t.isCollidable()) ya = 0;
+		}
+
+		// Check for Entity Collision
+		List<Entity> ent = this.world.getNearByEntities(this.x, this.y, 160);
+
+		for (Entity e : ent) {
+			if (e.isCollidable() && e != this) {
+				Vector2f[][] v = e.getVertices();
+				for (int n = 0; n < v.length; n++) {
+					Vector2f[] vertices = v[n];
+
+					if ((this.x + this.width + xa - 14) > (vertices[0].x) && (this.x + xa) < (vertices[2].x - 15) && (this.y + this.height) > (vertices[0].y) && (this.y) < (vertices[2].y - 30)) xa = 0;
+
+					if ((this.x + this.width - 14) > (vertices[0].x) && (this.x) < (vertices[2].x - 15) && (this.y + this.height + ya) > (vertices[0].y) && (this.y + ya) < (vertices[2].y - 30)) ya = 0;
+				}
+			}
+		}
+
+		return new Vector2f(xa, ya);
 	}
 
-	public void updateTexture() {
+	public void updateTexture(int xa, int ya) {
 		if (this.side == 0) this.animation = textures[2];
 		else if (this.side == 1) this.animation = textures[1];
 		else if (this.side == 2) this.animation = textures[0];

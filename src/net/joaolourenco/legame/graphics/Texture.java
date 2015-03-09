@@ -73,7 +73,7 @@ public class Texture {
 	 */
 	public static void load() {
 		FinishPod = loadAtlas("/textures/FinishPod.png", 2, 2);
-		Grass = loadTexture("/textures/grass.png", false);
+		Grass = loadTexture("/textures/Grass.png", false);
 		Dirt = loadTexture("/textures/dirt.png", false);
 		Mob = loadTexture("/textures/mob.png", false);
 		Tiles = loadAtlas("/textures/GroundTiles2.png", 2, 2);

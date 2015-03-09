@@ -16,17 +16,23 @@
 
 package net.joaolourenco.legame;
 
-import java.util.*;
+import java.util.ConcurrentModificationException;
+import java.util.List;
+import java.util.NoSuchElementException;
 
-import net.joaolourenco.legame.entity.mob.*;
-import net.joaolourenco.legame.graphics.*;
-import net.joaolourenco.legame.graphics.font.*;
-import net.joaolourenco.legame.graphics.menu.*;
-import net.joaolourenco.legame.settings.*;
-import net.joaolourenco.legame.world.*;
+import net.joaolourenco.legame.entity.mob.Player;
+import net.joaolourenco.legame.graphics.Texture;
+import net.joaolourenco.legame.graphics.font.AnimatedText;
+import net.joaolourenco.legame.graphics.font.Font;
+import net.joaolourenco.legame.graphics.menu.MainMenu;
+import net.joaolourenco.legame.graphics.menu.Menu;
+import net.joaolourenco.legame.settings.GeneralSettings;
+import net.joaolourenco.legame.world.World;
 
-import org.lwjgl.*;
-import org.lwjgl.opengl.*;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -92,11 +98,24 @@ public class Main implements Runnable {
 	private void init() {
 		// Setting up the Display
 		try {
-			// Registry.registerScreen(1400, 1000);
+			// Registry.registerScreen(1024, 768);
 			Registry.registerScreen(800, 600);
-			Display.setDisplayMode(new DisplayMode(Registry.getScreenWidth(), Registry.getScreenHeight()));
+
+			DisplayMode mode = null;
+			DisplayMode[] modes = Display.getAvailableDisplayModes();
+			for (int i = 0; i < modes.length; i++)
+				System.out.println("W: " + modes[i].getWidth() + " H: " + modes[i].getHeight() + " Bits: " + modes[i].getBitsPerPixel() + " Freq: " + modes[i].getFrequency());
+
+			for (int i = 0; i < modes.length; i++) {
+				if (modes[i].getWidth() == Registry.getScreenWidth() && modes[i].getHeight() == Registry.getScreenHeight() && modes[i].getBitsPerPixel() >= 32 && modes[i].getFrequency() == 60) {
+					mode = modes[i];
+					break;
+				}
+			}
+
+			Display.setDisplayMode(mode);
 			Display.setTitle(GeneralSettings.fullname);
-			Display.create(new PixelFormat(0, 16, 1));
+			Display.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
