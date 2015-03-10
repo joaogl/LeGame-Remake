@@ -80,6 +80,7 @@ public class Registry {
 	}
 
 	public static void registerMenu(Menu m) {
+		focused = false;
 		menus.add(m);
 	}
 
@@ -152,6 +153,7 @@ public class Registry {
 	}
 
 	public static void removeMenu(Menu m) {
+		focused = true;
 		menus.remove(m);
 	}
 

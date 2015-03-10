@@ -48,6 +48,10 @@ public class RandomWorld extends World {
 	 * @author Joao Lourenco
 	 */
 	public void generateLevel() {
+		this.player.setX(2);
+		this.player.setY(2);
+		
+		
 		SolidTile back = new SolidTile(64, Texture.Tiles[2]);
 		SolidTile l = new SolidTile(64, Texture.Tiles[1], -90);
 		SolidTile r = new SolidTile(64, Texture.Tiles[1], 90);

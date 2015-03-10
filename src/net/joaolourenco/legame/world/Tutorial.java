@@ -85,12 +85,6 @@ public class Tutorial extends World {
 	@Override
 	public void generateLevel() {
 		new FinishPoint(this, 0, 0, Texture.Tiles[2]);
-		// List<MultiData> list = new ArrayList<MultiData>();
-		// list.add(new MultiData(0, 0, Texture.FinishPod[0], Texture.Tiles[3], true, 0));
-		// list.add(new MultiData(1, 0, Texture.FinishPod[1], Texture.Tiles[3], true, 0));
-		// list.add(new MultiData(0, 1, Texture.FinishPod[2], Texture.Tiles[3], true, 0));
-		// list.add(new MultiData(1, 1, Texture.FinishPod[3], Texture.Tiles[3], true, 0));
-		// setTile(0, 0, new MultiTile(list));
 
 		if (timerOver) super.generateLevel();
 		finished = true;

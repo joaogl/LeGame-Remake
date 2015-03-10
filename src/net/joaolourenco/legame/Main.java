@@ -256,7 +256,7 @@ public class Main implements Runnable {
 	 * @author Joao Lourenco
 	 */
 	private void update() {
-		if (world != null) world.update();
+		if (world != null && Registry.isGameFocused()) world.update();
 		// Update the Menus
 		List<Menu> menus = Registry.getMenus();
 		for (int i = 0; i < menus.size(); i++) {
@@ -280,7 +280,7 @@ public class Main implements Runnable {
 	 * @author Joao Lourenco
 	 */
 	private void tick() {
-		if (world != null) world.tick();
+		if (world != null && Registry.isGameFocused()) world.tick();
 		// Tick the Menus
 		for (Menu m : Registry.getMenus())
 			m.tick();
@@ -293,4 +293,9 @@ public class Main implements Runnable {
 	public boolean isRunning() {
 		return this.running;
 	}
+
+	public World getWorld() {
+		return this.world;
+	}
+
 }

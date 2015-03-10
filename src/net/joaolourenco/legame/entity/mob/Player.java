@@ -19,6 +19,7 @@ package net.joaolourenco.legame.entity.mob;
 import net.joaolourenco.legame.Registry;
 import net.joaolourenco.legame.entity.block.Door;
 import net.joaolourenco.legame.graphics.AnimatedSprite;
+import net.joaolourenco.legame.graphics.menu.MainMenu;
 import net.joaolourenco.legame.utils.KeyboardFilter;
 import net.joaolourenco.legame.utils.Vector2f;
 
@@ -97,6 +98,8 @@ public class Player extends Mob {
 
 		if (KeyboardFilter.isKeyDown(Keyboard.KEY_F)) this.died();
 		if (KeyboardFilter.isKeyDown(Keyboard.KEY_G)) this.attacking = !this.attacking;
+
+		if (KeyboardFilter.isKeyDown(Keyboard.KEY_ESCAPE)) Registry.registerMenu(new MainMenu());
 	}
 
 	public void updateTexture(int xa, int ya) {

@@ -65,6 +65,7 @@ public class Texture {
 	 */
 	public static void preload() {
 		Menus[0] = loadTexture("/textures/menus/sky.png", false);
+		Menus[1] = loadTexture("/textures/menus/Background.png", false);
 		Clouds = loadAtlas("/textures/menus/clouds2.png", 4, 4);
 		loading = loadAtlas("/textures/menus/loading.png", 1, 1)[0];
 	}
