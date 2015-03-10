@@ -33,6 +33,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.PixelFormat;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -115,7 +116,7 @@ public class Main implements Runnable {
 
 			Display.setDisplayMode(mode);
 			Display.setTitle(GeneralSettings.fullname);
-			Display.create();
+			Display.create(new PixelFormat(0, 16, 1));
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}

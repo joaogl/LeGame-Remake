@@ -76,7 +76,7 @@ public class Texture {
 		Grass = loadTexture("/textures/Grass.png", false);
 		Dirt = loadTexture("/textures/dirt.png", false);
 		Mob = loadTexture("/textures/mob.png", false);
-		Tiles = loadAtlas("/textures/GroundTiles2.png", 2, 2);
+		Tiles = loadAtlas("/textures/GroundTiles.png", 3, 3);
 		Door = loadAtlas("/textures/Door.png", 2, 1);
 		Fire[0] = loadTexture("/textures/fire1.png", false);
 		Fire[1] = loadTexture("/textures/fire2.png", false);

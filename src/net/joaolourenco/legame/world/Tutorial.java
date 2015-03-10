@@ -29,6 +29,7 @@ import net.joaolourenco.legame.entity.light.PointLight;
 import net.joaolourenco.legame.entity.mob.Enemy;
 import net.joaolourenco.legame.graphics.Texture;
 import net.joaolourenco.legame.graphics.font.AnimatedText;
+import net.joaolourenco.legame.items.DoorKey;
 import net.joaolourenco.legame.settings.GeneralSettings;
 import net.joaolourenco.legame.utils.KeyboardFilter;
 import net.joaolourenco.legame.utils.Timer;
@@ -215,6 +216,7 @@ public class Tutorial extends World {
 		step++;
 		if (removeText && step != 4) text.clear();
 		if (step != 4) Registry.clearAnimatedTexts();
+		if (step == 6) this.setSize(1, 1);
 
 		if (step == 0) {
 			int yPos = (Registry.getScreenHeight() / 4);
@@ -234,8 +236,8 @@ public class Tutorial extends World {
 		} else if (step == 1) {
 			int yPos = (Registry.getScreenHeight() / 4);
 
-			AnimatedText a = new AnimatedText("You can move using the WASD", Registry.getScreenWidth() / 2, yPos, 25, 100, 5000, -1);
-			new AnimatedText("keys or the arrow keys.", Registry.getScreenWidth() / 2, yPos + 50, 25, 100, 5000, -1, a);
+			AnimatedText a = new AnimatedText("Use the WASD or the", Registry.getScreenWidth() / 2, yPos, 25, 100, 5000, -1);
+			new AnimatedText("arrow keys to move.", Registry.getScreenWidth() / 2, yPos + 50, 25, 100, 5000, -1, a);
 
 			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
 
@@ -314,9 +316,20 @@ public class Tutorial extends World {
 			e5.setTextureAtlas(Texture.Ogre, 3, 4, 1);
 			e5.init(this);
 			this.entities.add(e5);
+
+			new AnimatedText("Press enter to continue", Registry.getScreenWidth() / 2, (Registry.getScreenHeight() / 6) * 5, 25, 100, 5000, -1);
+
+			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
 		} else if (step == 5) {
+			this.levelEndable = true;
+			this.player.renderable = true;
+			this.player.unFreeze();
+			this.needUpdates = true;
+
 			this.entities.clear();
-			this.setSize(13, 13);
+			this.setSize(14, 13);
+			this.player.setX(3);
+			this.player.setY(2);
 			this.player.init(this);
 			this.needUpdates = true;
 			this.player.renderable = true;
@@ -342,25 +355,54 @@ public class Tutorial extends World {
 			setTile(0, this.height - 1, new SolidTile(64, Texture.Tiles[0], 270));
 			setTile(this.width - 1, this.height - 1, new SolidTile(64, Texture.Tiles[0], 180));
 
-			Door door = new Door((8 * 64), (3 * 64), 124, 64);
-			door.setAlongXAxis(false);
+			setTile(5, 0, new SolidTile(64, Texture.Tiles[5], 0));
+			setTile(6, 0, new SolidTile(64, Texture.Tiles[7], 0));
+			getTile(6, 0).isCollidable(true);
+			setTile(7, 0, new SolidTile(64, Texture.Tiles[8], 0));
+
+			for (int y = 1; y < 9; y++) {
+				setTile(6, y, new SolidTile(64, Texture.Tiles[6], 0));
+				getTile(6, y).isCollidable(true);
+			}
+
+			setTile(6, 9, new SolidTile(64, Texture.Tiles[4], 0));
+			getTile(6, 9).isCollidable(true);
+
+			for (int x = 7; x < 13; x++) {
+				setTile(x, 9, new SolidTile(64, Texture.Tiles[6], 90));
+				getTile(x, 9).isCollidable(true);
+			}
+			setTile(10, 9, new SolidTile(64, Texture.Tiles[2], 90));
+
+			setTile(13, 8, new SolidTile(64, Texture.Tiles[5], 90));
+			setTile(13, 9, new SolidTile(64, Texture.Tiles[7], 90));
+			getTile(13, 9).isCollidable(true);
+			setTile(13, 10, new SolidTile(64, Texture.Tiles[8], 90));
+
+			new FinishPoint(this, 9, 2, Texture.Tiles[2]);
+
+			Door door = new Door((9 * 64), (9 * 64), 124, 64);
+			door.locked = true;
 			door.setTexture(Texture.Door);
-			door.isCollidable(true);
 			door.init(this);
+			this.player.giveItem(new DoorKey(door.getKey()));
 			this.entities.add(door);
 
 			Vector2f location = new Vector2f((6 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2, (6 << GeneralSettings.TILE_SIZE_MASK) + GeneralSettings.TILE_SIZE / 2);
-			PointLight l2 = new PointLight(location, 10f, 10f, 10f, 0.8f);
+			PointLight l2 = new PointLight(location, 10f, 10f, 10f, 0.5f);
 			l2.init(this);
 			l2.isCollidable(false);
 			this.entities.add(l2);
 
-			this.DAY_LIGHT = 0.5f;
+			this.DAY_LIGHT = 0.3f;
 
-			/* *
-			 * DoorKey key = new DoorKey(1, door.getKey()); Main.player.giveItem(key);
-			 */
 			this.entities.add(this.player);
+
+			AnimatedText a = new AnimatedText("To open doors,press ", Registry.getScreenWidth() / 2, 30, 25, 100, 5000, -1);
+			AnimatedText b = new AnimatedText("ENTER near the door.", Registry.getScreenWidth() / 2, 80, 25, 100, 5000, -1, a);
+			new AnimatedText("Try to finish the level.", Registry.getScreenWidth() / 2, 130, 25, 100, 5000, -1, b);
+
+			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
 		}
 	}
 }

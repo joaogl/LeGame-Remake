@@ -289,8 +289,8 @@ public class Door extends Entity {
 
 		// Rendering the Quad.
 		if (this.alongXAxis) {
-			render(x - (DoorGap / 2), y, texture, shade, DoorSize);
-			render(x + (DoorGap / 2) + DoorSize, y, texture2, shade, DoorSize);
+			render(x - (DoorGap / 2), getY(), texture, shade, DoorSize);
+			render(x + (DoorGap / 2) + DoorSize, getY(), texture2, shade, DoorSize);
 		} else {
 			render(x, y + (DoorGap / 2) + DoorSize, texture2, shade, DoorSize, DoorSize, 90);
 			render(x, y - (DoorGap / 2), texture, shade, DoorSize, DoorSize, 90);
@@ -320,12 +320,14 @@ public class Door extends Entity {
 	public void closeDoor() {
 		float pX0, pY0, pX1, pY3;
 
-		if (this.alongXAxis) {
-			pX1 = this.getX() + (this.DoorSize / 4) - (this.DoorGap / 2) + this.DoorSize;
-			pX0 = this.getX() + (this.DoorSize / 4) + (this.DoorGap / 2) + this.DoorSize + this.DoorSize;
+		// Vector2f[][] doorV = this.getVertices();
 
-			pY0 = this.y;
-			pY3 = this.y + this.DoorSize;
+		if (this.alongXAxis) {
+			pX1 = this.getX() + (this.DoorSize / 2) - (this.DoorGap / 2) + this.DoorSize;
+			pX0 = this.getX() + (this.DoorSize / 2) + (this.DoorGap / 2) + this.DoorSize + this.DoorSize;
+
+			pY0 = this.getY();
+			pY3 = this.getY() + this.DoorSize;
 		} else {
 			pX1 = this.getX();
 			pX0 = this.getX() + this.DoorSize;
@@ -343,7 +345,7 @@ public class Door extends Entity {
 				for (int n = 0; n < v.length; n++) {
 					Vector2f[] vertices = v[n];
 
-					if ((vertices[0].x > pX1 && vertices[0].x < pX0 || vertices[3].x > pX1 && vertices[3].x < pX0) && ((vertices[3].y + 24) > pY0 && (vertices[3].y + 24) < pY3 || vertices[2].y > pY0 && vertices[2].y < pY3)) clear = false;
+					if ((vertices[0].x > pX1 && vertices[0].x < pX0 || vertices[3].x > pX1 && vertices[3].x < pX0) && ((vertices[3].y + 25) > pY0 && (vertices[3].y + 25) < pY3 || vertices[2].y > pY0 && vertices[2].y < pY3)) clear = false;
 				}
 			}
 		}
@@ -402,17 +404,17 @@ public class Door extends Entity {
 		if (this.alongXAxis) {
 			Vector2f[] d1 = new Vector2f[] { //
 			//
-					new Vector2f(this.getX() + (this.DoorSize / 4) - (this.DoorGap / 2), this.y), //
-					new Vector2f(this.getX() + (this.DoorSize / 4) - (this.DoorGap / 2), this.y + this.DoorSize), //
-					new Vector2f(this.getX() + (this.DoorSize / 4) - (this.DoorGap / 2) + this.DoorSize, this.y + this.DoorSize), //
-					new Vector2f(this.getX() + (this.DoorSize / 4) - (this.DoorGap / 2) + this.DoorSize, this.y) //
+					new Vector2f(this.getX() + (this.DoorSize / 2) - (this.DoorGap / 2), this.getY()), //
+					new Vector2f(this.getX() + (this.DoorSize / 2) - (this.DoorGap / 2), this.getY() + this.DoorSize), //
+					new Vector2f(this.getX() + (this.DoorSize / 2) - (this.DoorGap / 2) + this.DoorSize, this.getY() + this.DoorSize), //
+					new Vector2f(this.getX() + (this.DoorSize / 2) - (this.DoorGap / 2) + this.DoorSize, this.getY()) //
 			};
 			Vector2f[] d2 = new Vector2f[] { //
 			//
-					new Vector2f(this.getX() + (this.DoorSize / 4) + (this.DoorGap / 2) + this.DoorSize, this.y), //
-					new Vector2f(this.getX() + (this.DoorSize / 4) + (this.DoorGap / 2) + this.DoorSize, this.y + this.DoorSize), //
-					new Vector2f(this.getX() + (this.DoorSize / 4) + (this.DoorGap / 2) + this.DoorSize + this.DoorSize, this.y + this.DoorSize), //
-					new Vector2f(this.getX() + (this.DoorSize / 4) + (this.DoorGap / 2) + this.DoorSize + this.DoorSize, this.y) //
+					new Vector2f(this.getX() + (this.DoorSize / 2) + (this.DoorGap / 2) + this.DoorSize, this.getY()), //
+					new Vector2f(this.getX() + (this.DoorSize / 2) + (this.DoorGap / 2) + this.DoorSize, this.getY() + this.DoorSize), //
+					new Vector2f(this.getX() + (this.DoorSize / 2) + (this.DoorGap / 2) + this.DoorSize + this.DoorSize, this.getY() + this.DoorSize), //
+					new Vector2f(this.getX() + (this.DoorSize / 2) + (this.DoorGap / 2) + this.DoorSize + this.DoorSize, this.getY()) //
 			};
 			return new Vector2f[][] { d1, d2 };
 		} else {
