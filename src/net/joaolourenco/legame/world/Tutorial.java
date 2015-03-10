@@ -26,7 +26,9 @@ import net.joaolourenco.legame.entity.Entity;
 import net.joaolourenco.legame.entity.block.Door;
 import net.joaolourenco.legame.entity.light.Light;
 import net.joaolourenco.legame.entity.light.PointLight;
-import net.joaolourenco.legame.entity.mob.Enemy;
+import net.joaolourenco.legame.entity.mob.Citizen;
+import net.joaolourenco.legame.entity.mob.Skeleton;
+import net.joaolourenco.legame.entity.mob.Spider;
 import net.joaolourenco.legame.graphics.Texture;
 import net.joaolourenco.legame.graphics.font.AnimatedText;
 import net.joaolourenco.legame.items.DoorKey;
@@ -292,30 +294,9 @@ public class Tutorial extends World {
 			this.player.freeze();
 			this.needUpdates = true;
 		} else if (step == 4) {
-			Enemy e1 = new Enemy(0, (3 * 64), 64, 64);
-			e1.setTextureAtlas(Texture.Citizen, 3, 4, 1);
-			e1.init(this);
-			this.entities.add(e1);
-
-			Enemy e2 = new Enemy(2 * 64, (2 * 64), 64, 124);
-			e2.setTextureAtlas(Texture.Ogre, 3, 4, 1);
-			e2.init(this);
-			this.entities.add(e2);
-
-			Enemy e3 = new Enemy(4 * 64, (1 * 64), 184, 184);
-			e3.setTextureAtlas(Texture.Dragon, 3, 4, 1);
-			e3.init(this);
-			this.entities.add(e3);
-
-			Enemy e4 = new Enemy(8 * 64, (2 * 64), 64, 124);
-			e4.setTextureAtlas(Texture.Ogre, 3, 4, 1);
-			e4.init(this);
-			this.entities.add(e4);
-
-			Enemy e5 = new Enemy(10 * 64, (2 * 64), 64, 124);
-			e5.setTextureAtlas(Texture.Ogre, 3, 4, 1);
-			e5.init(this);
-			this.entities.add(e5);
+			new Citizen(0, 3 * 64, this);
+			new Skeleton(2 * 64, 2 * 64, this);
+			new Spider(5 * 64, 3 * 64, this);
 
 			new AnimatedText("Press enter to continue", Registry.getScreenWidth() / 2, (Registry.getScreenHeight() / 6) * 5, 25, 100, 5000, -1);
 
@@ -401,8 +382,6 @@ public class Tutorial extends World {
 			AnimatedText a = new AnimatedText("To open doors,press ", Registry.getScreenWidth() / 2, 30, 25, 100, 5000, -1);
 			AnimatedText b = new AnimatedText("ENTER near the door.", Registry.getScreenWidth() / 2, 80, 25, 100, 5000, -1, a);
 			new AnimatedText("Try to finish the level.", Registry.getScreenWidth() / 2, 130, 25, 100, 5000, -1, b);
-
-			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
 		}
 	}
 }

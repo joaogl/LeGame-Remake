@@ -38,9 +38,6 @@ import static org.lwjgl.opengl.GL13.*;
 public class Texture {
 
 	// All the textures
-	public static int Grass = 0;
-	public static int Dirt = 0;
-	public static int Mob = 0;
 	public static int[] Tiles;
 	public static int loading = 0;
 	public static int[] FinishPod;
@@ -52,6 +49,12 @@ public class Texture {
 	public static int[] PlayerWalking;
 	public static int[] PlayerDying;
 	public static int[] Citizen;
+	public static int[] SkeletonAttacking;
+	public static int[] SkeletonWalking;
+	public static int[] SkeletonDying;
+	public static int[] SpiderAttacking;
+	public static int[] SpiderWalking;
+	public static int[] SpiderDying;
 	public static int[] Dragon;
 	public static int[] Ogre;
 
@@ -73,9 +76,6 @@ public class Texture {
 	 */
 	public static void load() {
 		FinishPod = loadAtlas("/textures/FinishPod.png", 2, 2);
-		Grass = loadTexture("/textures/Grass.png", false);
-		Dirt = loadTexture("/textures/dirt.png", false);
-		Mob = loadTexture("/textures/mob.png", false);
 		Tiles = loadAtlas("/textures/GroundTiles.png", 3, 3);
 		Door = loadAtlas("/textures/Door.png", 2, 1);
 		Fire[0] = loadTexture("/textures/fire1.png", false);
@@ -89,9 +89,18 @@ public class Texture {
 		Registry.getPlayer().setTextureAtlas(PlayerWalking, 3, 4, 1);
 		Registry.getPlayer().setDyingTextureAtlas(PlayerDying, 3, 3, 1);
 
+		Citizen = loadAtlas("/textures/mobs/Citizen.png", 3, 4);
+
+		SkeletonAttacking = loadAtlas("/textures/mobs/Skeleton-Attacking.png", 3, 3);
+		SkeletonWalking = loadAtlas("/textures/mobs/Skeleton-Walking.png", 3, 4);
+		SkeletonDying = loadAtlas("/textures/mobs/Skeleton-Dying.png", 3, 3);
+
+		SpiderAttacking = loadAtlas("/textures/mobs/Spider-Attacking.png", 2, 4);
+		SpiderWalking = loadAtlas("/textures/mobs/Spider-Walking.png", 4, 4);
+		SpiderDying = loadAtlas("/textures/mobs/Spider-Dying.png", 2, 2);
+
 		Dragon = loadAtlas("/textures/mobs/Dragon.png", 3, 4);
 		Ogre = loadAtlas("/textures/mobs/Ogre.png", 3, 4);
-		Citizen = loadAtlas("/textures/mobs/Citizen.png", 3, 4);
 	}
 
 	/**
