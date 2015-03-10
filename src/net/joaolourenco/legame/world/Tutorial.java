@@ -218,7 +218,7 @@ public class Tutorial extends World {
 		step++;
 		if (removeText && step != 4) text.clear();
 		if (step != 4) Registry.clearAnimatedTexts();
-		if (step == 6) this.setSize(1, 1);
+		if (step == 6) Registry.getMainClass().setWorld(new RandomWorld(1));
 
 		if (step == 0) {
 			int yPos = (Registry.getScreenHeight() / 4);

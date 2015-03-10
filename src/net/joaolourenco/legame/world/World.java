@@ -16,21 +16,23 @@
 
 package net.joaolourenco.legame.world;
 
-import java.util.*;
+import java.util.ArrayList;
 
-import net.joaolourenco.legame.*;
-import net.joaolourenco.legame.entity.*;
-import net.joaolourenco.legame.entity.block.*;
-import net.joaolourenco.legame.entity.light.*;
-import net.joaolourenco.legame.entity.mob.*;
-import net.joaolourenco.legame.graphics.*;
-import net.joaolourenco.legame.graphics.menu.*;
-import net.joaolourenco.legame.settings.*;
-import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.Registry;
+import net.joaolourenco.legame.entity.Entity;
+import net.joaolourenco.legame.entity.block.Door;
+import net.joaolourenco.legame.entity.light.Light;
+import net.joaolourenco.legame.entity.mob.Player;
+import net.joaolourenco.legame.graphics.Texture;
+import net.joaolourenco.legame.graphics.menu.Loading;
+import net.joaolourenco.legame.graphics.menu.Menu;
+import net.joaolourenco.legame.settings.GeneralSettings;
 import net.joaolourenco.legame.utils.Timer;
-import net.joaolourenco.legame.world.tile.*;
+import net.joaolourenco.legame.utils.TimerResult;
+import net.joaolourenco.legame.world.tile.Tile;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.glColor3f;
+import static org.lwjgl.opengl.GL11.glTranslatef;
 
 /**
  * A class that handles all the world stuff.
