@@ -21,9 +21,7 @@ import org.lwjgl.input.Keyboard;
 import net.joaolourenco.legame.Registry;
 import net.joaolourenco.legame.graphics.Shader;
 import net.joaolourenco.legame.graphics.Texture;
-import net.joaolourenco.legame.graphics.menu.objects.ClickAction;
-import net.joaolourenco.legame.graphics.menu.objects.MenuButton;
-import net.joaolourenco.legame.graphics.menu.objects.MenuCloud;
+import net.joaolourenco.legame.graphics.menu.objects.*;
 import net.joaolourenco.legame.settings.GeneralSettings;
 import net.joaolourenco.legame.utils.KeyboardFilter;
 import net.joaolourenco.legame.world.RandomWorld;
@@ -154,7 +152,7 @@ public class MainMenu extends Menu {
 		for (MenuCloud c : clouds)
 			if (c != null) c.render();
 
-		for (MenuButton b : this.buttons)
+		for (MenuActionReader b : this.buttons)
 			if (b != null) b.render();
 
 		// Releasing the shader
@@ -175,7 +173,7 @@ public class MainMenu extends Menu {
 		for (MenuCloud c : clouds)
 			if (c != null) c.update();
 
-		for (MenuButton b : this.buttons)
+		for (MenuActionReader b : this.buttons)
 			if (b != null) b.update();
 
 		if (KeyboardFilter.isKeyDown(Keyboard.KEY_ESCAPE) && Registry.getMainClass().getWorld() != null) this.close();

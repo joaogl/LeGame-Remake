@@ -209,14 +209,14 @@ public class RenderableComponent {
 		// Placing the quad in the right location
 		glTranslatef(x, y, 0);
 		// Activating the first texture bank.
-		// glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE0);
 
-		glColor4f(color.w, color.x, color.y, color.z);
+		glColor4f(color.x, color.y, color.z, color.w);
 
 		// Storing the texture on the bank.
-		// glBindTexture(GL_TEXTURE_2D, texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
 		// Sending the texture location to the shader.
-		// glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
+		glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
 
 		// Drawing the Quad.
 		glBegin(GL_QUADS);

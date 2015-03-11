@@ -320,20 +320,20 @@ public class Door extends Entity {
 	public void closeDoor() {
 		float pX0, pY0, pX1, pY3;
 
-		// Vector2f[][] doorV = this.getVertices();
+		Vector2f[][] doorV = this.getVertices();
 
 		if (this.alongXAxis) {
-			pX1 = this.getX() + (this.DoorSize / 2) - (this.DoorGap / 2) + this.DoorSize;
-			pX0 = this.getX() + (this.DoorSize / 2) + (this.DoorGap / 2) + this.DoorSize + this.DoorSize;
+			pX1 = doorV[0][3].x;
+			pX0 = doorV[1][3].x;
 
-			pY0 = this.getY();
-			pY3 = this.getY() + this.DoorSize;
+			pY0 = doorV[1][0].y;
+			pY3 = doorV[1][2].y;
 		} else {
-			pX1 = this.getX();
-			pX0 = this.getX() + this.DoorSize;
+			pX1 = doorV[0][0].x;
+			pX0 = doorV[1][2].x;
 
-			pY0 = this.getY() - (this.DoorGap / 2) + this.DoorSize;
-			pY3 = this.getY() + (this.DoorGap / 2) + this.DoorSize;
+			pY0 = doorV[1][3].y;
+			pY3 = doorV[0][3].y;
 		}
 
 		List<Entity> ent = this.world.getNearByEntities(this.getX(), this.getY(), 160);

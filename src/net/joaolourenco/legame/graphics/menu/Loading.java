@@ -78,7 +78,7 @@ public class Loading extends Menu {
 		for (MenuCloud c : clouds)
 			if (c != null) c.render();
 
-		for (MenuButton b : this.buttons)
+		for (MenuActionReader b : this.buttons)
 			if (b != null) b.render();
 
 		this.font.drawString("Your PC ain't good enough", (xMax - this.font.getStringSize("Your Pc ain't good enough", 18, -5)) / 2, yMax / 2, 18, -5);
@@ -102,7 +102,7 @@ public class Loading extends Menu {
 		for (MenuCloud c : clouds)
 			if (c != null) c.update();
 
-		for (MenuButton b : this.buttons)
+		for (MenuActionReader b : this.buttons)
 			if (b != null) b.update();
 
 		rot += rotOffset;

@@ -33,7 +33,7 @@ public abstract class Menu extends RenderableComponent {
 	protected int x, y;
 	protected int xMax, yMax;
 	protected int width, height;
-	protected List<MenuButton> buttons = new ArrayList<MenuButton>();
+	protected List<MenuActionReader> buttons = new ArrayList<MenuActionReader>();
 	protected boolean hasFocus = false, renderMe = false, toRemove = false;
 	protected Font font;
 

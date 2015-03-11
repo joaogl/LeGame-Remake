@@ -19,6 +19,7 @@ package net.joaolourenco.legame.entity.mob;
 import java.util.List;
 
 import net.joaolourenco.legame.entity.Entity;
+import net.joaolourenco.legame.entity.block.Door;
 import net.joaolourenco.legame.graphics.AnimatedSprite;
 import net.joaolourenco.legame.utils.Timer;
 import net.joaolourenco.legame.utils.TimerResult;
@@ -152,25 +153,6 @@ public abstract class Mob extends Entity {
 		else if (ya < 0) this.side = 3;
 	}
 
-	public float moveX(float a) {
-		// Check for mob states.
-		if (this.frozen || this.inBed) return 0;
-		// Check for normal collision.
-
-		// Check for Tile Collision.
-		for (int c = 0; c < 4; c++) {
-			int xt = (int) ((x + a) + c % 2 * 26 + 20) / 64;
-			int yt = (int) (y + c / 2 * 42 + 40) / 64;
-
-			Tile t = this.world.getTile(xt, yt);
-			if (t != null && t.isCollidable()) return 0;
-		}
-
-		// Check for Entity Collision
-
-		return a;
-	}
-
 	public Vector2f move(float xa, float ya) {
 		Vector2f none = new Vector2f(0, 0);
 		// Check for mob states.
@@ -208,6 +190,12 @@ public abstract class Mob extends Entity {
 		for (Entity e : ent) {
 			if (e.isCollidable() && e != this) {
 				Vector2f[][] v = e.getVertices();
+				if (e instanceof Door && this.world.getDistance(this, e) < 100) {
+					if (((Door) e).getState() == Door.States.CLOSING) {
+						if (((Door) e).alongXAxis) ya = 0;
+						else xa = 0;
+					}
+				}
 				for (int n = 0; n < v.length; n++) {
 					Vector2f[] vertices = v[n];
 

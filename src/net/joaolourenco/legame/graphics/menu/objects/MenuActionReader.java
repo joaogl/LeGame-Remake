@@ -19,17 +19,17 @@ package net.joaolourenco.legame.graphics.menu.objects;
 import java.util.*;
 
 import net.joaolourenco.legame.*;
+import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.graphics.menu.*;
 
-import org.lwjgl.input.*;
 import org.lwjgl.util.vector.*;
 
 /**
  * @author Joao Lourenco
  * 
  */
-public class MenuButton extends MenuActionReader {
+public abstract class MenuActionReader extends RenderableComponent {
 
 	protected int x, y, xOffseted, width, height, spacing, size, screenHeight;
 	protected String text;
@@ -43,14 +43,14 @@ public class MenuButton extends MenuActionReader {
 	protected List<ClickAction> DownCallbacks = new ArrayList<ClickAction>();
 	protected List<ClickAction> ClickCallbacks = new ArrayList<ClickAction>();
 
+	protected boolean selected = false;
 	protected boolean mouse = false;
 
 	/**
 	 * 
 	 * @author Joao Lourenco
 	 */
-	public MenuButton(String text, int x, int y, int size, int spacing, Menu o) {
-		super(text, x, y, size, spacing, o);
+	public MenuActionReader(String text, int x, int y, int size, int spacing, Menu o) {
 		this.font = Registry.getFont();
 		this.text = text;
 		this.x = x;
@@ -64,24 +64,16 @@ public class MenuButton extends MenuActionReader {
 		this.menuOwner = o;
 	}
 
-	public void render() {
-		this.font.drawString(this.text, this.xOffseted, this.y, this.size, spacing, ccolor);
+	public abstract void render();
+
+	public abstract void update();
+
+	public void setSelected(boolean sel) {
+		this.selected = sel;
 	}
 
-	public void update() {
-		if (Mouse.getX() > this.xOffseted && Mouse.getX() < (this.xOffseted + this.width) && (this.screenHeight - Mouse.getY()) > this.y && (this.screenHeight - Mouse.getY()) < (this.y + this.height)) {
-			this.ccolor = this.scolor;
-			if (Mouse.isButtonDown(0)) {
-				this.ccolor = this.pcolor;
-				for (ClickAction a : this.DownCallbacks)
-					a.onClick(this.menuOwner);
-				mouse = true;
-			} else if (!Mouse.isButtonDown(0) && mouse) {
-				for (ClickAction a : this.ClickCallbacks)
-					a.onClick(this.menuOwner);
-				mouse = false;
-			}
-		} else this.ccolor = this.color;
+	public boolean isSelected() {
+		return this.selected;
 	}
 
 	public void addClickAction(ClickAction a) {

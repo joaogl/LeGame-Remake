@@ -43,6 +43,7 @@ public class Texture {
 	public static int[] FinishPod;
 	public static int[] Fire = new int[5];
 	public static int[] Menus = new int[5];
+	public static int[] MenuCheckBox;
 	public static int[] Clouds;
 	public static int[] Door;
 
@@ -66,6 +67,7 @@ public class Texture {
 	public static void preload() {
 		Menus[0] = loadTexture("/textures/menus/sky.png", false);
 		Menus[1] = loadTexture("/textures/menus/Background.png", false);
+		MenuCheckBox = loadAtlas("/textures/menus/CheckBox.png", 1, 4);
 		Clouds = loadAtlas("/textures/menus/clouds2.png", 4, 4);
 		loading = loadAtlas("/textures/menus/loading.png", 1, 1)[0];
 	}

@@ -16,22 +16,13 @@
 
 package net.joaolourenco.legame.graphics.menu;
 
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
+import net.joaolourenco.legame.*;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.graphics.menu.objects.*;
+import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.world.*;
 
-import net.joaolourenco.legame.Registry;
-import net.joaolourenco.legame.graphics.Shader;
-import net.joaolourenco.legame.graphics.Texture;
-import net.joaolourenco.legame.graphics.menu.objects.ClickAction;
-import net.joaolourenco.legame.graphics.menu.objects.MenuButton;
-import net.joaolourenco.legame.graphics.menu.objects.MenuCloud;
-import net.joaolourenco.legame.settings.GeneralSettings;
-import net.joaolourenco.legame.world.RandomWorld;
-import net.joaolourenco.legame.world.Tutorial;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * @author Joao Lourenco
@@ -43,9 +34,11 @@ public class OptionsMenu extends Menu {
 	 * Shader ID for the font.
 	 */
 	public Shader shader = new Shader(GeneralSettings.menuFragPath, GeneralSettings.defaultVertexPath);
+	public Shader shaderBack = new Shader(GeneralSettings.menuBackFragPath, GeneralSettings.defaultVertexPath);
 
 	public int maxClouds = Registry.getScreenWidth() * 10 / 800;
 	public MenuCloud[] clouds = new MenuCloud[maxClouds];
+	public boolean Color = false;
 
 	/**
 	 * @param texture
@@ -58,7 +51,7 @@ public class OptionsMenu extends Menu {
 	public OptionsMenu() {
 		super(Texture.Menus[0], 0, 0, Registry.getScreenWidth(), Registry.getScreenHeight());
 
-		if (Registry.getMainClass().getWorld() != null) this.texture = Texture.Menus[1];
+		if (Registry.getMainClass().getWorld() != null) Color = true;
 
 		for (int i = 0; i < clouds.length; i++) {
 			MenuCloud nc = new MenuCloud(shader);
@@ -68,17 +61,18 @@ public class OptionsMenu extends Menu {
 		}
 
 		int i = 0;
-		int size = 30;
+		int size = 20;
 		int spacing = -5;
 		int yPos = ((Registry.getScreenHeight() - 50 * 5) / 2) + 100;
 
-		this.buttons.add(new MenuButton("New Game", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
-		this.buttons.get(i - 1).addClickAction(new ClickAction() {
-			public void onClick(Menu m) {
-				Registry.getMainClass().setWorld(new RandomWorld(1));
-				m.close();
-			}
-		});
+		this.buttons.add(new MenuCheckBox("Full screen", this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader));
+
+		MenuDropDown d1 = new MenuDropDown(this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
+		d1.addOption("16");
+		d1.addOption("32");
+		d1.addOption("64");
+		this.buttons.add(d1);
+
 		this.buttons.add(new MenuButton("Tutorial", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 		this.buttons.get(i - 1).addClickAction(new ClickAction() {
 			public void onClick(Menu m) {
@@ -113,16 +107,23 @@ public class OptionsMenu extends Menu {
 		glEnable(GL_BLEND);
 		// Enabling Alpha chanel
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		Shader sha = this.shader;
+		if (Color) sha = this.shaderBack;
+
+		// Binding the shader
+		sha.bind();
+		// Render it.
+		render(this.x, this.y, this.texture, sha, this.width, this.height);
+		sha.release();
+
 		// Binding the shader
 		this.shader.bind();
-
-		// Render it.
-		render(this.x, this.y, this.texture, this.shader, this.width, this.height);
 
 		for (MenuCloud c : clouds)
 			if (c != null) c.render();
 
-		for (MenuButton b : this.buttons)
+		for (MenuActionReader b : this.buttons)
 			if (b != null) b.render();
 
 		// Releasing the shader
@@ -143,7 +144,7 @@ public class OptionsMenu extends Menu {
 		for (MenuCloud c : clouds)
 			if (c != null) c.update();
 
-		for (MenuButton b : this.buttons)
+		for (MenuActionReader b : this.buttons)
 			if (b != null) b.update();
 	}
 

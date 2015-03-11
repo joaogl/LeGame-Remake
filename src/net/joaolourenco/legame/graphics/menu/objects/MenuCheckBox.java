@@ -19,6 +19,7 @@ package net.joaolourenco.legame.graphics.menu.objects;
 import java.util.*;
 
 import net.joaolourenco.legame.*;
+import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.graphics.menu.*;
 
@@ -29,7 +30,7 @@ import org.lwjgl.util.vector.*;
  * @author Joao Lourenco
  * 
  */
-public class MenuButton extends MenuActionReader {
+public class MenuCheckBox extends MenuActionReader {
 
 	protected int x, y, xOffseted, width, height, spacing, size, screenHeight;
 	protected String text;
@@ -43,14 +44,20 @@ public class MenuButton extends MenuActionReader {
 	protected List<ClickAction> DownCallbacks = new ArrayList<ClickAction>();
 	protected List<ClickAction> ClickCallbacks = new ArrayList<ClickAction>();
 
+	protected Shader shader;
+	protected int unseletedTexture = Texture.MenuCheckBox[0];
+	protected int seletedTexture = Texture.MenuCheckBox[1];
+
+	protected boolean selected = false;
 	protected boolean mouse = false;
 
 	/**
 	 * 
 	 * @author Joao Lourenco
 	 */
-	public MenuButton(String text, int x, int y, int size, int spacing, Menu o) {
+	public MenuCheckBox(String text, int x, int y, int size, int spacing, Menu o, Shader shader) {
 		super(text, x, y, size, spacing, o);
+		this.shader = shader;
 		this.font = Registry.getFont();
 		this.text = text;
 		this.x = x;
@@ -59,12 +66,15 @@ public class MenuButton extends MenuActionReader {
 		this.width = font.getStringSize(text, size, spacing);
 		this.height = size + (size / 2);
 		this.size = size;
-		this.xOffseted = this.x - (this.width / 2);
+		this.xOffseted = this.x - (this.width / 2) + 32;
 		this.screenHeight = Registry.getScreenHeight();
 		this.menuOwner = o;
 	}
 
 	public void render() {
+		if (this.selected) this.render(this.xOffseted - 32, this.y - (32 / 4), this.seletedTexture, this.shader, 32, 32);
+		else this.render(this.xOffseted - 32, this.y- (32 / 4), this.unseletedTexture, this.shader, 32, 32);
+
 		this.font.drawString(this.text, this.xOffseted, this.y, this.size, spacing, ccolor);
 	}
 
@@ -75,13 +85,22 @@ public class MenuButton extends MenuActionReader {
 				this.ccolor = this.pcolor;
 				for (ClickAction a : this.DownCallbacks)
 					a.onClick(this.menuOwner);
-				mouse = true;
-			} else if (!Mouse.isButtonDown(0) && mouse) {
+				this.mouse = true;
+			} else if (!Mouse.isButtonDown(0) && this.mouse) {
+				this.selected = !this.selected;
 				for (ClickAction a : this.ClickCallbacks)
 					a.onClick(this.menuOwner);
-				mouse = false;
+				this.mouse = false;
 			}
 		} else this.ccolor = this.color;
+	}
+
+	public void setSelected(boolean sel) {
+		this.selected = sel;
+	}
+
+	public boolean isSelected() {
+		return this.selected;
 	}
 
 	public void addClickAction(ClickAction a) {
