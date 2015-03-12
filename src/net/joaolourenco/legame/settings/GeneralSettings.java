@@ -43,7 +43,7 @@ public class GeneralSettings {
 	 * ---------------------------------- // Debugging Settings // ----------------------------------
 	 **/
 		// Game debugging
-		public final static boolean useAverageFPS = true;
+		public final static boolean useAverageFPS = false;
 		public final static int ticksPerAverage = 10;
 		public final static boolean showLightFloat = false;
 

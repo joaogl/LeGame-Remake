@@ -16,29 +16,17 @@
 
 package net.joaolourenco.legame.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
-import net.joaolourenco.legame.entity.block.Door;
-import net.joaolourenco.legame.graphics.RenderableComponent;
-import net.joaolourenco.legame.graphics.Shader;
-import net.joaolourenco.legame.items.DoorKey;
-import net.joaolourenco.legame.items.Item;
-import net.joaolourenco.legame.settings.GeneralSettings;
-import net.joaolourenco.legame.utils.Vector2f;
-import net.joaolourenco.legame.world.World;
+import net.joaolourenco.legame.entity.block.*;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.items.*;
+import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.world.*;
 
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_STENCIL_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_ZERO;
-import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
-import static org.lwjgl.opengl.GL20.glUniform1f;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.*;
 
 /**
  * Abstract Class for all the Entity Types

@@ -16,8 +16,8 @@
 
 package net.joaolourenco.legame.world;
 
-import net.joaolourenco.legame.graphics.Texture;
-import net.joaolourenco.legame.world.tile.SolidTile;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.world.tile.*;
 
 /**
  * @author Joao Lourenco

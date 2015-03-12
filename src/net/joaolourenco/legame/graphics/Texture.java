@@ -81,11 +81,7 @@ public class Texture {
 		FinishPod = loadAtlas("/textures/FinishPod.png", 2, 2);
 		Tiles = loadAtlas("/textures/GroundTiles.png", 3, 3);
 		Door = loadAtlas("/textures/Door.png", 2, 1);
-		Fire[0] = loadTexture("/textures/fire1.png", false);
-		Fire[1] = loadTexture("/textures/fire2.png", false);
-		Fire[2] = loadTexture("/textures/fire3.png", false);
-		Fire[3] = loadTexture("/textures/fire4.png", false);
-		Fire[4] = loadTexture("/textures/fire5.png", false);
+		Fire = loadAtlas("/textures/Fire.png", 2, 2);
 
 		PlayerWalking = loadAtlas("/textures/mobs/Player-Walking.png", 3, 4);
 		PlayerDying = loadAtlas("/textures/mobs/Player-Dying.png", 3, 3);

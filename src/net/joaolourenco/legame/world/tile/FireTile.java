@@ -16,7 +16,10 @@
 
 package net.joaolourenco.legame.world.tile;
 
-import java.util.Random;
+import java.util.*;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.*;
 
 import net.joaolourenco.legame.entity.*;
 import net.joaolourenco.legame.entity.light.specific.FireLight;
@@ -62,6 +65,7 @@ public class FireTile extends Tile {
 		// Applying the settings.
 		this.w = w;
 		this.isLightCollidable(false);
+		this.setSecondTexture(Texture.Tiles[2]);
 
 		// Creating a Light on the center of the Fire.
 		Vector2f location = new Vector2f(0f, 0f);
@@ -90,10 +94,10 @@ public class FireTile extends Tile {
 		// Texture Animation.
 		time++;
 		if (time % (Integer) generateRandom(6, 7, 0) == 0) {
-			if (texture > 3) texture = 0;
+			if (texture >= 3) texture = 0;
 			else texture++;
 		}
-		this.tex = Texture.Fire[texture];
+		this.stex = Texture.Fire[texture];
 	}
 
 	/**

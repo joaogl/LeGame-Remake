@@ -211,7 +211,7 @@ public abstract class World {
 			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) {
 				t.update();
 				for (Entity e : this.entities)
-					if (getDistance(e, t.getX(), t.getY()) <= 32) t.entityOver(e);
+					if (getDistance(e, t.getX(), t.getY()) <= 12) t.entityOver(e);
 			}
 
 		if (this.levelOver && this.levelEndable) {
