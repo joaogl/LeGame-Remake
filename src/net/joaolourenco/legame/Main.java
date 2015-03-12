@@ -16,26 +16,25 @@
 
 package net.joaolourenco.legame;
 
-import java.util.ConcurrentModificationException;
+import java.util.*;
 import java.util.List;
-import java.util.NoSuchElementException;
 
-import net.joaolourenco.legame.entity.mob.Player;
-import net.joaolourenco.legame.graphics.Texture;
-import net.joaolourenco.legame.graphics.font.AnimatedText;
+import net.joaolourenco.legame.entity.mob.*;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.graphics.font.Font;
-import net.joaolourenco.legame.graphics.menu.MainMenu;
+import net.joaolourenco.legame.graphics.menu.*;
 import net.joaolourenco.legame.graphics.menu.Menu;
-import net.joaolourenco.legame.settings.GeneralSettings;
-import net.joaolourenco.legame.world.World;
+import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.world.*;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
+import org.lwjgl.*;
+import org.lwjgl.opengl.*;
 import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.PixelFormat;
 
 import static org.lwjgl.opengl.GL11.*;
+
+import java.awt.*;
 
 /**
  * Main Class for the game.
@@ -58,6 +57,8 @@ public class Main implements Runnable {
 	 * This is the instance for the world.
 	 */
 	public World world;
+
+	public int fps_lock;
 
 	/**
 	 * Main method that runs the game.
@@ -97,26 +98,45 @@ public class Main implements Runnable {
 	 * @author Joao Lourenco
 	 */
 	private void init() {
+		Settings.SettingsLoader();
 		// Setting up the Display
+		DisplayMode mode = null;
 		try {
-			// Registry.registerScreen(1024, 768);
-			Registry.registerScreen(800, 600);
-
-			DisplayMode mode = null;
 			DisplayMode[] modes = Display.getAvailableDisplayModes();
-			for (int i = 0; i < modes.length; i++)
-				System.out.println("W: " + modes[i].getWidth() + " H: " + modes[i].getHeight() + " Bits: " + modes[i].getBitsPerPixel() + " Freq: " + modes[i].getFrequency());
 
-			for (int i = 0; i < modes.length; i++) {
-				if (modes[i].getWidth() == Registry.getScreenWidth() && modes[i].getHeight() == Registry.getScreenHeight() && modes[i].getBitsPerPixel() >= 32 && modes[i].getFrequency() == 60) {
-					mode = modes[i];
-					break;
+			for (int i = 0; i < modes.length; i++)
+				if (modes[i].getBitsPerPixel() == 16 && modes[i].getFrequency() == 60) Registry.registerDisplayMode(modes[i]);
+
+			if (Boolean.valueOf((String) Registry.getSetting("fullscreen_windowed")) && !Boolean.valueOf((String) Registry.getSetting("fullscreen"))) {
+				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+				int width = (int) screenSize.getWidth();
+				int height = (int) screenSize.getHeight();
+
+				mode = Registry.getDisplayMode(width, height);
+				Registry.registerSetting("screen_width", "" + width);
+				Registry.registerSetting("screen_height", "" + height);
+
+				Display.setLocation(-3, -20);
+			}
+
+			Registry.registerScreen(Integer.parseInt((String) Registry.getSetting("screen_width")), Integer.parseInt((String) Registry.getSetting("screen_height")));
+
+			if (mode == null) {
+				for (int i = 0; i < modes.length; i++) {
+					if (modes[i].getWidth() == Registry.getScreenWidth() && modes[i].getHeight() == Registry.getScreenHeight() && modes[i].getBitsPerPixel() >= 32 && modes[i].getFrequency() == 60) {
+						mode = modes[i];
+						break;
+					}
 				}
 			}
 
 			Display.setDisplayMode(mode);
+			Display.setFullscreen(Boolean.valueOf((String) Registry.getSetting("fullscreen")));
+			Display.setVSyncEnabled(Boolean.valueOf((String) Registry.getSetting("vsync")));
 			Display.setTitle(GeneralSettings.fullname);
 			Display.create(new PixelFormat(0, 16, 1));
+
+			fps_lock = Integer.parseInt((String) Registry.getSetting("fps_lock"));
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
@@ -124,6 +144,7 @@ public class Main implements Runnable {
 		Registry.registerFont(new Font());
 
 		// This is for debug purposes only.
+		System.out.println("Resolution " + mode.toString());
 		System.out.println("OS name " + System.getProperty("os.name"));
 		System.out.println("OS version " + System.getProperty("os.version"));
 		System.out.println("LWJGL version " + org.lwjgl.Sys.getVersion());
@@ -220,7 +241,7 @@ public class Main implements Runnable {
 				frames = 0;
 			}
 			if (Display.isCloseRequested()) running = false;
-			Display.sync(120);
+			Display.sync(fps_lock);
 		}
 		// If the game is closed, cleanup!
 		cleanup();

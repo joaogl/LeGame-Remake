@@ -22,7 +22,10 @@ import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.graphics.menu.*;
+import net.joaolourenco.legame.settings.*;
 import net.joaolourenco.legame.utils.*;
+
+import org.lwjgl.opengl.*;
 
 /**
  * @author Joao Lourenco
@@ -38,6 +41,14 @@ public class Registry {
 	 * This is the array list that will hold all the AnimatedText to keep them updated.
 	 */
 	private static List<AnimatedText> animatedText = new ArrayList<AnimatedText>();
+	/**
+	 * This is the array list that will hold all the DisplayModes available.
+	 */
+	private static List<DisplayMode> displaymodes = new ArrayList<DisplayMode>();
+	/**
+	 * This is the array list that will hold all the settings available and their value.
+	 */
+	private static List<Settings_Key> settings = new ArrayList<Settings_Key>();
 	/**
 	 * This is the array list that will hold all the AnimatedText to keep them updated.
 	 */
@@ -90,6 +101,19 @@ public class Registry {
 
 	public static void registerPlayer(Player p) {
 		player = p;
+	}
+
+	public static void registerDisplayMode(DisplayMode dm) {
+		displaymodes.add(dm);
+	}
+
+	public static void registerSetting(String key, String value) {
+		for (Settings_Key k : settings)
+			if (k.getKey().equalsIgnoreCase(key)) {
+				k.setValue(value);
+				return;
+			}
+		settings.add(new Settings_Key(key, value));
 	}
 
 	public static void focusGame() {
@@ -152,9 +176,34 @@ public class Registry {
 		return player;
 	}
 
+	public static DisplayMode getDisplayMode(int w, int h) {
+		for (DisplayMode dm : displaymodes)
+			if (dm.getWidth() == w && dm.getHeight() == h) return dm;
+		return null;
+	}
+
+	public static String getSetting(String key) {
+		for (Settings_Key k : settings)
+			if (k.getKey().equalsIgnoreCase(key)) return k.getValue().toString();
+		return null;
+	}
+
+	public static List<Settings_Key> getSettings() {
+		return settings;
+	}
+
 	public static void removeMenu(Menu m) {
 		focused = true;
 		menus.remove(m);
+	}
+
+	public static void removeDisplayMode(DisplayMode dm) {
+		displaymodes.remove(dm);
+	}
+
+	public static void removeSetting(String key) {
+		for (int i = 0; i < settings.size(); i++)
+			if (settings.get(i).getKey() == key) settings.remove(i);
 	}
 
 	public static void clearAnimatedTexts() {
@@ -170,6 +219,8 @@ public class Registry {
 		// Clear the arrays.
 		shaders.clear();
 		animatedText.clear();
+		displaymodes.clear();
+		settings.clear();
 	}
 
 }
