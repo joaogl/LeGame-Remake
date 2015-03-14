@@ -60,6 +60,9 @@ public class Main implements Runnable {
 
 	public int fps_lock;
 
+	private long lastFrame;
+	private double delta = 0;
+
 	/**
 	 * Main method that runs the game.
 	 * 
@@ -193,7 +196,6 @@ public class Main implements Runnable {
 		// Variables for the FPS counter
 		long lastTime = System.nanoTime();
 		double ns = 1000000000.0 / 60.0;
-		double delta = 0;
 		long lastTimer = System.currentTimeMillis();
 		long tickTimer = System.currentTimeMillis();
 		int frames = 0;
@@ -201,6 +203,7 @@ public class Main implements Runnable {
 		int checking = 0;
 		int sum = 0;
 		int avg = 0;
+		calculateDelta();
 		while (running) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
@@ -317,6 +320,21 @@ public class Main implements Runnable {
 
 	public World getWorld() {
 		return this.world;
+	}
+
+	private static long getTime() {
+		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
+	}
+
+	public double getDelta() {
+		return delta;
+	}
+
+	public double calculateDelta() {
+		long currentTime = getTime();
+		double deltas = (double) currentTime - (double) lastFrame;
+		lastFrame = getTime();
+		return deltas;
 	}
 
 }

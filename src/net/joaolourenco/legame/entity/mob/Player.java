@@ -67,6 +67,8 @@ public class Player extends Mob {
 				s.setFrameRate(6);
 		}
 
+		//System.out.println("Speed: " + speed + " Delta: " + Registry.getMainClass().getDelta());
+
 		// Where is the player going to move.
 		if (Keyboard.isKeyDown(Keyboard.KEY_W) || Keyboard.isKeyDown(Keyboard.KEY_UP)) ya -= speed;
 		else if (Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_DOWN)) ya += speed;
@@ -82,8 +84,8 @@ public class Player extends Mob {
 		ya = a.y;
 
 		// Moving the player to the final destination.
-		this.x += xa;
-		this.y += ya;
+		this.x += xa; //(xa * Registry.getMainClass().getDelta());
+		this.y += ya; //(ya * Registry.getMainClass().getDelta());
 
 		// Update the Offset of the world.
 		int xOff = (int) ((this.x + (this.width / 2)) - Registry.getScreenWidth() / 2);

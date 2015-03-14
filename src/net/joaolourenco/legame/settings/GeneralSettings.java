@@ -16,59 +16,58 @@
 
 package net.joaolourenco.legame.settings;
 
-
 /**
  * Class to handle General Settings.
  * 
  * @author Joao Lourenco
- *
+ * 
  */
 public class GeneralSettings {
 
 	/**
 	 * ---------------------------------- // General Game Settings // ----------------------------------
 	 **/
-		// Game version
-		public final static String version = "BETA V0.1";
-	
-		// Game Name
-		public final static String name = "LeGame - Remake";
-		public final static String fullname = name + " " + version;
-	
-		// Window Size		
-		public final static int TILE_SIZE = 64;
-		public final static int TILE_SIZE_MASK = 6;
+	// Game version
+	public final static String version = "BETA V0.1";
+
+	// Game Name
+	public final static String name = "LeGame - Remake";
+	public final static String fullname = name + " " + version;
+
+	// Window Size
+	public final static int TILE_SIZE = 64;
+	public final static int TILE_SIZE_MASK = 6;
 
 	/**
 	 * ---------------------------------- // Debugging Settings // ----------------------------------
 	 **/
-		// Game debugging
-		public final static boolean useAverageFPS = false;
-		public final static int ticksPerAverage = 10;
-		public final static boolean showLightFloat = false;
+	// Game debugging
+	public final static boolean useAverageFPS = false;
+	public final static int ticksPerAverage = 10;
+	public final static boolean showLightFloat = false;
 
 	/**
 	 * ---------------------------------- // Entity Settings // ----------------------------------
 	 **/
-		// Entity Speed Settings
-		public final static float defaultEntityWalking = 2.5f;
-		public final static float defaultEntityRunning = 4f;
-		
-		// Light Settings
-		public final static int defaultLightPointSize = 5;
-		public final static int defaultLightSize = 10;
-		public final static int defaultLightFacing = 10;
+	// Entity Speed Settings
+	public final static float defaultEntityWalking = 0.5f;
+	public final static float defaultEntityRunning = 1f;
+
+	// Light Settings
+	public final static int defaultLightPointSize = 5;
+	public final static int defaultLightSize = 10;
+	public final static int defaultLightFacing = 10;
 
 	/**
 	 * ---------------------------------- // Shaders Settings // ----------------------------------
 	 **/
-		// Shaders Settings
-		public final static String defaultVertexPath = "/shaders/default.vert";
-		public final static String blockFragPath = "/shaders/block.frag";
-		public final static String lightFragPath = "/shaders/light.frag";
-		public final static String fontFragPath = "/shaders/font.frag";
-		public final static String menuFragPath = "/shaders/menu.frag";
-		public final static String menuBackFragPath = "/shaders/backmenu.frag";
-		public final static int howManyLightsToShader = 10; // How many lights will be passed to the shaders.
+	// Shaders Settings
+	public final static String defaultVertexPath = "/shaders/default.vert";
+	public final static String blockFragPath = "/shaders/block.frag";
+	public final static String lightFragPath = "/shaders/light.frag";
+	public final static String fontFragPath = "/shaders/font.frag";
+	public final static String menuFragPath = "/shaders/menu.frag";
+	public final static String menuBackFragPath = "/shaders/backmenu.frag";
+	public final static int howManyLightsToShader = 10; // How many lights will be passed to the shaders.
 
 }

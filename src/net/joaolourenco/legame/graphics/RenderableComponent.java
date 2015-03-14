@@ -46,6 +46,8 @@ public class RenderableComponent {
 	 * @author Joao Lourenco
 	 */
 	public void render(int x, int y, int texture, Shader shade) {
+		// Setting up OpenGL for render
+		glEnable(GL_BLEND);
 		// Placing the quad in the right location
 		glTranslatef(x, y, 0);
 		// Activating the first texture bank.
@@ -80,6 +82,8 @@ public class RenderableComponent {
 		glBindTexture(GL_TEXTURE_2D, 0);
 		// Getting the render position to the center.
 		glTranslatef(-x, -y, 0);
+		// Disabling the Blend
+		glDisable(GL_BLEND);
 	}
 
 	/**
@@ -98,6 +102,8 @@ public class RenderableComponent {
 	 * @author Joao Lourenco
 	 */
 	public void render(float x, float y, int texture, Shader shade, float size) {
+		// Setting up OpenGL for render
+		glEnable(GL_BLEND);
 		// Placing the quad in the right location
 		glTranslatef(x, y, 0);
 		// Activating the first texture bank.
@@ -132,6 +138,8 @@ public class RenderableComponent {
 		glBindTexture(GL_TEXTURE_2D, 0);
 		// Getting the render position to the center.
 		glTranslatef(-x, -y, 0);
+		// Disabling the Blend
+		glDisable(GL_BLEND);
 	}
 
 	/**
@@ -152,6 +160,8 @@ public class RenderableComponent {
 	 * @author Joao Lourenco
 	 */
 	public void render(float x, float y, int texture, Shader shade, float width, float height) {
+		// Setting up OpenGL for render
+		glEnable(GL_BLEND);
 		// Placing the quad in the right location
 		glTranslatef(x, y, 0);
 		// Activating the first texture bank.
@@ -186,6 +196,8 @@ public class RenderableComponent {
 		glBindTexture(GL_TEXTURE_2D, 0);
 		// Getting the render position to the center.
 		glTranslatef(-x, -y, 0);
+		// Disabling the Blend
+		glDisable(GL_BLEND);
 	}
 
 	/**
@@ -206,6 +218,8 @@ public class RenderableComponent {
 	 * @author Joao Lourenco
 	 */
 	public void render(float x, float y, int texture, Shader shade, float width, float height, Vector4f color) {
+		// Setting up OpenGL for render
+		glEnable(GL_BLEND);
 		// Placing the quad in the right location
 		glTranslatef(x, y, 0);
 		// Activating the first texture bank.
@@ -243,6 +257,8 @@ public class RenderableComponent {
 		glBindTexture(GL_TEXTURE_2D, 0);
 		// Getting the render position to the center.
 		glTranslatef(-x, -y, 0);
+		// Disabling the Blend
+		glDisable(GL_BLEND);
 	}
 
 	/**
@@ -263,6 +279,8 @@ public class RenderableComponent {
 	 * @author Joao Lourenco
 	 */
 	public void render(float x, float y, int texture, Shader shade, float width, float height, float rotation) {
+		// Setting up OpenGL for render
+		glEnable(GL_BLEND);
 		// Placing the quad in the right location
 		glTranslatef(x, y, 0);
 		glRotatef(rotation, 0, 0, 1);
@@ -300,6 +318,8 @@ public class RenderableComponent {
 		glRotatef(-rotation, 0, 0, 1);
 		// Getting the render position to the center.
 		glTranslatef(-x, -y, 0);
+		// Disabling the Blend
+		glDisable(GL_BLEND);
 	}
 
 	/**
@@ -320,6 +340,8 @@ public class RenderableComponent {
 	 * @author Joao Lourenco
 	 */
 	public void render(float x, float y, int texture, Shader shade, float rotation, boolean useRot) {
+		// Setting up OpenGL for render
+		glEnable(GL_BLEND);
 		int width = 64;
 		int height = 64;
 
@@ -363,6 +385,8 @@ public class RenderableComponent {
 		glRotatef(-rotation, 0, 0, 1);
 		// Getting the render position to the center.
 		glTranslatef(-x, -y, 0);
+		// Disabling the Blend
+		glDisable(GL_BLEND);
 	}
 
 }

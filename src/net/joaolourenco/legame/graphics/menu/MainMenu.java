@@ -50,6 +50,9 @@ public class MainMenu extends Menu {
 	public MenuCloud[] clouds = new MenuCloud[maxClouds];
 	public boolean Color = false;
 
+	private int maxSelect;
+	private int selected = 0;
+
 	/**
 	 * @param texture
 	 * @param x
@@ -125,6 +128,8 @@ public class MainMenu extends Menu {
 				Registry.getMainClass().stop();
 			}
 		});
+
+		this.maxSelect = i;
 	}
 
 	/**
@@ -177,6 +182,16 @@ public class MainMenu extends Menu {
 			if (b != null) b.update();
 
 		if (KeyboardFilter.isKeyDown(Keyboard.KEY_ESCAPE) && Registry.getMainClass().getWorld() != null) this.close();
+		if (KeyboardFilter.isKeyDown(Keyboard.KEY_UP)) {
+			if (this.selected <= 0) this.selected = this.maxSelect;
+			else this.selected--;
+		} else if (KeyboardFilter.isKeyDown(Keyboard.KEY_DOWN)) {
+			if (this.selected >= this.maxSelect) this.selected = 0;
+			else this.selected++;
+		}
+		if (KeyboardFilter.isKeyDown(Keyboard.KEY_RETURN)) {
+			this.buttons.get(this.selected);
+		}
 	}
 
 	/**

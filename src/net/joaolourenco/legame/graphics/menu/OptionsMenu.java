@@ -65,13 +65,23 @@ public class OptionsMenu extends Menu {
 		int spacing = -5;
 		int yPos = ((Registry.getScreenHeight() - 50 * 5) / 2) + 100;
 
-		this.buttons.add(new MenuCheckBox("Full screen", this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader));
+		MenuCheckBox full = new MenuCheckBox("Fullscreen", this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
+		full.setSelected(Boolean.valueOf((String) Registry.getSetting("fullscreen")));
+		this.buttons.add(full);
 
-		MenuDropDown d1 = new MenuDropDown(this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
-		d1.addOption("16");
-		d1.addOption("32");
-		d1.addOption("64");
-		this.buttons.add(d1);
+		MenuCheckBox vsync = new MenuCheckBox("Vertical Sync", this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
+		vsync.setSelected(Boolean.valueOf((String) Registry.getSetting("vsync")));
+		this.buttons.add(vsync);
+
+		MenuCheckBox window = new MenuCheckBox("Fullscreen-Windowed", this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
+		window.setSelected(Boolean.valueOf((String) Registry.getSetting("fullscreen_windowed")));
+		this.buttons.add(window);
+
+		//MenuDropDown d1 = new MenuDropDown(this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
+		//d1.addOption("16");
+		//d1.addOption("32");
+		//d1.addOption("64");
+		// this.buttons.add(d1);
 
 		this.buttons.add(new MenuButton("Tutorial", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 		this.buttons.get(i - 1).addClickAction(new ClickAction() {
