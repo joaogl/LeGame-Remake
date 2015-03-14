@@ -60,8 +60,8 @@ public class Main implements Runnable {
 
 	public int fps_lock;
 
-	private long lastFrame;
-	private double delta = 0;
+	private double public_delta = 0;
+	private int public_fps;
 
 	/**
 	 * Main method that runs the game.
@@ -203,14 +203,14 @@ public class Main implements Runnable {
 		int checking = 0;
 		int sum = 0;
 		int avg = 0;
-		calculateDelta();
+		double delta = 0;
 		while (running) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
 			lastTime = now;
 			if (delta >= 1) {
 				// 60 times per second this is reached
-				update();
+				update(this.public_delta);
 				updates++;
 				delta--;
 			}
@@ -225,7 +225,9 @@ public class Main implements Runnable {
 			if (System.currentTimeMillis() - lastTimer > 1000) {
 				lastTimer += 1000;
 				// Once per second this is reached
-				String title = GeneralSettings.fullname + " FPS: " + frames + " UPS: " + updates;
+				this.public_delta = delta;
+				this.public_fps = frames;
+				String title = GeneralSettings.fullname + " FPS: " + frames + " UPS: " + updates + " Delta: " + this.getDelta();
 				if (GeneralSettings.useAverageFPS) title += " Average: " + avg;
 				if (GeneralSettings.showLightFloat) {
 					if (world != null) title += " Light: " + world.DAY_LIGHT;
@@ -279,8 +281,11 @@ public class Main implements Runnable {
 	 * 
 	 * @author Joao Lourenco
 	 */
-	private void update() {
-		if (world != null && Registry.isGameFocused()) world.update();
+	private void update(double delta) {
+		GeneralSettings.defaultEntityWalking = this.public_fps * 2.0f / 120.0f;
+		GeneralSettings.defaultEntityWalking = this.public_fps * 4.0f / 120.0f;
+		
+		if (world != null && Registry.isGameFocused()) world.update(1);
 		// Update the Menus
 		List<Menu> menus = Registry.getMenus();
 		for (int i = 0; i < menus.size(); i++) {
@@ -322,19 +327,12 @@ public class Main implements Runnable {
 		return this.world;
 	}
 
-	private static long getTime() {
-		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
-	}
-
 	public double getDelta() {
-		return delta;
+		return public_delta;
 	}
 
-	public double calculateDelta() {
-		long currentTime = getTime();
-		double deltas = (double) currentTime - (double) lastFrame;
-		lastFrame = getTime();
-		return deltas;
+	public double getFPS() {
+		return public_fps;
 	}
 
 }

@@ -50,8 +50,8 @@ public class GeneralSettings {
 	 * ---------------------------------- // Entity Settings // ----------------------------------
 	 **/
 	// Entity Speed Settings
-	public final static float defaultEntityWalking = 0.5f;
-	public final static float defaultEntityRunning = 1f;
+	public static float defaultEntityWalking = 2f;
+	public static float defaultEntityRunning = 4f;
 
 	// Light Settings
 	public final static int defaultLightPointSize = 5;

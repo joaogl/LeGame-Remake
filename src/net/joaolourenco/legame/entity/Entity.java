@@ -100,7 +100,7 @@ public abstract class Entity extends RenderableComponent {
 	 * 
 	 * @author Joao Lourenco
 	 */
-	public abstract void update();
+	public abstract void update(double delta);
 
 	/**
 	 * Method called by the World Class 10 times per second.

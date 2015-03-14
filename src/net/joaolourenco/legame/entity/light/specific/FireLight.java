@@ -57,9 +57,9 @@ public class FireLight extends PointLight {
 	 * 
 	 * @author Joao Lourenco
 	 */
-	public void update() {
+	public void update(double delta) {
 		// Calling the super method.
-		super.update();
+		super.update(delta);
 		// Adding time.
 		time++;
 		// Generating random value to animate the fire.

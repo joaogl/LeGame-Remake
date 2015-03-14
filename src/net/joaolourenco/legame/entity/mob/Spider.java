@@ -46,7 +46,7 @@ public class Spider extends Mob {
 	 * @author Joao Lourenco
 	 */
 	@Override
-	public void update() {
+	public void update(double delta) {
 		this.updateTexture(0,0);
 	}
 

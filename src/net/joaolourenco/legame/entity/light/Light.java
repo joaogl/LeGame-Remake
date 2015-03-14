@@ -118,7 +118,7 @@ public abstract class Light extends Entity {
 	 * 
 	 * @author Joao Lourenco
 	 */
-	public void update() {
+	public void update(double delta) {
 		if (this.facing <= 360) this.facing++;
 		else this.facing = 0;
 		this.size = 90;

@@ -50,7 +50,7 @@ public class Player extends Mob {
 	 * @author Joao Lourenco
 	 */
 	@Override
-	public void update() {
+	public void update(double delta) {
 		// Setting up the variables.
 		float xa = 0;
 		float ya = 0;
@@ -67,7 +67,7 @@ public class Player extends Mob {
 				s.setFrameRate(6);
 		}
 
-		//System.out.println("Speed: " + speed + " Delta: " + Registry.getMainClass().getDelta());
+		// System.out.println("Speed: " + speed + " Delta: " + Registry.getMainClass().getDelta());
 
 		// Where is the player going to move.
 		if (Keyboard.isKeyDown(Keyboard.KEY_W) || Keyboard.isKeyDown(Keyboard.KEY_UP)) ya -= speed;
@@ -84,8 +84,8 @@ public class Player extends Mob {
 		ya = a.y;
 
 		// Moving the player to the final destination.
-		this.x += xa; //(xa * Registry.getMainClass().getDelta());
-		this.y += ya; //(ya * Registry.getMainClass().getDelta());
+		this.x += xa * delta; // (xa * Registry.getMainClass().getDelta());
+		this.y += ya * delta; // (ya * Registry.getMainClass().getDelta());
 
 		// Update the Offset of the world.
 		int xOff = (int) ((this.x + (this.width / 2)) - Registry.getScreenWidth() / 2);

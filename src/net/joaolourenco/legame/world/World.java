@@ -200,10 +200,10 @@ public abstract class World {
 	 * 
 	 * @author Joao Lourenco
 	 */
-	public void update() {
+	public void update(double delta) {
 		// Updating all the entities.
 		for (Entity e : this.entities) {
-			if (e != null && getDistance(this.player, e) <= Registry.getScreenWidth()) e.update();
+			if (e != null && getDistance(this.player, e) <= Registry.getScreenWidth()) e.update(delta);
 		}
 
 		// Updating all the world tiles.

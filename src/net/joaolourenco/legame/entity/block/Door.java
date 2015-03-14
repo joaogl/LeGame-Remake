@@ -307,7 +307,7 @@ public class Door extends Entity {
 	 * 
 	 * @author Joao Lourenco
 	 */
-	public void update() {
+	public void update(double delta) {
 		if (this.state == States.OPENING) {
 			if (DoorGap < MaxDoorGap) DoorGap += 1f;
 			else this.state = States.OPEN;
