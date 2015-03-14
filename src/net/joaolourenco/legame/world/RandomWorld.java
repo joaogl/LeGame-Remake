@@ -16,6 +16,8 @@
 
 package net.joaolourenco.legame.world;
 
+import net.joaolourenco.legame.entity.*;
+import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.world.tile.*;
 
@@ -73,7 +75,11 @@ public class RandomWorld extends World {
 		setTile(0, this.height - 1, new SolidTile(64, Texture.Tiles[0], 270));
 		setTile(this.width - 1, this.height - 1, new SolidTile(64, Texture.Tiles[0], 180));
 
-		super.generateLevel();
+		Entity cit = new Citizen((5 * 64), (5 * 64), this);
+		this.addEntity(cit);
+
+		if (timerOver) super.generateLevel();
+		finished = true;
 	}
 
 }

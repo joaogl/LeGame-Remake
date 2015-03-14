@@ -16,9 +16,10 @@
 
 package net.joaolourenco.legame.entity.mob;
 
-import java.util.List;
+import java.util.*;
 
 import net.joaolourenco.legame.entity.Entity;
+import net.joaolourenco.legame.entity.actions.*;
 import net.joaolourenco.legame.entity.block.Door;
 import net.joaolourenco.legame.graphics.AnimatedSprite;
 import net.joaolourenco.legame.utils.Timer;
@@ -70,6 +71,8 @@ public abstract class Mob extends Entity {
 	protected float minX, minY, maxX, maxY;
 
 	protected boolean attacking = false;
+
+	protected List<MovementAction> moveActions = new ArrayList<MovementAction>();
 
 	/**
 	 * Constructor for a normal Mob.

@@ -16,8 +16,10 @@
 
 package net.joaolourenco.legame.entity.mob;
 
-import net.joaolourenco.legame.graphics.Texture;
-import net.joaolourenco.legame.world.World;
+import net.joaolourenco.legame.entity.actions.*;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.world.*;
 
 /**
  * @author Joao Lourenco
@@ -36,6 +38,7 @@ public class Citizen extends Mob {
 		super(x, y, 64, 64);
 		this.setTextureAtlas(Texture.Citizen, 3, 4, 1);
 		w.addEntity(this);
+		moveActions.add(new RandomMovementAction(this));
 	}
 
 	/**
@@ -43,7 +46,31 @@ public class Citizen extends Mob {
 	 */
 	@Override
 	public void update(double delta) {
-		this.updateTexture(0,0);
+		// Setting up the variables.
+		float xa = 0;
+		float ya = 0;
+		float speed = getSpeed(false);
+
+		if (moveActions.get(0).finished()) moveActions.set(0, new RandomMovementAction(this));
+
+		moveActions.get(0).update(speed);
+
+		xa += moveActions.get(0).getXA();
+		ya += moveActions.get(0).getYA();
+
+		// Updating the player facing side.
+		getSide(xa, ya);
+
+		// Checking for Collision
+		Vector2f a = move(xa, ya);
+		xa = a.x;
+		ya = a.y;
+
+		// Moving the player to the final destination.
+		this.x += xa * delta;
+		this.y += ya * delta;
+
+		this.updateTexture((int) xa, (int) ya);
 	}
 
 	public void updateTexture(int xa, int ya) {
