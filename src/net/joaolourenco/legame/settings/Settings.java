@@ -29,8 +29,8 @@ public class Settings {
 	static String classPath = Settings.class.getProtectionDomain().getCodeSource().getLocation().toString();
 
 	public static void SettingsDefault() {
-		Registry.registerSetting("screen_width", "1024");
-		Registry.registerSetting("screen_height", "768");
+		Registry.registerSetting("screen_width", "800");
+		Registry.registerSetting("screen_height", "600");
 		Registry.registerSetting("fullscreen", "false");
 		Registry.registerSetting("fullscreen_windowed", "false");
 		Registry.registerSetting("fps_lock", "120");

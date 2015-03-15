@@ -56,6 +56,28 @@ public class MenuCloud extends RenderableComponent {
 		this.texture = Texture.Clouds[(Integer) generateRandom(0, 11, 0)];
 	}
 
+	/**
+	 * 
+	 * @author Joao Lourenco
+	 */
+	public MenuCloud(Shader shade, int yMax) {
+		this.shade = shade;
+
+		width = (Integer) generateRandom(200, 400, 0);
+		xMax = Registry.getScreenWidth();
+		xOffset = (Float) generateRandom(0.001f, 0.455f, 1);
+		if ((Integer) generateRandom(0, 100, 0) > 50) {
+			xOffset = -xOffset;
+			x = xMax;
+		} else x = -width;
+
+		height = (Integer) generateRandom(200, 400, 0);
+		yMax = Registry.getScreenHeight();
+		y = (Integer) generateRandom(0, yMax, 0);
+
+		this.texture = Texture.Clouds[(Integer) generateRandom(0, 11, 0)];
+	}
+
 	public void setX(float x) {
 		this.x = x;
 	}

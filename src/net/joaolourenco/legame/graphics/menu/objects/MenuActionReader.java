@@ -45,6 +45,7 @@ public abstract class MenuActionReader extends RenderableComponent {
 
 	protected boolean selected = false;
 	protected boolean mouse = false;
+	protected boolean enabled = true;
 
 	/**
 	 * 
@@ -68,6 +69,23 @@ public abstract class MenuActionReader extends RenderableComponent {
 
 	public abstract void update();
 
+	public void addClickAction(ClickAction a) {
+		this.ClickCallbacks.add(a);
+	}
+
+	public void addMouseDownAction(ClickAction a) {
+		this.DownCallbacks.add(a);
+	}
+
+	public void setX(int x) {
+		this.x = x;
+		this.xOffseted = this.x - (this.width / 2);
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
 	public void setSelected(boolean sel) {
 		this.selected = sel;
 	}
@@ -76,12 +94,12 @@ public abstract class MenuActionReader extends RenderableComponent {
 		return this.selected;
 	}
 
-	public void addClickAction(ClickAction a) {
-		this.ClickCallbacks.add(a);
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
-	public void addMouseDownAction(ClickAction a) {
-		this.DownCallbacks.add(a);
+	public boolean isEnabled() {
+		return this.enabled;
 	}
 
 }

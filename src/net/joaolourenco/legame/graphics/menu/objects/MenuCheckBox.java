@@ -16,11 +16,7 @@
 
 package net.joaolourenco.legame.graphics.menu.objects;
 
-import java.util.*;
-
-import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.graphics.*;
-import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.graphics.menu.*;
 
 import org.lwjgl.input.*;
@@ -32,28 +28,13 @@ import org.lwjgl.util.vector.*;
  */
 public class MenuCheckBox extends MenuActionReader {
 
-	protected int x, y, xOffseted, width, height, spacing, size, screenHeight;
-	protected String text;
-	protected Menu menuOwner;
-	protected Font font;
-	protected Vector3f color = new Vector3f(1, 1, 1);
-	protected Vector3f scolor = new Vector3f(0.5f, 0, 0);
-	protected Vector3f pcolor = new Vector3f(0, 0.1f, 1);
 	protected Vector3f DisabledColor = new Vector3f(0.6f, 0.6f, 0.6f);
-	protected Vector3f ccolor = color;
-
-	protected List<ClickAction> DownCallbacks = new ArrayList<ClickAction>();
-	protected List<ClickAction> ClickCallbacks = new ArrayList<ClickAction>();
 
 	protected Shader shader;
 	protected int unseletedTexture = Texture.MenuCheckBox[0];
 	protected int seletedTexture = Texture.MenuCheckBox[1];
 	protected int unseletedDisabledTexture = Texture.MenuCheckBox[2];
 	protected int seletedDisabledTexture = Texture.MenuCheckBox[3];
-
-	protected boolean selected = false;
-	protected boolean mouse = false;
-	protected boolean enabled = true;
 
 	/**
 	 * 
@@ -62,17 +43,6 @@ public class MenuCheckBox extends MenuActionReader {
 	public MenuCheckBox(String text, int x, int y, int size, int spacing, Menu o, Shader shader) {
 		super(text, x, y, size, spacing, o);
 		this.shader = shader;
-		this.font = Registry.getFont();
-		this.text = text;
-		this.x = x;
-		this.y = y;
-		this.spacing = spacing;
-		this.width = font.getStringSize(text, size, spacing);
-		this.height = size + (size / 2);
-		this.size = size;
-		this.xOffseted = this.x - (this.width / 2) + 32;
-		this.screenHeight = Registry.getScreenHeight();
-		this.menuOwner = o;
 	}
 
 	public void render() {
@@ -105,30 +75,6 @@ public class MenuCheckBox extends MenuActionReader {
 				a.onClick(this.menuOwner);
 			this.mouse = false;
 		} else this.mouse = false;
-	}
-
-	public void setSelected(boolean sel) {
-		this.selected = sel;
-	}
-
-	public boolean isSelected() {
-		return this.selected;
-	}
-
-	public void addClickAction(ClickAction a) {
-		this.ClickCallbacks.add(a);
-	}
-
-	public void addMouseDownAction(ClickAction a) {
-		this.DownCallbacks.add(a);
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
-	public boolean isEnabled() {
-		return this.enabled;
 	}
 
 }

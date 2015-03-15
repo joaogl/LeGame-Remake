@@ -55,7 +55,7 @@ public class RenderableComponent {
 		// Storing the texture on the bank.
 		glBindTexture(GL_TEXTURE_2D, texture);
 		// Sending the texture location to the shader.
-		glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
+		if (shade != null) glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
 
 		// Drawing the Quad.
 		glBegin(GL_QUADS);

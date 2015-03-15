@@ -107,7 +107,7 @@ public class Main implements Runnable {
 			DisplayMode[] modes = Display.getAvailableDisplayModes();
 
 			for (int i = 0; i < modes.length; i++)
-				if (modes[i].getBitsPerPixel() == 16 && modes[i].getFrequency() == 60) Registry.registerDisplayMode(modes[i]);
+				if (modes[i].getBitsPerPixel() == 16 && modes[i].getFrequency() == 60 && modes[i].getWidth() >= 800 && modes[i].getHeight() >= 600) Registry.registerDisplayMode(modes[i]);
 
 			if (Boolean.valueOf((String) Registry.getSetting("fullscreen_windowed")) && !Boolean.valueOf((String) Registry.getSetting("fullscreen"))) {
 				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

@@ -208,6 +208,10 @@ public class Registry {
 		return settings;
 	}
 
+	public static List<DisplayMode> getDisplayModes() {
+		return displaymodes;
+	}
+
 	public static void removeMenu(Menu m) {
 		// focused = true;
 		menus.remove(m);

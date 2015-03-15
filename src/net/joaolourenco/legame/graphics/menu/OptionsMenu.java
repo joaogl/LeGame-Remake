@@ -16,6 +16,8 @@
 
 package net.joaolourenco.legame.graphics.menu;
 
+import java.util.*;
+
 import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.font.*;
@@ -24,6 +26,7 @@ import net.joaolourenco.legame.settings.*;
 import net.joaolourenco.legame.utils.*;
 
 import org.lwjgl.input.*;
+import org.lwjgl.opengl.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -44,6 +47,7 @@ public class OptionsMenu extends Menu {
 	public boolean Color = false;
 
 	public MenuCheckBox full, window;
+	public MenuOptionSelect resolution;
 
 	/**
 	 * @param texture
@@ -61,21 +65,22 @@ public class OptionsMenu extends Menu {
 		for (int i = 0; i < clouds.length; i++) {
 			MenuCloud nc = new MenuCloud(shader);
 			nc.setX((Float) nc.generateRandom(0, Registry.getScreenWidth(), 1));
-			nc.setY((Float) nc.generateRandom(0, 100, 1));
+			nc.setY((Float) nc.generateRandom(0, 50, 1));
 			clouds[i] = nc;
 		}
 
 		int i = 0;
-		int size = 20;
+		int size = 15;
+		if (Registry.getScreenWidth() > 1000) size = 20;
 		int spacing = -5;
-		int yPos = ((Registry.getScreenHeight() - 50 * 5) / 2) ;
+		int yPos = ((Registry.getScreenHeight() - 50 * 5) / 2);
 
-		Registry.registerStaticText(new StaticText("Display Mode: ", this.xMax / 6, yPos + (50 * i), 18));
-		Registry.registerStaticText(new StaticText("Leave deselected to use Window Mode.", this.xMax / 5, yPos + (50 * i) + 20, 15));
+		Registry.registerStaticText(new StaticText("Display Mode: ", this.xMax / 6, yPos + (50 * i), size + 2));
+		Registry.registerStaticText(new StaticText("Leave deselected to use Window Mode.", this.xMax / 5, yPos + (50 * i) + 20, size - 3 + 2));
 
 		full = new MenuCheckBox("Fullscreen", this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
 		window = new MenuCheckBox("Fullscreen-Windowed", (this.xMax / 5) * 4, yPos + (50 * (i++ - 1)), size, spacing, this, shader);
-		full.setSelected(!Boolean.valueOf((String) Registry.getSetting("fullscreen")));
+		full.setSelected(Boolean.valueOf((String) Registry.getSetting("fullscreen")));
 		window.setSelected(Boolean.valueOf((String) Registry.getSetting("fullscreen_windowed")));
 		this.buttons.add(window);
 		this.buttons.add(full);
@@ -108,15 +113,18 @@ public class OptionsMenu extends Menu {
 			}
 		});
 
-		MenuCheckBox vsync = new MenuCheckBox("Vertical Sync", this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
+		resolution = new MenuOptionSelect("Resolution: ", (this.xMax / 5) * 3, yPos + (50 * i++), size + 5, spacing, this);
+		List<DisplayMode> modes = Registry.getDisplayModes();
+		for (int ii = 0; ii < modes.size(); ii++)
+			resolution.addOption(modes.get(ii).getWidth() + "x" + modes.get(ii).getHeight());
+		this.buttons.add(resolution);
+
+		MenuCheckBox vsync = new MenuCheckBox("Vertical Sync", (this.xMax / 4) * 3, yPos + (50 * (i++ + 1)), size, spacing, this, shader);
 		vsync.setSelected(Boolean.valueOf((String) Registry.getSetting("vsync")));
 		this.buttons.add(vsync);
 
-		// MenuDropDown d1 = new MenuDropDown(this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
-		// d1.addOption("16");
-		// d1.addOption("32");
-		// d1.addOption("64");
-		// this.buttons.add(d1);
+		MenuSlider FPS_Lock = new MenuSlider("FPS Lock: ", (this.xMax / 4), yPos + (50 * (i++)), 250, size, spacing, this, 30, 300, "FPS");
+		this.buttons.add(FPS_Lock);
 
 		this.buttons.add(new MenuButton("Apply", this.xMax / 4, this.yMax - 50, size, spacing, this));
 		this.buttons.get(i++).addClickAction(new ClickAction() {
@@ -180,7 +188,7 @@ public class OptionsMenu extends Menu {
 		}
 
 		for (int i = 0; i < maxClouds; i++)
-			if (clouds[i] == null) clouds[i] = new MenuCloud(shader);
+			if (clouds[i] == null) clouds[i] = new MenuCloud(shader, 50);
 			else if (clouds[i].toRemove()) clouds[i] = null;
 
 		for (MenuCloud c : clouds)
