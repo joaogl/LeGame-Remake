@@ -16,7 +16,6 @@ LeGame is a Action/Adventure kinda game.
 
 TO-DO
 ====
-- Fix multi checkbox selection on Menu.
 - Fix Player Vs Mob Collision.
 - Finish Options Menu.
 - Finish Mobs AI.
@@ -43,6 +42,7 @@ MAYBE TO-DO
 
 DONE
 ====
+- Fix multi checkbox selection on Menu.
 - Fix the Menus not at 0, 0 coords.
 - Fix two menus open when game is running. (There was a focus problem)
 - Fixed all the Player positioning bugs in the tutorial.

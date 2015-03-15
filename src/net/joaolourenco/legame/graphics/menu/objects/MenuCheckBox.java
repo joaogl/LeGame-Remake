@@ -73,26 +73,26 @@ public class MenuCheckBox extends MenuActionReader {
 
 	public void render() {
 		if (this.selected) this.render(this.xOffseted - 32, this.y - (32 / 4), this.seletedTexture, this.shader, 32, 32);
-		else this.render(this.xOffseted - 32, this.y- (32 / 4), this.unseletedTexture, this.shader, 32, 32);
+		else this.render(this.xOffseted - 32, this.y - (32 / 4), this.unseletedTexture, this.shader, 32, 32);
 
 		this.font.drawString(this.text, this.xOffseted, this.y, this.size, spacing, ccolor);
 	}
 
 	public void update() {
-		if (Mouse.getX() > this.xOffseted && Mouse.getX() < (this.xOffseted + this.width) && (this.screenHeight - Mouse.getY()) > this.y && (this.screenHeight - Mouse.getY()) < (this.y + this.height)) {
-			this.ccolor = this.scolor;
-			if (Mouse.isButtonDown(0)) {
-				this.ccolor = this.pcolor;
-				for (ClickAction a : this.DownCallbacks)
-					a.onClick(this.menuOwner);
-				this.mouse = true;
-			} else if (!Mouse.isButtonDown(0) && this.mouse) {
-				this.selected = !this.selected;
-				for (ClickAction a : this.ClickCallbacks)
-					a.onClick(this.menuOwner);
-				this.mouse = false;
-			}
-		} else this.ccolor = this.color;
+		if (Mouse.getX() > this.xOffseted && Mouse.getX() < (this.xOffseted + this.width) && (this.screenHeight - Mouse.getY()) > this.y && (this.screenHeight - Mouse.getY()) < (this.y + this.height)) this.ccolor = this.scolor;
+		else this.ccolor = this.color;
+
+		if (Mouse.isButtonDown(0) && Mouse.getX() > this.xOffseted && Mouse.getX() < (this.xOffseted + this.width) && (this.screenHeight - Mouse.getY()) > this.y && (this.screenHeight - Mouse.getY()) < (this.y + this.height)) {
+			this.ccolor = this.pcolor;
+			for (ClickAction a : this.DownCallbacks)
+				a.onClick(this.menuOwner);
+			this.mouse = true;
+		} else if (!Mouse.isButtonDown(0) && this.mouse && Mouse.getX() > this.xOffseted && Mouse.getX() < (this.xOffseted + this.width) && (this.screenHeight - Mouse.getY()) > this.y && (this.screenHeight - Mouse.getY()) < (this.y + this.height)) {
+			this.selected = !this.selected;
+			for (ClickAction a : this.ClickCallbacks)
+				a.onClick(this.menuOwner);
+			this.mouse = false;
+		} else this.mouse = false;
 	}
 
 	public void setSelected(boolean sel) {
