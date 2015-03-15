@@ -34,7 +34,7 @@ public class Settings {
 		Registry.registerSetting("fullscreen", "false");
 		Registry.registerSetting("fullscreen_windowed", "false");
 		Registry.registerSetting("fps_lock", "120");
-		Registry.registerSetting("vsync", "true");
+		Registry.registerSetting("vsync", "false");
 	}
 
 	public static void SettingsLoader() {
