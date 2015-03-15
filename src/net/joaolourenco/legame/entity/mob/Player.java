@@ -16,14 +16,14 @@
 
 package net.joaolourenco.legame.entity.mob;
 
-import net.joaolourenco.legame.Registry;
-import net.joaolourenco.legame.entity.block.Door;
-import net.joaolourenco.legame.graphics.AnimatedSprite;
-import net.joaolourenco.legame.graphics.menu.MainMenu;
-import net.joaolourenco.legame.utils.KeyboardFilter;
-import net.joaolourenco.legame.utils.Vector2f;
+import net.joaolourenco.legame.*;
+import net.joaolourenco.legame.entity.block.*;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.graphics.menu.*;
+import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.world.*;
 
-import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.*;
 
 /**
  * Player Class.
@@ -101,7 +101,7 @@ public class Player extends Mob {
 		if (KeyboardFilter.isKeyDown(Keyboard.KEY_F)) this.died();
 		if (KeyboardFilter.isKeyDown(Keyboard.KEY_G)) this.attacking = !this.attacking;
 
-		if (KeyboardFilter.isKeyDown(Keyboard.KEY_ESCAPE)) Registry.registerMenu(new MainMenu());
+		if (KeyboardFilter.isKeyDown(Keyboard.KEY_ESCAPE) && !(this.world instanceof Tutorial)) Registry.registerMenu(new MainMenu());
 	}
 
 	public void updateTexture(int xa, int ya) {
@@ -130,7 +130,7 @@ public class Player extends Mob {
 	 * @author Joao Lourenco
 	 */
 	public void tick() {
-		// if (life <= 0) this.died();
+		if (life <= 0) this.died();
 
 		if (KeyboardFilter.isKeyDown(Keyboard.KEY_RETURN)) {
 			Door door = this.world.getNearByDoor(this.x, this.y, 300);

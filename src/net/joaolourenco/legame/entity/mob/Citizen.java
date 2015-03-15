@@ -36,7 +36,10 @@ public class Citizen extends Mob {
 	 */
 	public Citizen(int x, int y, World w) {
 		super(x, y, 64, 64);
+		
 		this.setTextureAtlas(Texture.Citizen, 3, 4, 1);
+		this.updateTexture(0, 0);
+		
 		w.addEntity(this);
 		moveActions.add(new RandomTargetedMovementAction(this));
 	}

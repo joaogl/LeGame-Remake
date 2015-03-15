@@ -18,6 +18,7 @@ package net.joaolourenco.legame.entity;
 
 import java.util.*;
 
+import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.entity.block.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.items.*;
@@ -352,6 +353,15 @@ public abstract class Entity extends RenderableComponent {
 	public void setSize(float x, float y) {
 		this.width = x;
 		this.height = y;
+	}
+
+	public void setLocationAndCenter(int x, int y) {
+		this.x = x;
+		this.y = y;
+
+		int xOff = (int) ((this.x + (this.width / 2)) - Registry.getScreenWidth() / 2);
+		int yOff = (int) (this.y + (this.height / 2) - Registry.getScreenHeight() / 2);
+		this.world.setOffset(xOff, yOff);
 	}
 
 	public World getWorld() {

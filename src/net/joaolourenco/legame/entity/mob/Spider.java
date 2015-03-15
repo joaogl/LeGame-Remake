@@ -66,7 +66,7 @@ public class Spider extends Mob {
 	 */
 	@Override
 	public void tick() {
-		// if (life <= 0) this.died();
+		if (this.life <= 0) this.died();
 	}
 
 }
