@@ -16,7 +16,6 @@ LeGame is a Action/Adventure kinda game.
 
 TO-DO
 ====
-- Fix Player bottom texture error.
 - Finish Options Menu.
 - Finish Mobs AI.
 - Finish All the Mob types.
@@ -25,6 +24,7 @@ TO-DO
 - Finish the Mob system.
 - Add the fight system.
 - Create the Work Report.
+- Fix Player bottom texture error.
 
 
 MAYBE TO-DO

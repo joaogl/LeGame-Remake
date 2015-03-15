@@ -39,6 +39,7 @@ public class MenuCheckBox extends MenuActionReader {
 	protected Vector3f color = new Vector3f(1, 1, 1);
 	protected Vector3f scolor = new Vector3f(0.5f, 0, 0);
 	protected Vector3f pcolor = new Vector3f(0, 0.1f, 1);
+	protected Vector3f DisabledColor = new Vector3f(0.6f, 0.6f, 0.6f);
 	protected Vector3f ccolor = color;
 
 	protected List<ClickAction> DownCallbacks = new ArrayList<ClickAction>();
@@ -47,9 +48,12 @@ public class MenuCheckBox extends MenuActionReader {
 	protected Shader shader;
 	protected int unseletedTexture = Texture.MenuCheckBox[0];
 	protected int seletedTexture = Texture.MenuCheckBox[1];
+	protected int unseletedDisabledTexture = Texture.MenuCheckBox[2];
+	protected int seletedDisabledTexture = Texture.MenuCheckBox[3];
 
 	protected boolean selected = false;
 	protected boolean mouse = false;
+	protected boolean enabled = true;
 
 	/**
 	 * 
@@ -72,13 +76,21 @@ public class MenuCheckBox extends MenuActionReader {
 	}
 
 	public void render() {
-		if (this.selected) this.render(this.xOffseted - 32, this.y - (32 / 4), this.seletedTexture, this.shader, 32, 32);
-		else this.render(this.xOffseted - 32, this.y - (32 / 4), this.unseletedTexture, this.shader, 32, 32);
+		if (this.enabled) {
+			if (this.selected) this.render(this.xOffseted - 32, this.y - (32 / 4), this.seletedTexture, this.shader, 32, 32);
+			else this.render(this.xOffseted - 32, this.y - (32 / 4), this.unseletedTexture, this.shader, 32, 32);
+		} else {
+			if (this.selected) this.render(this.xOffseted - 32, this.y - (32 / 4), this.seletedDisabledTexture, this.shader, 32, 32);
+			else this.render(this.xOffseted - 32, this.y - (32 / 4), this.unseletedDisabledTexture, this.shader, 32, 32);
+		}
 
-		this.font.drawString(this.text, this.xOffseted, this.y, this.size, spacing, ccolor);
+		if (this.enabled) this.font.drawString(this.text, this.xOffseted, this.y, this.size, spacing, ccolor);
+		else this.font.drawString(this.text, this.xOffseted, this.y, this.size, spacing, DisabledColor);
 	}
 
 	public void update() {
+		if (!this.enabled) return;
+
 		if (Mouse.getX() > this.xOffseted && Mouse.getX() < (this.xOffseted + this.width) && (this.screenHeight - Mouse.getY()) > this.y && (this.screenHeight - Mouse.getY()) < (this.y + this.height)) this.ccolor = this.scolor;
 		else this.ccolor = this.color;
 
@@ -109,6 +121,14 @@ public class MenuCheckBox extends MenuActionReader {
 
 	public void addMouseDownAction(ClickAction a) {
 		this.DownCallbacks.add(a);
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public boolean isEnabled() {
+		return this.enabled;
 	}
 
 }

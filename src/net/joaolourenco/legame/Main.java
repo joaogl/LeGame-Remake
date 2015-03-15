@@ -16,7 +16,6 @@
 
 package net.joaolourenco.legame;
 
-import java.util.*;
 import java.util.List;
 
 import net.joaolourenco.legame.entity.mob.*;
@@ -263,17 +262,21 @@ public class Main implements Runnable {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 		// Render the new stuff.
 		if (world != null) world.render();
+
+		List<Menu> menus = Registry.getMenus();
 		// Render the Menus
-		for (Menu m : Registry.getMenus())
-			m.render();
+		for (int i = 0; i < menus.size(); i++)
+			menus.get(i).render();
 
 		// Render the AnimatedText
-		try {
-			for (AnimatedText at : Registry.getAnimatedTexts())
-				at.render();
-		} catch (ConcurrentModificationException e) {
-		} catch (NoSuchElementException e) {
-		}
+		List<AnimatedText> animatedTexts = Registry.getAnimatedTexts();
+		for (int i = 0; i < animatedTexts.size(); i++)
+			animatedTexts.get(i).render();
+
+		// Render the StaticText
+		List<StaticText> staticTexts = Registry.getStaticTexts();
+		for (int i = 0; i < staticTexts.size(); i++)
+			staticTexts.get(i).render();
 	}
 
 	/**
@@ -308,7 +311,7 @@ public class Main implements Runnable {
 	private void tick() {
 		GeneralSettings.defaultEntityWalking = this.public_fps * 2.0f / 120.0f;
 		GeneralSettings.defaultEntityRunning = this.public_fps * 4.0f / 120.0f;
-		
+
 		if (world != null && Registry.isGameFocused()) world.tick();
 		// Tick the Menus
 		for (Menu m : Registry.getMenus())

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.joaolourenco.legame.utils;
+package net.joaolourenco.legame.graphics.font;
 
 import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.graphics.font.*;
@@ -23,7 +23,7 @@ import net.joaolourenco.legame.graphics.font.*;
  * @author Joao Lourenco
  * 
  */
-public class TutorialText {
+public class StaticText {
 
 	protected String text;
 	protected Font font;
@@ -33,7 +33,7 @@ public class TutorialText {
 	 * 
 	 * @author Joao Lourenco
 	 */
-	public TutorialText(String text, int x, int y, int size) {
+	public StaticText(String text, int x, int y, int size) {
 		this.text = text;
 		this.font = Registry.getFont();
 		this.y = y;
@@ -45,7 +45,7 @@ public class TutorialText {
 	 * 
 	 * @author Joao Lourenco
 	 */
-	public TutorialText(String text, int x, int y, int size, boolean offset) {
+	public StaticText(String text, int x, int y, int size, boolean offset) {
 		this.text = text;
 		this.font = Registry.getFont();
 		this.y = y;

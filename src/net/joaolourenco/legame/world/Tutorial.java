@@ -30,13 +30,12 @@ import net.joaolourenco.legame.entity.mob.Citizen;
 import net.joaolourenco.legame.entity.mob.Skeleton;
 import net.joaolourenco.legame.entity.mob.Spider;
 import net.joaolourenco.legame.graphics.Texture;
-import net.joaolourenco.legame.graphics.font.AnimatedText;
+import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.items.DoorKey;
 import net.joaolourenco.legame.settings.GeneralSettings;
 import net.joaolourenco.legame.utils.KeyboardFilter;
 import net.joaolourenco.legame.utils.Timer;
 import net.joaolourenco.legame.utils.TimerResult;
-import net.joaolourenco.legame.utils.TutorialText;
 import net.joaolourenco.legame.utils.Vector2f;
 import net.joaolourenco.legame.world.tile.FinishPoint;
 import net.joaolourenco.legame.world.tile.SolidTile;
@@ -54,7 +53,7 @@ import static org.lwjgl.opengl.GL11.glTranslatef;
 public class Tutorial extends World {
 
 	boolean firstUpdate = false, needUpdates = false, readyToAdd = false;
-	List<TutorialText> text = new ArrayList<TutorialText>();
+	List<StaticText> text = new ArrayList<StaticText>();
 	int step = -1;
 
 	/**
@@ -131,7 +130,7 @@ public class Tutorial extends World {
 		glTranslatef(this.xOffset, this.yOffset, 0f);
 
 		try {
-			for (TutorialText t : text)
+			for (StaticText t : text)
 				t.render();
 		} catch (ConcurrentModificationException e) {
 		} catch (NoSuchElementException e) {
@@ -229,8 +228,8 @@ public class Tutorial extends World {
 			AnimatedText a = new AnimatedText("This game has a simple objective.", Registry.getScreenWidth() / 2, yPos, 25, 100, 200, -1);
 			new AnimatedText("Get to the end of each level. ALIVE!", Registry.getScreenWidth() / 2, yPos + 50, 25, 100, 200, -5, a);
 
-			this.text.add(new TutorialText("End Mark", Registry.getScreenWidth() / 2, (Registry.getScreenHeight() / 8) * 5, 25));
-			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
+			this.text.add(new StaticText("End Mark", Registry.getScreenWidth() / 2, (Registry.getScreenHeight() / 8) * 5, 25));
+			this.text.add(new StaticText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
 
 			new Timer("Tutorial-Step-" + step, 10000, 1, new TimerResult(this) {
 				public void timerCall(String caller) {
@@ -245,7 +244,7 @@ public class Tutorial extends World {
 			AnimatedText a = new AnimatedText("Use the WASD or the", Registry.getScreenWidth() / 2, yPos, 25, 100, 5000, -1);
 			new AnimatedText("arrow keys to move.", Registry.getScreenWidth() / 2, yPos + 50, 25, 100, 5000, -1, a);
 
-			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
+			this.text.add(new StaticText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
 
 			this.setSize(6, 4);
 
@@ -294,7 +293,7 @@ public class Tutorial extends World {
 				}
 			});
 
-			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
+			this.text.add(new StaticText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
 
 			this.player.renderable = false;
 			this.player.freeze();
@@ -307,7 +306,7 @@ public class Tutorial extends World {
 
 			new AnimatedText("Press enter to continue", Registry.getScreenWidth() / 2, (Registry.getScreenHeight() / 6) * 5, 25, 100, 5000, -1);
 
-			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
+			this.text.add(new StaticText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
 		} else if (step == 5) {
 			this.player.setLocationAndCenter((2 * 64), (2 * 64));
 			this.levelEndable = true;

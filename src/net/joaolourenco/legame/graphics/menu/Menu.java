@@ -73,6 +73,8 @@ public abstract class Menu extends RenderableComponent {
 		this.hasFocus = false;
 		this.renderMe = false;
 		this.toRemove = true;
+		Registry.clearAnimatedTexts();
+		Registry.clearStaticTexts();
 		Registry.focusGame();
 	}
 

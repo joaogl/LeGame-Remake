@@ -42,6 +42,10 @@ public class Registry {
 	 */
 	private static List<AnimatedText> animatedText = new ArrayList<AnimatedText>();
 	/**
+	 * 
+	 */
+	private static List<StaticText> staticText = new ArrayList<StaticText>();
+	/**
 	 * This is the array list that will hold all the DisplayModes available.
 	 */
 	private static List<DisplayMode> displaymodes = new ArrayList<DisplayMode>();
@@ -80,6 +84,10 @@ public class Registry {
 
 	public static void registerAnimatedText(AnimatedText t) {
 		animatedText.add(t);
+	}
+
+	public static void registerStaticText(StaticText t) {
+		staticText.add(t);
 	}
 
 	public static void registerScreen(int w, int h) {
@@ -132,6 +140,10 @@ public class Registry {
 		return animatedText;
 	}
 
+	public static List<StaticText> getStaticTexts() {
+		return staticText;
+	}
+
 	public static List<Menu> getMenus() {
 		return menus;
 	}
@@ -142,6 +154,10 @@ public class Registry {
 
 	public static AnimatedText getAnimatedText(int id) {
 		return animatedText.get(id);
+	}
+
+	public static StaticText getStaticText(int id) {
+		return staticText.get(id);
 	}
 
 	public static Screen getScreen() {
@@ -209,6 +225,11 @@ public class Registry {
 	public static void clearAnimatedTexts() {
 		// Clear the array.
 		animatedText.clear();
+	}
+
+	public static void clearStaticTexts() {
+		// Clear the array.
+		staticText.clear();
 	}
 
 	public static void cleanRegistries() {

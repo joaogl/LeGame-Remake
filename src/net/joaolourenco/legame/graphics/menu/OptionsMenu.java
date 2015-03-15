@@ -16,14 +16,14 @@
 
 package net.joaolourenco.legame.graphics.menu;
 
-import org.lwjgl.input.*;
-
 import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.graphics.menu.objects.*;
 import net.joaolourenco.legame.settings.*;
 import net.joaolourenco.legame.utils.*;
-import net.joaolourenco.legame.world.*;
+
+import org.lwjgl.input.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -42,6 +42,8 @@ public class OptionsMenu extends Menu {
 	public int maxClouds = Registry.getScreenWidth() * 10 / 800;
 	public MenuCloud[] clouds = new MenuCloud[maxClouds];
 	public boolean Color = false;
+
+	public MenuCheckBox full, window;
 
 	/**
 	 * @param texture
@@ -66,19 +68,49 @@ public class OptionsMenu extends Menu {
 		int i = 0;
 		int size = 20;
 		int spacing = -5;
-		int yPos = ((Registry.getScreenHeight() - 50 * 5) / 2) + 100;
+		int yPos = ((Registry.getScreenHeight() - 50 * 5) / 2) ;
 
-		MenuCheckBox full = new MenuCheckBox("Fullscreen", this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
-		full.setSelected(Boolean.valueOf((String) Registry.getSetting("fullscreen")));
+		Registry.registerStaticText(new StaticText("Display Mode: ", this.xMax / 6, yPos + (50 * i), 18));
+		Registry.registerStaticText(new StaticText("Leave deselected to use Window Mode.", this.xMax / 5, yPos + (50 * i) + 20, 15));
+
+		full = new MenuCheckBox("Fullscreen", this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
+		window = new MenuCheckBox("Fullscreen-Windowed", (this.xMax / 5) * 4, yPos + (50 * (i++ - 1)), size, spacing, this, shader);
+		full.setSelected(!Boolean.valueOf((String) Registry.getSetting("fullscreen")));
+		window.setSelected(Boolean.valueOf((String) Registry.getSetting("fullscreen_windowed")));
+		this.buttons.add(window);
 		this.buttons.add(full);
+
+		if (full.isSelected()) {
+			window.setEnabled(false);
+			window.setSelected(false);
+		}
+		this.full.addClickAction(new ClickAction() {
+			public void onClick(Menu m) {
+				OptionsMenu menu = ((OptionsMenu) m);
+				if (menu.full.isSelected()) {
+					menu.window.setEnabled(false);
+					menu.window.setSelected(false);
+				} else menu.window.setEnabled(true);
+			}
+		});
+
+		if (window.isSelected()) {
+			full.setEnabled(false);
+			full.setSelected(false);
+		}
+		this.window.addClickAction(new ClickAction() {
+			public void onClick(Menu m) {
+				OptionsMenu menu = ((OptionsMenu) m);
+				if (menu.window.isSelected()) {
+					menu.full.setEnabled(false);
+					menu.full.setSelected(false);
+				} else menu.full.setEnabled(true);
+			}
+		});
 
 		MenuCheckBox vsync = new MenuCheckBox("Vertical Sync", this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
 		vsync.setSelected(Boolean.valueOf((String) Registry.getSetting("vsync")));
 		this.buttons.add(vsync);
-
-		MenuCheckBox window = new MenuCheckBox("Fullscreen-Windowed", this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
-		window.setSelected(Boolean.valueOf((String) Registry.getSetting("fullscreen_windowed")));
-		this.buttons.add(window);
 
 		// MenuDropDown d1 = new MenuDropDown(this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
 		// d1.addOption("16");
@@ -86,27 +118,19 @@ public class OptionsMenu extends Menu {
 		// d1.addOption("64");
 		// this.buttons.add(d1);
 
-		this.buttons.add(new MenuButton("Tutorial", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
-		this.buttons.get(i - 1).addClickAction(new ClickAction() {
+		this.buttons.add(new MenuButton("Apply", this.xMax / 4, this.yMax - 50, size, spacing, this));
+		this.buttons.get(i++).addClickAction(new ClickAction() {
 			public void onClick(Menu m) {
-				Registry.getMainClass().setWorld(new Tutorial());
 				m.close();
+				Registry.registerMenu(new MainMenu());
 			}
 		});
-		this.buttons.add(new MenuButton("Load", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
-		this.buttons.get(i - 1).addClickAction(new ClickAction() {
+
+		this.buttons.add(new MenuButton("Back", (this.xMax / 4) * 3, this.yMax - 50, size, spacing, this));
+		this.buttons.get(i++).addClickAction(new ClickAction() {
 			public void onClick(Menu m) {
-			}
-		});
-		this.buttons.add(new MenuButton("Options", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
-		this.buttons.get(i - 1).addClickAction(new ClickAction() {
-			public void onClick(Menu m) {
-			}
-		});
-		this.buttons.add(new MenuButton("Exit", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
-		this.buttons.get(i - 1).addClickAction(new ClickAction() {
-			public void onClick(Menu m) {
-				Registry.getMainClass().stop();
+				m.close();
+				Registry.registerMenu(new MainMenu());
 			}
 		});
 	}
