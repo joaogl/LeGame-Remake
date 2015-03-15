@@ -18,7 +18,6 @@ TO-DO
 ====
 - Fix Player bottom texture error.
 - Fix end of level collision box.
-- Fix Player Vs Mob Collision.
 - Finish Options Menu.
 - Finish Mobs AI.
 - Finish All the Mob types.
@@ -44,10 +43,11 @@ MAYBE TO-DO
 
 DONE
 ====
+- Fixed Player Vs Mob Collision.
 - Fixed player not running problem.
-- Fix multi checkbox selection on Menu.
-- Fix the Menus not at 0, 0 coords.
-- Fix two menus open when game is running. (There was a focus problem)
+- Fixed multi checkbox selection on Menu.
+- Fixed the Menus not at 0, 0 coords.
+- Fixed two menus open when game is running. (There was a focus problem)
 - Fixed all the Player positioning bugs in the tutorial.
 - Added A* search algorithm.
 - Add AI to mobs.
