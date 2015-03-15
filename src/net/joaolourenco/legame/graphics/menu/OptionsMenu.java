@@ -243,18 +243,16 @@ public class OptionsMenu extends Menu {
 		for (int i = 0; i < shaders.size(); i++)
 			shader.recompile();
 
-		int x = Registry.getPlayer().getX();
-		int y = Registry.getPlayer().getY();
-		Registry.registerPlayer(new Player(32, 32, 64, 64));
-		Registry.getPlayer().setX(x);
-		Registry.getPlayer().setY(y);
-
 		// Loading all the textures
 		Texture.preload();
 		Texture.load();
 
-		Registry.registerGameReload();
-		Registry.getMainClass().setWorld(new RandomWorld(1));
+		if (Registry.getMainClass().getWorld() != null) {
+			Registry.registerGameReload();
+			Registry.getMainClass().setWorld(new RandomWorld(1));
+		} else {
+			Registry.registerMenu(new MainMenu());
+		}
 	}
 
 	/**

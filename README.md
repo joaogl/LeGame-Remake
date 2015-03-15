@@ -16,6 +16,7 @@ LeGame is a Action/Adventure kinda game.
 
 TO-DO
 ====
+- Fix Mobs not moving with low fps.
 - Finish Mobs AI.
 - Finish the Mob system.
 - Add the fight system.

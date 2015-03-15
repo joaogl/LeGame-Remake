@@ -85,8 +85,10 @@ public class Player extends Mob {
 		ya = a.y;
 
 		// Moving the player to the final destination.
-		this.x += xa * delta; // (xa * Registry.getMainClass().getDelta());
-		this.y += ya * delta; // (ya * Registry.getMainClass().getDelta());
+		if (!this.frozen) {
+			this.x += xa * delta; // (xa * Registry.getMainClass().getDelta());
+			this.y += ya * delta; // (ya * Registry.getMainClass().getDelta());
+		}
 
 		// Update the Offset of the world.
 		int xOff = (int) ((this.x + (this.width / 2)) - Registry.getScreenWidth() / 2);

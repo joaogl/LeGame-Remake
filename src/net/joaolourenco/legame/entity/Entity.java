@@ -77,7 +77,7 @@ public abstract class Entity extends RenderableComponent {
 	 */
 	public boolean renderable = true;
 	protected boolean dying = false, godMode = false;
-	protected int time, rate = 10;
+	protected int time, rate = 20;
 	protected float life = 100;
 	protected boolean renderHealthBar = false;
 
@@ -124,7 +124,7 @@ public abstract class Entity extends RenderableComponent {
 		if (this.renderable) {
 			if (this.dying) {
 				time++;
-				if (time % rate != 0) return;
+				if (time % rate != 0) { return; }
 			}
 
 			if (renderHealthBar && !this.dying) {
