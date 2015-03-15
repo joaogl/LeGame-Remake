@@ -17,7 +17,6 @@ LeGame is a Action/Adventure kinda game.
 TO-DO
 ====
 - Fix Player bottom texture error.
-- Fix end of level collision box.
 - Finish Options Menu.
 - Finish Mobs AI.
 - Finish All the Mob types.
@@ -43,6 +42,7 @@ MAYBE TO-DO
 
 DONE
 ====
+- Fixed Entity Over Tile Collision box.
 - Fixed Player Vs Mob Collision.
 - Fixed player not running problem.
 - Fixed multi checkbox selection on Menu.

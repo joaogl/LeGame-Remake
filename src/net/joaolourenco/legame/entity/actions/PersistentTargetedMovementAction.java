@@ -45,8 +45,8 @@ public class PersistentTargetedMovementAction extends MovementAction {
 		this.xa = 0;
 		this.ya = 0;
 		if (time % 60 == 0) {
-			Vector2f start = new Vector2f(this.entity.getTX(), this.entity.getTY());
-			Vector2f target = new Vector2f(this.target_ent.getTX(), this.target_ent.getTY());
+			Vector2f start = new Vector2f(this.entity.getTX(false), this.entity.getTY(false));
+			Vector2f target = new Vector2f(this.target_ent.getTX(false), this.target_ent.getTY(false));
 			path = this.entity.getWorld().findPath(start, target);
 		}
 		if (path != null) {

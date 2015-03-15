@@ -155,19 +155,17 @@ public class Tutorial extends World {
 			// Updating all the entities.
 			for (int i = 0; i < this.entities.size(); i++) {
 				Entity e = this.entities.get(i);
-				if (e != null && getDistance(this.player, e) <= Registry.getScreenWidth()) e.update(delta);
+				if (e != null && getDistance(this.player, e) <= Registry.getScreenWidth()) {
+					e.update(delta);
+					Tile tileOver = getTile(e.getTX(true), e.getTY(true));
+					if (tileOver != null) tileOver.entityOver(e);
+				}
 			}
 			firstUpdate = true;
 		}
 		// Updating all the world tiles.
 		for (Tile t : this.worldTiles)
-			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) {
-				t.update();
-				for (int i = 0; i < this.entities.size(); i++) {
-					Entity e = this.entities.get(i);
-					if (getDistance(e, t.getX(), t.getY()) <= 12) t.entityOver(e);
-				}
-			}
+			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) t.update();
 
 		if (readyToAdd) {
 			changeStep(true);

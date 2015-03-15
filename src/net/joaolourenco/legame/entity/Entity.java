@@ -233,7 +233,8 @@ public abstract class Entity extends RenderableComponent {
 		return (int) this.x;
 	}
 
-	public int getTX() {
+	public int getTX(boolean half) {
+		if (half) return (int) (this.x + this.width / 2) >> GeneralSettings.TILE_SIZE_MASK;
 		return (int) this.x >> GeneralSettings.TILE_SIZE_MASK;
 	}
 
@@ -247,7 +248,8 @@ public abstract class Entity extends RenderableComponent {
 		return (int) this.y;
 	}
 
-	public int getTY() {
+	public int getTY(boolean half) {
+		if (half) return (int) (this.y + this.height / 2) >> GeneralSettings.TILE_SIZE_MASK;
 		return (int) this.y >> GeneralSettings.TILE_SIZE_MASK;
 	}
 

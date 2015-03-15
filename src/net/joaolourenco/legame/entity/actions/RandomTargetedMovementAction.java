@@ -46,7 +46,7 @@ public class RandomTargetedMovementAction extends MovementAction {
 		time++;
 		this.xa = 0;
 		this.ya = 0;
-		Vector2f start = new Vector2f(this.entity.getTX(), this.entity.getTY());
+		Vector2f start = new Vector2f(this.entity.getTX(false), this.entity.getTY(false));
 		if (time % 60 == 0) path = this.entity.getWorld().findPath(start, this.target);
 		if (path != null) {
 			if (path.size() > 0) {
