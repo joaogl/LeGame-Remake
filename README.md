@@ -16,12 +16,11 @@ LeGame is a Action/Adventure kinda game.
 
 TO-DO
 ====
-- Finish Options Menu.
-- Fix all the Player positioning bugs in the tutorial.
-- Fix the Menus not at 0,0 coords.
+- Try to improve the Rendering engine.
+- Fix the Menus not at 0, 0 coords.
 - Fix multi checkbox selection on Menu.
-- Fix two menus open when game is running.
 - Fix Player Vs Mob Collision.
+- Finish Options Menu.
 - Finish Mobs AI.
 - Finish All the Mob types.
 - Create a level generation algorithm.
@@ -45,6 +44,8 @@ MAYBE TO-DO
 
 DONE
 ====
+- Fix two menus open when game is running. (There was a focus problem)
+- Fixed all the Player positioning bugs in the tutorial.
 - Added A* search algorithm.
 - Add AI to mobs.
 - Add GUI.
