@@ -146,6 +146,18 @@ public abstract class Entity extends RenderableComponent {
 			// Sending the required light to the shader.
 			glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), day_light * 2);
 
+			// Releasing the shader
+			shade.release();
+			if (renderHealthBar && !this.dying) {
+				render(x + (this.width / 4), y - 15, 0, shade, (this.width / 2), 5, new Vector4f(0.0f, 0.0f, 0.0f, 1f));
+
+				float w = this.life * (this.width / 2) / 100;
+				if (this.life <= 0) w = 0 * (this.width / 2) / 100;
+				render(x + (this.width / 4), y - 15, 0, shade, w, 5, new Vector4f(0.0f, 0.6f, 0.0f, 0.5f));
+			}
+			// Binding the shader
+			this.shade.bind();
+
 			// Rendering the Quad.
 			render(x, y, texture, shade, width, height);
 
