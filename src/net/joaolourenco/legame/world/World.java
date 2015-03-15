@@ -18,8 +18,11 @@ package net.joaolourenco.legame.world;
 
 import java.util.*;
 
+import javax.xml.parsers.*;
+import javax.xml.transform.dom.*;
+
 import net.joaolourenco.legame.*;
-import net.joaolourenco.legame.entity.*;
+import net.joaolourenco.legame.entity.Entity;
 import net.joaolourenco.legame.entity.block.*;
 import net.joaolourenco.legame.entity.light.*;
 import net.joaolourenco.legame.entity.mob.*;
@@ -29,6 +32,8 @@ import net.joaolourenco.legame.settings.*;
 import net.joaolourenco.legame.utils.*;
 import net.joaolourenco.legame.utils.Timer;
 import net.joaolourenco.legame.world.tile.*;
+
+import org.w3c.dom.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -519,6 +524,44 @@ public abstract class World {
 		float dx = t1.x - t2.x;
 		float dy = t1.y - t2.y;
 		return Math.sqrt(dx * dx + dy * dy);
+	}
+
+	public DOMSource saveWorld() {
+		try {
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+			// Root element
+			Document doc = docBuilder.newDocument();
+			Element rootElement = doc.createElement("world");
+			doc.appendChild(rootElement);
+
+			// Tiles
+			for (Tile t : worldTiles) {
+				Element entityElement = doc.createElement("tile");
+				entityElement.setAttribute("x", String.valueOf(t.getX()));
+				entityElement.setAttribute("y", String.valueOf(t.getY()));
+				if (t instanceof SolidTile) entityElement.setAttribute("type", "solidtile");
+				else if (t instanceof SolidTile) entityElement.setAttribute("type", "solidtile");
+				rootElement.appendChild(entityElement);
+			}
+
+			// Entities
+			for (Entity e : entities) {
+				Element entityElement = doc.createElement("entity");
+				if (e == Registry.getPlayer()) entityElement = doc.createElement("entityPlayer");
+				entityElement.setAttribute("x", String.valueOf(e.getX()));
+				entityElement.setAttribute("y", String.valueOf(e.getY()));
+				rootElement.appendChild(entityElement);
+			}
+
+			System.out.println("DOM stored!");
+
+			return new DOMSource(doc);
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

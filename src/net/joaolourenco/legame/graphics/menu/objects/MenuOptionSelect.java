@@ -61,11 +61,17 @@ public class MenuOptionSelect extends MenuActionReader {
 	public void render() {
 		this.left.render();
 		this.right.render();
-		this.font.drawString(this.text, this.x - this.width - this.font.getStringSize(text, size, spacing), this.y, this.size, spacing, ccolor);
-		this.font.drawString(this.Options.get(ID), this.x - (this.font.getStringSize(this.Options.get(ID), this.size, spacing) / 2), this.y, this.size, spacing, ccolor);
+		this.font.drawString(this.text, this.x - this.width - this.font.getStringSize(text, size, spacing), this.y, this.size, spacing, this.color);
+		this.font.drawString(this.Options.get(ID), this.x - (this.font.getStringSize(this.Options.get(ID), this.size, spacing) / 2), this.y, this.size, spacing, this.ccolor);
 	}
 
 	public void update() {
+		if (this.enabled) this.ccolor = this.color;
+		else this.ccolor = this.dColor;
+
+		this.left.setEnabled(this.enabled);
+		this.right.setEnabled(this.enabled);
+
 		this.left.update();
 		this.right.update();
 	}
@@ -78,6 +84,15 @@ public class MenuOptionSelect extends MenuActionReader {
 			this.right.setX(this.x + 40 + (this.width / 2));
 		}
 		this.Options.add(add);
+	}
+
+	public void setActive(String option) {
+		for (int i = 0; i < this.Options.size(); i++)
+			if (this.Options.get(i).equalsIgnoreCase(option)) this.ID = i;
+	}
+
+	public String getSelected() {
+		return this.Options.get(this.ID);
 	}
 
 }

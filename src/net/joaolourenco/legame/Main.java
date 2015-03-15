@@ -121,8 +121,6 @@ public class Main implements Runnable {
 				Display.setLocation(-3, -20);
 			}
 
-			Registry.registerScreen(Integer.parseInt((String) Registry.getSetting("screen_width")), Integer.parseInt((String) Registry.getSetting("screen_height")));
-
 			if (mode == null) {
 				for (int i = 0; i < modes.length; i++) {
 					if (modes[i].getWidth() == Registry.getScreenWidth() && modes[i].getHeight() == Registry.getScreenHeight() && modes[i].getBitsPerPixel() >= 32 && modes[i].getFrequency() == 60) {

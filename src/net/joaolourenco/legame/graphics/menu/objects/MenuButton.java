@@ -39,19 +39,21 @@ public class MenuButton extends MenuActionReader {
 	}
 
 	public void update() {
-		if (Mouse.getX() > this.xOffseted && Mouse.getX() < (this.xOffseted + this.width) && (this.screenHeight - Mouse.getY()) > this.y && (this.screenHeight - Mouse.getY()) < (this.y + this.height)) {
-			this.ccolor = this.scolor;
-			if (Mouse.isButtonDown(0)) {
-				this.ccolor = this.pcolor;
-				for (ClickAction a : this.DownCallbacks)
-					a.onClick(this.menuOwner);
-				mouse = true;
-			} else if (!Mouse.isButtonDown(0) && mouse) {
-				for (ClickAction a : this.ClickCallbacks)
-					a.onClick(this.menuOwner);
-				mouse = false;
-			}
-		} else this.ccolor = this.color;
+		if (this.enabled) {
+			if (Mouse.getX() > this.xOffseted && Mouse.getX() < (this.xOffseted + this.width) && (this.screenHeight - Mouse.getY()) > this.y && (this.screenHeight - Mouse.getY()) < (this.y + this.height)) {
+				this.ccolor = this.scolor;
+				if (Mouse.isButtonDown(0)) {
+					this.ccolor = this.pcolor;
+					for (ClickAction a : this.DownCallbacks)
+						a.onClick(this.menuOwner);
+					mouse = true;
+				} else if (!Mouse.isButtonDown(0) && mouse) {
+					for (ClickAction a : this.ClickCallbacks)
+						a.onClick(this.menuOwner);
+					mouse = false;
+				}
+			} else this.ccolor = this.color;
+		} else this.ccolor = this.dColor;
 	}
 
 }

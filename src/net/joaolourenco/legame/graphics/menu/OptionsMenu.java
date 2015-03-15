@@ -16,19 +16,26 @@
 
 package net.joaolourenco.legame.graphics.menu;
 
-import java.util.*;
+import java.util.List;
 
 import net.joaolourenco.legame.*;
+import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.font.*;
+import net.joaolourenco.legame.graphics.font.Font;
 import net.joaolourenco.legame.graphics.menu.objects.*;
 import net.joaolourenco.legame.settings.*;
 import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.world.*;
 
+import org.lwjgl.*;
 import org.lwjgl.input.*;
 import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.DisplayMode;
 
 import static org.lwjgl.opengl.GL11.*;
+
+import java.awt.*;
 
 /**
  * @author Joao Lourenco
@@ -46,8 +53,9 @@ public class OptionsMenu extends Menu {
 	public MenuCloud[] clouds = new MenuCloud[maxClouds];
 	public boolean Color = false;
 
-	public MenuCheckBox full, window;
+	public MenuCheckBox full, window, vsync;
 	public MenuOptionSelect resolution;
+	public MenuSlider FPS_Lock;
 
 	/**
 	 * @param texture
@@ -109,28 +117,44 @@ public class OptionsMenu extends Menu {
 				if (menu.window.isSelected()) {
 					menu.full.setEnabled(false);
 					menu.full.setSelected(false);
-				} else menu.full.setEnabled(true);
+					menu.resolution.setEnabled(false);
+				} else {
+					menu.full.setEnabled(true);
+					menu.resolution.setEnabled(true);
+				}
 			}
 		});
 
 		resolution = new MenuOptionSelect("Resolution: ", (this.xMax / 5) * 3, yPos + (50 * i++), size + 5, spacing, this);
+		if (window.isSelected()) resolution.setEnabled(false);
 		List<DisplayMode> modes = Registry.getDisplayModes();
 		for (int ii = 0; ii < modes.size(); ii++)
 			resolution.addOption(modes.get(ii).getWidth() + "x" + modes.get(ii).getHeight());
+		resolution.setActive(Registry.getScreenWidth() + "x" + Registry.getScreenHeight());
 		this.buttons.add(resolution);
 
-		MenuCheckBox vsync = new MenuCheckBox("Vertical Sync", (this.xMax / 4) * 3, yPos + (50 * (i++ + 1)), size, spacing, this, shader);
+		vsync = new MenuCheckBox("Vertical Sync", (this.xMax / 4) * 3, yPos + (50 * (i++ + 1)), size, spacing, this, shader);
 		vsync.setSelected(Boolean.valueOf((String) Registry.getSetting("vsync")));
 		this.buttons.add(vsync);
 
-		MenuSlider FPS_Lock = new MenuSlider("FPS Lock: ", (this.xMax / 4), yPos + (50 * (i++)), 250, size, spacing, this, 30, 300, "FPS");
+		FPS_Lock = new MenuSlider("FPS Lock: ", (this.xMax / 4), yPos + (50 * (i++)), 250, size, spacing, this, 30, 300, "FPS");
+		FPS_Lock.setPosition(Integer.parseInt(Registry.getSetting("fps_lock")));
 		this.buttons.add(FPS_Lock);
 
-		this.buttons.add(new MenuButton("Apply", this.xMax / 4, this.yMax - 50, size, spacing, this));
+		this.buttons.add(new MenuButton("Apply", this.xMax / 4 - 40, this.yMax - 50, size, spacing, this));
 		this.buttons.get(i++).addClickAction(new ClickAction() {
 			public void onClick(Menu m) {
+				((OptionsMenu) m).RecreateWindow();
 				m.close();
-				Registry.registerMenu(new MainMenu());
+			}
+		});
+
+		this.buttons.add(new MenuButton("Save", this.xMax / 4 + 40, this.yMax - 50, size, spacing, this));
+		this.buttons.get(i++).addClickAction(new ClickAction() {
+			public void onClick(Menu m) {
+				((OptionsMenu) m).RecreateWindow();
+				Settings.SettingsWritter();
+				m.close();
 			}
 		});
 
@@ -141,6 +165,95 @@ public class OptionsMenu extends Menu {
 				Registry.registerMenu(new MainMenu());
 			}
 		});
+	}
+
+	public void RecreateWindow() {
+		Display.destroy();
+		Registry.registerSetting("screen_width", resolution.getSelected().split("x")[0]);
+		Registry.registerSetting("screen_height", resolution.getSelected().split("x")[1]);
+		Registry.registerSetting("fullscreen", String.valueOf(full.isSelected()));
+		Registry.registerSetting("fullscreen_windowed", String.valueOf(window.isSelected()));
+		Registry.registerSetting("fps_lock", String.valueOf(FPS_Lock.getValue()));
+		Registry.registerSetting("vsync", String.valueOf(vsync.isSelected()));
+
+		Registry.clearDisplayModes();
+
+		// Setting up the Display
+		DisplayMode mode = null;
+		try {
+			DisplayMode[] modes = Display.getAvailableDisplayModes();
+
+			for (int i = 0; i < modes.length; i++)
+				if (modes[i].getBitsPerPixel() == 16 && modes[i].getFrequency() == 60 && modes[i].getWidth() >= 800 && modes[i].getHeight() >= 600) Registry.registerDisplayMode(modes[i]);
+
+			if (Boolean.valueOf((String) Registry.getSetting("fullscreen_windowed")) && !Boolean.valueOf((String) Registry.getSetting("fullscreen"))) {
+				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+				int width = (int) screenSize.getWidth();
+				int height = (int) screenSize.getHeight();
+
+				mode = Registry.getDisplayMode(width, height);
+				Registry.registerSetting("screen_width", "" + width);
+				Registry.registerSetting("screen_height", "" + height);
+
+				Display.setLocation(-3, -20);
+			}
+
+			if (mode == null) {
+				for (int i = 0; i < modes.length; i++) {
+					if (modes[i].getWidth() == Registry.getScreenWidth() && modes[i].getHeight() == Registry.getScreenHeight() && modes[i].getBitsPerPixel() >= 32 && modes[i].getFrequency() == 60) {
+						mode = modes[i];
+						break;
+					}
+				}
+			}
+
+			Display.setDisplayMode(mode);
+			Display.setFullscreen(Boolean.valueOf((String) Registry.getSetting("fullscreen")));
+			Display.setVSyncEnabled(Boolean.valueOf((String) Registry.getSetting("vsync")));
+			Display.setTitle(GeneralSettings.fullname);
+			Display.create(new PixelFormat(0, 16, 1));
+
+			Registry.getMainClass().fps_lock = Integer.parseInt(Registry.getSetting("fps_lock"));
+		} catch (LWJGLException e) {
+			e.printStackTrace();
+		}
+
+		Registry.registerFont(new Font());
+
+		// This is for debug purposes only.
+		System.out.println("======== Changed Resolution ========");
+		System.out.println("Resolution " + mode.toString());
+		System.out.println("OS name " + System.getProperty("os.name"));
+		System.out.println("OS version " + System.getProperty("os.version"));
+		System.out.println("LWJGL version " + org.lwjgl.Sys.getVersion());
+		System.out.println("OpenGL version " + GL11.glGetString(GL11.GL_VERSION));
+		System.out.println("================");
+
+		// Setting up all the Projections stuff for OpenGL
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(0, Registry.getScreenWidth(), Registry.getScreenHeight(), 0, 1, -1);
+		glMatrixMode(GL_MODELVIEW);
+
+		glEnable(GL_TEXTURE_2D);
+		glEnable(GL_STENCIL_TEST);
+		glClearColor(0, 0, 0, 0);
+
+		List<Shader> shaders = Registry.getShaders();
+		for (int i = 0; i < shaders.size(); i++)
+			shader.recompile();
+
+		int x = Registry.getPlayer().getX();
+		int y = Registry.getPlayer().getY();
+		Registry.registerPlayer(new Player(32, 32, 64, 64));
+		Registry.getPlayer().setX(x);
+		Registry.getPlayer().setY(y);
+
+		// Loading all the textures
+		Texture.preload();
+		Texture.load();
+
+		Registry.getMainClass().world = new RandomWorld(1);
 	}
 
 	/**

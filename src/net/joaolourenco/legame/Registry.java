@@ -23,7 +23,6 @@ import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.graphics.menu.*;
 import net.joaolourenco.legame.settings.*;
-import net.joaolourenco.legame.utils.*;
 
 import org.lwjgl.opengl.*;
 
@@ -58,10 +57,6 @@ public class Registry {
 	 */
 	private static List<Menu> menus = new ArrayList<Menu>();
 	/**
-	 * Where the screen information is saved.
-	 */
-	private static Screen screen;
-	/**
 	 * Font used to render fonts in the game.
 	 */
 	private static Font font;
@@ -88,10 +83,6 @@ public class Registry {
 
 	public static void registerStaticText(StaticText t) {
 		staticText.add(t);
-	}
-
-	public static void registerScreen(int w, int h) {
-		screen = new Screen(w, h);
 	}
 
 	public static void registerFont(Font f) {
@@ -160,16 +151,12 @@ public class Registry {
 		return staticText.get(id);
 	}
 
-	public static Screen getScreen() {
-		return screen;
-	}
-
 	public static int getScreenWidth() {
-		return screen.getWidth();
+		return Integer.parseInt(getSetting("screen_width"));
 	}
 
 	public static int getScreenHeight() {
-		return screen.getHeight();
+		return Integer.parseInt(getSetting("screen_height"));
 	}
 
 	public static Font getFont() {
@@ -193,6 +180,14 @@ public class Registry {
 	}
 
 	public static DisplayMode getDisplayMode(int w, int h) {
+		for (DisplayMode dm : displaymodes)
+			if (dm.getWidth() == w && dm.getHeight() == h) return dm;
+		return null;
+	}
+
+	public static DisplayMode getCurrentDisplayMode() {
+		int w = getScreenWidth();
+		int h = getScreenHeight();
 		for (DisplayMode dm : displaymodes)
 			if (dm.getWidth() == w && dm.getHeight() == h) return dm;
 		return null;
@@ -234,6 +229,11 @@ public class Registry {
 	public static void clearStaticTexts() {
 		// Clear the array.
 		staticText.clear();
+	}
+
+	public static void clearDisplayModes() {
+		// Clear the array.
+		displaymodes.clear();
 	}
 
 	public static void cleanRegistries() {

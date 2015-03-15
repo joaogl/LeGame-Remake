@@ -16,23 +16,16 @@
 
 package net.joaolourenco.legame.graphics.menu;
 
-import org.lwjgl.input.Keyboard;
-
-import net.joaolourenco.legame.Registry;
-import net.joaolourenco.legame.graphics.Shader;
-import net.joaolourenco.legame.graphics.Texture;
+import net.joaolourenco.legame.*;
+import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.menu.objects.*;
-import net.joaolourenco.legame.settings.GeneralSettings;
-import net.joaolourenco.legame.utils.KeyboardFilter;
-import net.joaolourenco.legame.world.RandomWorld;
-import net.joaolourenco.legame.world.Tutorial;
+import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.world.*;
 
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
+import org.lwjgl.input.*;
+
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * @author Joao Lourenco
@@ -76,7 +69,7 @@ public class MainMenu extends Menu {
 		int i = 0;
 		int size = 30;
 		int spacing = -5;
-		int yPos = ((Registry.getScreenHeight() - 50 * 5) / 2) + 100;
+		int yPos = ((Registry.getScreenHeight() - 50 * 5) / 2) + 80;
 
 		if (Color) {
 			this.buttons.add(new MenuButton("Resume Game", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
@@ -105,7 +98,7 @@ public class MainMenu extends Menu {
 			this.buttons.add(new MenuButton("Save", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 			this.buttons.get(i - 1).addClickAction(new ClickAction() {
 				public void onClick(Menu m) {
-
+					Settings.saveDOMSource(Registry.getMainClass().world.saveWorld());
 					m.close();
 				}
 			});

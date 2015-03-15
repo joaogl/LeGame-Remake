@@ -18,6 +18,10 @@ package net.joaolourenco.legame.settings;
 import java.io.*;
 import java.util.*;
 
+import javax.xml.transform.*;
+import javax.xml.transform.dom.*;
+import javax.xml.transform.stream.*;
+
 import net.joaolourenco.legame.*;
 
 /**
@@ -56,6 +60,9 @@ public class Settings {
 		File f = new File("data/");
 		try {
 			if (!f.exists()) f.mkdir();
+			f = new File("data/settings.conf");
+			if (f.exists()) f.delete();
+
 			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("data/settings.conf", true)));
 			for (Settings_Key s : Registry.getSettings())
 				out.println(s.getKey() + "=" + s.getValue());
@@ -64,4 +71,21 @@ public class Settings {
 			e.printStackTrace();
 		}
 	}
+
+	public static void saveDOMSource(DOMSource source) {
+		File f = new File("data/");
+		try {
+			if (!f.exists()) f.mkdir();
+			StreamResult result = new StreamResult(new File("data/world.xml"));
+
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			transformer.transform(source, result);
+		} catch (TransformerConfigurationException e) {
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

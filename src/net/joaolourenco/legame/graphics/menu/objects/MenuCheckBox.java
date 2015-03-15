@@ -20,15 +20,12 @@ import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.menu.*;
 
 import org.lwjgl.input.*;
-import org.lwjgl.util.vector.*;
 
 /**
  * @author Joao Lourenco
  * 
  */
 public class MenuCheckBox extends MenuActionReader {
-
-	protected Vector3f DisabledColor = new Vector3f(0.6f, 0.6f, 0.6f);
 
 	protected Shader shader;
 	protected int unseletedTexture = Texture.MenuCheckBox[0];
@@ -55,7 +52,7 @@ public class MenuCheckBox extends MenuActionReader {
 		}
 
 		if (this.enabled) this.font.drawString(this.text, this.xOffseted, this.y, this.size, spacing, ccolor);
-		else this.font.drawString(this.text, this.xOffseted, this.y, this.size, spacing, DisabledColor);
+		else this.font.drawString(this.text, this.xOffseted, this.y, this.size, spacing, this.dColor);
 	}
 
 	public void update() {

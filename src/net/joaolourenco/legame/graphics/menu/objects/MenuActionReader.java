@@ -35,9 +35,10 @@ public abstract class MenuActionReader extends RenderableComponent {
 	protected String text;
 	protected Menu menuOwner;
 	protected Font font;
-	protected Vector3f color = new Vector3f(1, 1, 1);
-	protected Vector3f scolor = new Vector3f(0.5f, 0, 0);
-	protected Vector3f pcolor = new Vector3f(0, 0.1f, 1);
+	protected Vector3f color = new Vector3f(1, 1, 1); // Default Color
+	protected Vector3f scolor = new Vector3f(0.5f, 0, 0); // Over Color
+	protected Vector3f pcolor = new Vector3f(0, 0.1f, 1); // Pressed Color
+	protected Vector3f dColor = new Vector3f(0.6f, 0.6f, 0.6f); // Disabled Color
 	protected Vector3f ccolor = color;
 
 	protected List<ClickAction> DownCallbacks = new ArrayList<ClickAction>();

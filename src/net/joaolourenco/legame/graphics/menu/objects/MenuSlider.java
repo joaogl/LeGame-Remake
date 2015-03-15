@@ -64,9 +64,9 @@ public class MenuSlider extends MenuActionReader {
 		render(this.x, this.y - 5, Texture.Menus[2], this.shader, this.width, 30);
 		render(this.xSlide, this.y, Texture.Menus[3], this.shader, 20, 20, new Vector4f(ccolor.x, ccolor.y, ccolor.z, 1f));
 
-		this.font.drawString(this.text, this.xOffseted - 120, this.y, this.size, spacing, color);
-		this.font.drawString(this.getValue() + "", this.xOffseted + this.width - 20, this.y - 6, this.size + 10, -15, color);
-		this.font.drawString(" " + this.postText, this.xOffseted + this.width - 20 + this.font.getStringSize(this.getValue() + "", -15, this.size + 10), this.y, this.size + 5, spacing, color);
+		this.font.drawString(this.text, this.xOffseted - 140, this.y, this.size, spacing, color);
+		this.font.drawString(this.getValue() + "", this.xOffseted + this.width, this.y - 6, this.size + 10, -15, color);
+		this.font.drawString(" " + this.postText, this.xOffseted + this.width -10 + this.font.getStringSize(this.getValue() + "", -15, this.size + 10), this.y, this.size + 5, spacing, color);
 	}
 
 	/**
@@ -95,8 +95,14 @@ public class MenuSlider extends MenuActionReader {
 	}
 
 	public int getValue() {
-		int perc = (this.xSlide - this.xSlideMin) * 100 / (this.xSlideMax - this.xSlideMin);
-		return (perc * (this.maxVal - this.minVal) / 100) + this.minVal;
+		double perc = (this.xSlide - this.xSlideMin) * 100.0f / (this.xSlideMax - this.xSlideMin);
+		return (int) ((perc * (this.maxVal - this.minVal) / 100.0f) + this.minVal);
+	}
+
+	public void setPosition(int pos) {
+		double perc = (pos - this.minVal) * 100.0f / (this.maxVal - this.minVal);
+		double value = (perc * (this.xSlideMax - this.xSlideMin) / 100.0f);
+		this.xSlide = (int) (value + this.xSlideMin) + 1;
 	}
 
 }
