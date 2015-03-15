@@ -193,7 +193,7 @@ public class Registry {
 	}
 
 	public static void removeMenu(Menu m) {
-		focused = true;
+		// focused = true;
 		menus.remove(m);
 	}
 

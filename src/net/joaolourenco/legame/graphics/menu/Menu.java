@@ -54,6 +54,7 @@ public abstract class Menu extends RenderableComponent {
 		this.width = width;
 		this.height = height;
 		this.font = Registry.getFont();
+		this.open();
 	}
 
 	public abstract void render();

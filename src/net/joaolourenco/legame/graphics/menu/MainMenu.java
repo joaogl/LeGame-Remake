@@ -88,17 +88,17 @@ public class MainMenu extends Menu {
 			this.buttons.add(new MenuButton("Main Menu", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 			this.buttons.get(i - 1).addClickAction(new ClickAction() {
 				public void onClick(Menu m) {
+					m.close();
 					Registry.getMainClass().setWorld(null);
 					Registry.registerMenu(new MainMenu());
-					m.close();
 				}
 			});
 		}
 		this.buttons.add(new MenuButton("New Game", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 		this.buttons.get(i - 1).addClickAction(new ClickAction() {
 			public void onClick(Menu m) {
-				Registry.getMainClass().setWorld(new RandomWorld(1));
 				m.close();
+				Registry.getMainClass().setWorld(new RandomWorld(1));
 			}
 		});
 		if (Color) {
@@ -113,8 +113,8 @@ public class MainMenu extends Menu {
 			this.buttons.add(new MenuButton("Tutorial", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 			this.buttons.get(i - 1).addClickAction(new ClickAction() {
 				public void onClick(Menu m) {
-					Registry.getMainClass().setWorld(new Tutorial());
 					m.close();
+					Registry.getMainClass().setWorld(new Tutorial());
 				}
 			});
 		}
@@ -126,8 +126,8 @@ public class MainMenu extends Menu {
 		this.buttons.add(new MenuButton("Options", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 		this.buttons.get(i - 1).addClickAction(new ClickAction() {
 			public void onClick(Menu m) {
-				Registry.registerMenu(new OptionsMenu());
 				m.close();
+				Registry.registerMenu(new OptionsMenu());
 			}
 		});
 		this.buttons.add(new MenuButton("Exit", this.xMax / 2, yPos + (50 * i++), size, spacing, this));

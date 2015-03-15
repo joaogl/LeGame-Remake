@@ -16,10 +16,13 @@
 
 package net.joaolourenco.legame.graphics.menu;
 
+import org.lwjgl.input.*;
+
 import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.menu.objects.*;
 import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.utils.*;
 import net.joaolourenco.legame.world.*;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -77,10 +80,10 @@ public class OptionsMenu extends Menu {
 		window.setSelected(Boolean.valueOf((String) Registry.getSetting("fullscreen_windowed")));
 		this.buttons.add(window);
 
-		//MenuDropDown d1 = new MenuDropDown(this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
-		//d1.addOption("16");
-		//d1.addOption("32");
-		//d1.addOption("64");
+		// MenuDropDown d1 = new MenuDropDown(this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
+		// d1.addOption("16");
+		// d1.addOption("32");
+		// d1.addOption("64");
 		// this.buttons.add(d1);
 
 		this.buttons.add(new MenuButton("Tutorial", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
@@ -147,6 +150,11 @@ public class OptionsMenu extends Menu {
 	 */
 	@Override
 	public void update() {
+		if (KeyboardFilter.isKeyDown(Keyboard.KEY_ESCAPE) && Registry.getMainClass().getWorld() != null) {
+			this.close();
+			Registry.registerMenu(new MainMenu());
+		}
+
 		for (int i = 0; i < maxClouds; i++)
 			if (clouds[i] == null) clouds[i] = new MenuCloud(shader);
 			else if (clouds[i].toRemove()) clouds[i] = null;

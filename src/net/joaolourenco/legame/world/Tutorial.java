@@ -221,6 +221,8 @@ public class Tutorial extends World {
 		if (step == 6) Registry.getMainClass().setWorld(new RandomWorld(1));
 
 		if (step == 0) {
+			this.player.setLocationAndCenter(32, 32);
+
 			int yPos = (Registry.getScreenHeight() / 4);
 
 			AnimatedText a = new AnimatedText("This game has a simple objective.", Registry.getScreenWidth() / 2, yPos, 25, 100, 200, -1);
@@ -237,6 +239,7 @@ public class Tutorial extends World {
 			});
 		} else if (step == 1) {
 			int yPos = (Registry.getScreenHeight() / 4);
+			this.player.setLocationAndCenter(32, 32);
 
 			AnimatedText a = new AnimatedText("Use the WASD or the", Registry.getScreenWidth() / 2, yPos, 25, 100, 5000, -1);
 			new AnimatedText("arrow keys to move.", Registry.getScreenWidth() / 2, yPos + 50, 25, 100, 5000, -1, a);
@@ -268,12 +271,14 @@ public class Tutorial extends World {
 			this.needUpdates = true;
 		} else if (step == 2) {
 			int yPos = (Registry.getScreenHeight() / 4);
+			this.player.setLocationAndCenter(32, 32);
 
 			this.levelEndable = true;
 
 			new AnimatedText("Go to the End Mark", Registry.getScreenWidth() / 2, yPos, 25, 100, 5000, -1);
 		} else if (step == 3) {
 			this.levelEndable = false;
+			this.player.setLocationAndCenter(32, 32);
 			this.setSize(20, 20);
 
 			AnimatedText a = new AnimatedText("There are some Enemies that", Registry.getScreenWidth() / 2, 30, 25, 100, 5000, -1);
@@ -297,11 +302,13 @@ public class Tutorial extends World {
 			new Citizen(0, 3 * 64, this);
 			new Skeleton(2 * 64, 2 * 64, this);
 			new Spider(5 * 64, 3 * 64, this);
+			this.player.setLocationAndCenter((3 * 64), (3 * 64));
 
 			new AnimatedText("Press enter to continue", Registry.getScreenWidth() / 2, (Registry.getScreenHeight() / 6) * 5, 25, 100, 5000, -1);
 
 			this.text.add(new TutorialText("Hit enter to continue.", 10, Registry.getScreenHeight() - 25, 18, false));
 		} else if (step == 5) {
+			this.player.setLocationAndCenter((2 * 64), (2 * 64));
 			this.levelEndable = true;
 			this.player.renderable = true;
 			this.player.unFreeze();
