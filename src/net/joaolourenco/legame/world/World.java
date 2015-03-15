@@ -156,6 +156,7 @@ public abstract class World {
 			public void timerCall(String caller) {
 				World obj = (World) this.object;
 				obj.stopLoading = true;
+				Registry.focusGame();
 			}
 		});
 
