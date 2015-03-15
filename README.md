@@ -17,15 +17,15 @@ LeGame is a Action/Adventure kinda game.
 TO-DO
 ====
 - Finish Mobs AI.
-- Finish All the Mob types.
-- Try to improve the Rendering engine.
-- Create a level generation algorithm.
 - Finish the Mob system.
 - Add the fight system.
+- Finish All the Mob types.
+- Create a level generation algorithm.
 - Create the Work Report.
 - Fix Player bottom texture error.
 - Add save world.
 - Add load world.
+- Try to improve the Rendering engine.
 
 
 MAYBE TO-DO
