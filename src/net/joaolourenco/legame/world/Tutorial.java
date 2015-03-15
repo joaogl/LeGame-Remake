@@ -142,6 +142,8 @@ public class Tutorial extends World {
 	 * @author Joao Lourenco
 	 */
 	public void update(double delta) {
+		if (this.stopLoading) stopLoading();
+
 		if (this.levelOver && step >= 2) {
 			this.levelOver = false;
 			this.player.setX(5 * 64);
@@ -205,6 +207,7 @@ public class Tutorial extends World {
 	}
 
 	public void stopLoading() {
+		this.stopLoading = false;
 		this.loading.remove();
 		changeStep(true);
 		this.levelEndable = false;
