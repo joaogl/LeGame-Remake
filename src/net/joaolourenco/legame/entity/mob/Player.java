@@ -41,7 +41,8 @@ public class Player extends Mob {
 	public Player(int x, int y, int w, int h) {
 		super(x, y, w, h);
 		this.isLightCollidable(true);
-		// this.texture = Texture.Player[0];
+		setTextureAtlas(Texture.PlayerWalking, 3, 4, 1);
+		setDyingTextureAtlas(Texture.PlayerDying, 3, 3, 1);
 	}
 
 	/**

@@ -16,14 +16,19 @@
 
 package net.joaolourenco.legame.entity.mob;
 
-import net.joaolourenco.legame.graphics.Texture;
-import net.joaolourenco.legame.world.World;
+import net.joaolourenco.legame.entity.*;
+import net.joaolourenco.legame.entity.actions.*;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.world.*;
 
 /**
  * @author Joao Lourenco
  * 
  */
 public class Skeleton extends Mob {
+
+	private Entity target;
 
 	/**
 	 * @param x
@@ -32,14 +37,18 @@ public class Skeleton extends Mob {
 	 * @param height
 	 * @author Joao Lourenco
 	 */
-	public Skeleton(int x, int y, World w) {
+	public Skeleton(int x, int y, World w, Entity target) {
 		super(x, y, 128, 128);
+
+		this.target = target;
 
 		this.setTextureAtlas(Texture.SkeletonWalking, 3, 4, 1);
 		this.setAttackingTextureAtlas(Texture.SkeletonAttacking, 3, 3, 1);
 		this.setDyingTextureAtlas(Texture.SkeletonDying, 3, 3, 1);
 
 		w.addEntity(this);
+		moveActions.add(new PersistentTargetedMovementAction(this, target));
+		this.updateTexture(0, 0);
 	}
 
 	/**
@@ -47,7 +56,32 @@ public class Skeleton extends Mob {
 	 */
 	@Override
 	public void update(double delta) {
-		this.updateTexture(0, 0);
+		// Setting up the variables.
+		float xa = 0;
+		float ya = 0;
+		float speed = getSpeed(false);
+
+		if (moveActions.get(0).finished()) moveActions.set(0, new RandomTargetedMovementAction(this));
+		moveActions.get(0).update(speed);
+
+		xa += moveActions.get(0).getXA();
+		ya += moveActions.get(0).getYA();
+
+		// Updating the player facing side.
+		getSide(xa, ya);
+
+		// Checking for Collision
+		Vector2f a = move(xa, ya);
+		xa = a.x;
+		ya = a.y;
+
+		// Moving the player to the final destination.
+		this.x += xa * delta;
+		this.y += ya * delta;
+
+		if (xa != 0 || ya != 0) this.updateTexture((int) xa, (int) ya);
+
+		if (this.world.getDistance(this, target) <= 120) target.attacked(this);
 	}
 
 	public void updateTexture(int xa, int ya) {

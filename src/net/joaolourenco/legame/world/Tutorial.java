@@ -26,9 +26,7 @@ import net.joaolourenco.legame.entity.Entity;
 import net.joaolourenco.legame.entity.block.Door;
 import net.joaolourenco.legame.entity.light.Light;
 import net.joaolourenco.legame.entity.light.PointLight;
-import net.joaolourenco.legame.entity.mob.Citizen;
-import net.joaolourenco.legame.entity.mob.Skeleton;
-import net.joaolourenco.legame.entity.mob.Spider;
+import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.Texture;
 import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.items.DoorKey;
@@ -67,7 +65,6 @@ public class Tutorial extends World {
 
 	public void preLoad() {
 		super.preLoad();
-		this.player.setRenderable(false);
 	}
 
 	/**
@@ -83,6 +80,8 @@ public class Tutorial extends World {
 	 */
 	@Override
 	public void generateLevel() {
+		this.player.setGodMode(true);
+		this.player.setRenderable(false);
 		new FinishPoint(this, 0, 0, Texture.Tiles[2]);
 		super.generateLevel();
 	}
@@ -300,9 +299,9 @@ public class Tutorial extends World {
 			this.needUpdates = true;
 		} else if (step == 4) {
 			new Citizen(0, 3 * 64, this);
-			new Skeleton(2 * 64, 2 * 64, this);
+			new Skeleton(2 * 64, 2 * 64, this, Registry.getPlayer());
 			new Spider(5 * 64, 3 * 64, this);
-			this.player.setLocationAndCenter((3 * 64), (3 * 64));
+			this.player.setLocationAndCenter((int) (2.5f * 64), (2 * 64));
 
 			new AnimatedText("Press enter to continue", Registry.getScreenWidth() / 2, (Registry.getScreenHeight() / 6) * 5, 25, 100, 5000, -1);
 
@@ -390,5 +389,12 @@ public class Tutorial extends World {
 			AnimatedText b = new AnimatedText("ENTER near the door.", Registry.getScreenWidth() / 2, 80, 25, 100, 5000, -1, a);
 			new AnimatedText("Try to finish the level.", Registry.getScreenWidth() / 2, 130, 25, 100, 5000, -1, b);
 		}
+	}
+
+	/**
+	 * @author Joao Lourenco
+	 */
+	@Override
+	public void gameOver() {
 	}
 }

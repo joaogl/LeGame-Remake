@@ -79,4 +79,11 @@ public class LoadedWorld extends World {
 		super.generateLevel();
 	}
 
+	/**
+	 * @author Joao Lourenco
+	 */
+	@Override
+	public void gameOver() {
+	}
+
 }

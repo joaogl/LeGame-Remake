@@ -16,18 +16,18 @@
 
 package net.joaolourenco.legame.graphics;
 
-import java.awt.image.*;
 import java.nio.*;
 
 import javax.imageio.*;
 
-import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.utils.Buffer;
 
 import org.lwjgl.*;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
+
+import java.awt.image.*;
 
 /**
  * Texture holder and loader class.
@@ -87,8 +87,6 @@ public class Texture {
 
 		PlayerWalking = loadAtlas("/textures/mobs/Player-Walking.png", 3, 4);
 		PlayerDying = loadAtlas("/textures/mobs/Player-Dying.png", 3, 3);
-		Registry.getPlayer().setTextureAtlas(PlayerWalking, 3, 4, 1);
-		Registry.getPlayer().setDyingTextureAtlas(PlayerDying, 3, 3, 1);
 
 		Citizen = loadAtlas("/textures/mobs/Citizen.png", 3, 4);
 

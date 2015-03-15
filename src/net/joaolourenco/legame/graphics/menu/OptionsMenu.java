@@ -253,7 +253,8 @@ public class OptionsMenu extends Menu {
 		Texture.preload();
 		Texture.load();
 
-		Registry.getMainClass().world = new RandomWorld(1);
+		Registry.registerGameReload();
+		Registry.getMainClass().setWorld(new RandomWorld(1));
 	}
 
 	/**

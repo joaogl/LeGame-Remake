@@ -27,6 +27,7 @@ import net.joaolourenco.legame.entity.block.*;
 import net.joaolourenco.legame.entity.light.*;
 import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.graphics.menu.*;
 import net.joaolourenco.legame.settings.*;
 import net.joaolourenco.legame.utils.*;
@@ -64,9 +65,9 @@ public abstract class World {
 	/**
 	 * Variable to keep track of the day rizing.
 	 */
-	protected boolean goingUp = false;
+	protected boolean goingUp = false, gameOver = false, stopLoading = false;
 
-	public boolean levelOver = false, levelEndable = false, updatesReady = false;
+	public boolean levelOver = false, levelEndable = false, updatesReady = false, ready = false;
 
 	protected Player player;
 
@@ -90,10 +91,11 @@ public abstract class World {
 	 * @author Joao Lourenco
 	 */
 	public World(int width, int height) {
-		this.player = Registry.getPlayer();
-		preLoad();
 		loading = new Loading();
 		Registry.registerMenu(loading);
+		preLoad();
+		this.player = new Player(32, 32, 64, 64);
+		Registry.registerPlayer(this.player);
 
 		// Setting up the variables
 		this.width = width;
@@ -153,7 +155,7 @@ public abstract class World {
 		new Timer("Map Loading", 2000, 1, new TimerResult(this) {
 			public void timerCall(String caller) {
 				World obj = (World) this.object;
-				obj.stopLoading();
+				obj.stopLoading = true;
 			}
 		});
 
@@ -214,6 +216,8 @@ public abstract class World {
 	 * @author Joao Lourenco
 	 */
 	public void update(double delta) {
+		if (this.stopLoading) stopLoading();
+		if (this.gameOver && this.ready) this.gameOver();
 		if (!this.updatesReady) return;
 
 		// Updating all the entities.
@@ -226,24 +230,44 @@ public abstract class World {
 			}
 		}
 
-		// Updating all the world tiles.
-		for (Tile t : this.worldTiles)
-			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) t.update();
+		if (!gameOver) {
+			// Updating all the world tiles.
+			for (Tile t : this.worldTiles)
+				if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) t.update();
 
-		if (this.levelOver && this.levelEndable) {
-			this.levelOver = false;
-			this.levelEnd();
+			if (this.levelOver && this.levelEndable) {
+				this.levelOver = false;
+				this.levelEnd();
+			}
+
+			// Keep increasing and decreasing the Day Light value.
+			if (this.DAY_LIGHT <= 0.1f) this.goingUp = true;
+			else if (this.DAY_LIGHT >= 1.0f) this.goingUp = false;
+
+			if (this.goingUp) this.DAY_LIGHT += 0.001f;
+			else this.DAY_LIGHT -= 0.001f;
+		} else {
+			if (this.DAY_LIGHT <= 0.1f) {
+				this.updatesReady = false;
+				for (int i = 0; i < this.entities.size(); i++) {
+					Entity e = this.entities.get(i);
+					e.renderable = false;
+				}
+
+				AnimatedText a = new AnimatedText("Game Over!", Registry.getScreenWidth() / 2, Registry.getScreenHeight() / 2, 40);
+				new Timer("World-GameOver", (int) (250 + a.getTotalTiming()), 1, new TimerResult(this) {
+					public void timerCall(String caller) {
+						World obj = (World) this.object;
+						obj.ready = true;
+					}
+				});
+			} else this.DAY_LIGHT -= 0.01f;
 		}
-
-		// Keep increasing and decreasing the Day Light value.
-		if (this.DAY_LIGHT <= 0.1f) this.goingUp = true;
-		else if (this.DAY_LIGHT >= 1.0f) this.goingUp = false;
-
-		if (this.goingUp) this.DAY_LIGHT += 0.001f;
-		else this.DAY_LIGHT -= 0.001f;
 	}
 
 	public abstract void levelEnd();
+
+	public abstract void gameOver();
 
 	/**
 	 * Method to tick everything called by the Main class 10 times per second.
@@ -461,9 +485,14 @@ public abstract class World {
 	}
 
 	public void stopLoading() {
+		this.stopLoading = false;
 		this.loading.remove();
 		Registry.focusGame();
 		this.levelEndable = true;
+		if (Registry.isGameReloading()) {
+			Registry.registerFinishedGameReload();
+			Registry.registerMenu(new MainMenu());
+		}
 	}
 
 	public void setSize(int w, int h) {

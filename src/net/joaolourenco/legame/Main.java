@@ -18,7 +18,6 @@ package net.joaolourenco.legame;
 
 import java.util.List;
 
-import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.graphics.font.Font;
@@ -156,8 +155,6 @@ public class Main implements Runnable {
 		Registry.registerMainClass(this);
 		Registry.registerMenu(new MainMenu());
 		Registry.getMenu(0).open();
-
-		Registry.registerPlayer(new Player(32, 32, 64, 64));
 
 		// Setting up all the Projections stuff for OpenGL
 		glMatrixMode(GL_PROJECTION);

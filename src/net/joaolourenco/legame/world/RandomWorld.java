@@ -16,9 +16,11 @@
 
 package net.joaolourenco.legame.world;
 
+import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.entity.*;
 import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.graphics.menu.*;
 import net.joaolourenco.legame.world.tile.*;
 
 /**
@@ -42,7 +44,16 @@ public class RandomWorld extends World {
 	 */
 	@Override
 	public void levelEnd() {
+		this.gameOver = true;
+	}
 
+	/**
+	 * @author Joao Lourenco
+	 */
+	@Override
+	public void gameOver() {
+		Registry.getMainClass().setWorld(null);
+		Registry.registerMenu(new MainMenu());
 	}
 
 	/**
@@ -77,6 +88,8 @@ public class RandomWorld extends World {
 
 		Entity cit = new Citizen((5 * 64), (5 * 64), this);
 		this.addEntity(cit);
+		Skeleton skele = new Skeleton((5 * 64), (5 * 64), this, Registry.getPlayer());
+		this.addEntity(skele);
 
 		super.generateLevel();
 	}

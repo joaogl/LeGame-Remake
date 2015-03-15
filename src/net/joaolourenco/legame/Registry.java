@@ -72,6 +72,22 @@ public class Registry {
 	 * Player Instance.
 	 */
 	private static Player player;
+	/**
+	 * 
+	 */
+	private static boolean gameReloaded = false;
+
+	public static void registerGameReload() {
+		gameReloaded = true;
+	}
+
+	public static void registerFinishedGameReload() {
+		gameReloaded = false;
+	}
+
+	public static boolean isGameReloading() {
+		return gameReloaded;
+	}
 
 	public static void registerShader(Shader s) {
 		shaders.add(s);

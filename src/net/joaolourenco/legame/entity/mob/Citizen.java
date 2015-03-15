@@ -36,10 +36,10 @@ public class Citizen extends Mob {
 	 */
 	public Citizen(int x, int y, World w) {
 		super(x, y, 64, 64);
-		
+
 		this.setTextureAtlas(Texture.Citizen, 3, 4, 1);
 		this.updateTexture(0, 0);
-		
+
 		w.addEntity(this);
 		moveActions.add(new RandomTargetedMovementAction(this));
 	}
@@ -49,8 +49,6 @@ public class Citizen extends Mob {
 	 */
 	@Override
 	public void update(double delta) {
-		this.life -= 0.1f;
-
 		// Setting up the variables.
 		float xa = 0;
 		float ya = 0;

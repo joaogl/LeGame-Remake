@@ -63,7 +63,6 @@ public class FinishTile extends SolidTile {
 
 	public void entityOver(Entity e) {
 		super.entityOver(e);
-		System.out.println("Over");
 
 		if (!timer) {
 			new Timer("Finished-Level", 500, 1, new TimerResult(this.w) {

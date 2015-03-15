@@ -20,6 +20,7 @@ import java.util.*;
 
 import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.entity.block.*;
+import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.items.*;
 import net.joaolourenco.legame.settings.*;
@@ -75,7 +76,7 @@ public abstract class Entity extends RenderableComponent {
 	 * This tells the game if this entity is going to be rendered or not.
 	 */
 	public boolean renderable = true;
-	protected boolean dying = false;
+	protected boolean dying = false, godMode = false;
 	protected int time, rate = 10;
 	protected float life = 100;
 	protected boolean renderHealthBar = false;
@@ -196,6 +197,7 @@ public abstract class Entity extends RenderableComponent {
 	 */
 	public void remove() {
 		removed = true;
+		if (this instanceof Player) this.world.levelEnd();
 	}
 
 	/**
@@ -364,6 +366,14 @@ public abstract class Entity extends RenderableComponent {
 		int xOff = (int) ((this.x + (this.width / 2)) - Registry.getScreenWidth() / 2);
 		int yOff = (int) (this.y + (this.height / 2) - Registry.getScreenHeight() / 2);
 		this.world.setOffset(xOff, yOff);
+	}
+
+	public void setGodMode(boolean mode) {
+		this.godMode = mode;
+	}
+
+	public void attacked(Entity attacker) {
+		if (!this.godMode) this.life--;
 	}
 
 	public World getWorld() {
