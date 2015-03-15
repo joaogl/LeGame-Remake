@@ -66,6 +66,7 @@ public class Skeleton extends Mob {
 	 */
 	@Override
 	public void tick() {
+		// if (life <= 0) this.died();
 	}
 
 }

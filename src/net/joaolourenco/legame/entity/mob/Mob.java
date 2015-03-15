@@ -88,6 +88,7 @@ public abstract class Mob extends Entity {
 	 */
 	public Mob(int x, int y, int width, int height) {
 		super(x, y, width, height);
+		this.renderHealthBar = true;
 	}
 
 	/**
@@ -253,14 +254,16 @@ public abstract class Mob extends Entity {
 	}
 
 	public void died() {
-		this.dying = true;
-		this.frozen = true;
+		if (!this.dying) {
+			this.dying = true;
+			this.frozen = true;
 
-		new Timer("KilledAnimation", 1000, 1, new TimerResult(this) {
-			public void timerCall(String caller) {
-				((Entity) this.object).renderable = false;
-			}
-		});
+			new Timer("KilledAnimation", 1000, 1, new TimerResult(this) {
+				public void timerCall(String caller) {
+					((Entity) this.object).remove();
+				}
+			});
+		}
 	}
 
 }

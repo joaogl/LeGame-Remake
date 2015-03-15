@@ -22,8 +22,10 @@ import net.joaolourenco.legame.entity.block.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.items.*;
 import net.joaolourenco.legame.settings.*;
-import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.utils.Vector2f;
 import net.joaolourenco.legame.world.*;
+
+import org.lwjgl.util.vector.*;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -74,6 +76,8 @@ public abstract class Entity extends RenderableComponent {
 	public boolean renderable = true;
 	protected boolean dying = false;
 	protected int time, rate = 10;
+	protected float life = 100;
+	protected boolean renderHealthBar = false;
 
 	/**
 	 * Constructor for the Entities.
@@ -120,6 +124,15 @@ public abstract class Entity extends RenderableComponent {
 				time++;
 				if (time % rate != 0) return;
 			}
+
+			if (renderHealthBar && !this.dying) {
+				render(x + (this.width / 4), y - 15, 0, shade, (this.width / 2), 5, new Vector4f(0.0f, 0.0f, 0.0f, 1f));
+
+				float w = this.life * (this.width / 2) / 100;
+				if (this.life <= 0) w = 0 * (this.width / 2) / 100;
+				render(x + (this.width / 4), y - 15, 0, shade, w, 5, new Vector4f(0.0f, 1.0f, 0.0f, 1f));
+			}
+
 			// Setting up OpenGL for render
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ZERO);

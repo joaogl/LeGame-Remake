@@ -47,7 +47,7 @@ public class Spider extends Mob {
 	 */
 	@Override
 	public void update(double delta) {
-		this.updateTexture(0,0);
+		this.updateTexture(0, 0);
 	}
 
 	public void updateTexture(int xa, int ya) {
@@ -66,6 +66,7 @@ public class Spider extends Mob {
 	 */
 	@Override
 	public void tick() {
+		// if (life <= 0) this.died();
 	}
 
 }

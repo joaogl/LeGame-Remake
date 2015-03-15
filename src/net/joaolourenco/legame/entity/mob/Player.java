@@ -130,6 +130,8 @@ public class Player extends Mob {
 	 * @author Joao Lourenco
 	 */
 	public void tick() {
+		// if (life <= 0) this.died();
+
 		if (KeyboardFilter.isKeyDown(Keyboard.KEY_RETURN)) {
 			Door door = this.world.getNearByDoor(this.x, this.y, 300);
 			if (door != null) door.ativateDoor(this);

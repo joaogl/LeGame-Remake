@@ -46,6 +46,8 @@ public class Citizen extends Mob {
 	 */
 	@Override
 	public void update(double delta) {
+		this.life -= 0.2f;
+
 		// Setting up the variables.
 		float xa = 0;
 		float ya = 0;
@@ -88,6 +90,7 @@ public class Citizen extends Mob {
 	 */
 	@Override
 	public void tick() {
+		if (this.life <= 0) this.died();
 	}
 
 }
