@@ -252,6 +252,8 @@ public class RenderableComponent {
 			glVertex2f(width, 0);
 		}
 		glEnd();
+		
+		glColor4f(1f, 1f, 1f, 1f);
 
 		// Releasing the texture bank.
 		glBindTexture(GL_TEXTURE_2D, 0);
