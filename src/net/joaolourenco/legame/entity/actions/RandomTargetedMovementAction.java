@@ -58,4 +58,5 @@ public class RandomTargetedMovementAction extends MovementAction {
 			} else this.finished = true;
 		}
 	}
+
 }
