@@ -38,7 +38,7 @@ public class Citizen extends Mob {
 		super(x, y, 64, 64);
 		this.setTextureAtlas(Texture.Citizen, 3, 4, 1);
 		w.addEntity(this);
-		moveActions.add(new RandomMovementAction(this));
+		moveActions.add(new RandomTargetedMovementAction(this));
 	}
 
 	/**
@@ -51,8 +51,7 @@ public class Citizen extends Mob {
 		float ya = 0;
 		float speed = getSpeed(false);
 
-		if (moveActions.get(0).finished()) moveActions.set(0, new RandomMovementAction(this));
-
+		if (moveActions.get(0).finished()) moveActions.set(0, new RandomTargetedMovementAction(this));
 		moveActions.get(0).update(speed);
 
 		xa += moveActions.get(0).getXA();
@@ -70,7 +69,7 @@ public class Citizen extends Mob {
 		this.x += xa * delta;
 		this.y += ya * delta;
 
-		this.updateTexture((int) xa, (int) ya);
+		if (xa != 0 || ya != 0) this.updateTexture((int) xa, (int) ya);
 	}
 
 	public void updateTexture(int xa, int ya) {

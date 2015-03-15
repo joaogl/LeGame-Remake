@@ -207,6 +207,10 @@ public abstract class Entity extends RenderableComponent {
 		return (int) this.x;
 	}
 
+	public int getTX() {
+		return (int) this.x >> GeneralSettings.TILE_SIZE_MASK;
+	}
+
 	/**
 	 * Method to get the current Entity y coordinates.
 	 * 
@@ -215,6 +219,10 @@ public abstract class Entity extends RenderableComponent {
 	 */
 	public int getY() {
 		return (int) this.y;
+	}
+
+	public int getTY() {
+		return (int) this.y >> GeneralSettings.TILE_SIZE_MASK;
 	}
 
 	/**

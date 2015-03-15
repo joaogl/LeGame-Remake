@@ -14,27 +14,25 @@
  * limitations under the License.
  */
 
-package net.joaolourenco.legame.entity.actions;
+package net.joaolourenco.legame.world;
 
-import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.utils.*;
 
 /**
  * @author Joao Lourenco
  * 
  */
-public class RandomMovementAction extends MovementAction {
+public class Node {
 
-	private final Mob entity;
-	private final Vector2f target;
+	public Vector2f tile;
+	public Node parent;
+	public double fCost, gCost, hCost;
 
-	public RandomMovementAction(Mob entity) {
-		this.entity = entity;
-		this.target = new Vector2f((Float) this.generateRandom(0, this.entity.getWorld().getWidth(), 1), (Float) this.generateRandom(0, this.entity.getWorld().getHeight(), 1));
+	public Node(Vector2f tile, Node parent, double gCost, double hCost) {
+		this.tile = tile;
+		this.parent = parent;
+		this.gCost = gCost;
+		this.hCost = hCost;
+		this.fCost = this.gCost * this.hCost;
 	}
-
-	public void update(float speed) {
-		this.xa = 1;
-	}
-
 }

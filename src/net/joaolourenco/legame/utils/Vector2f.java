@@ -146,4 +146,11 @@ public class Vector2f {
 		return this.y;
 	}
 
+	public boolean equals(Object object) {
+		if (!(object instanceof Vector2f)) return false;
+		Vector2f vec = (Vector2f) object;
+		if (vec.getX() == this.getX() && vec.getY() == this.getY()) return true;
+		return false;
+	}
+
 }

@@ -18,14 +18,13 @@ package net.joaolourenco.legame.entity.mob;
 
 import java.util.*;
 
-import net.joaolourenco.legame.entity.Entity;
+import net.joaolourenco.legame.entity.*;
 import net.joaolourenco.legame.entity.actions.*;
-import net.joaolourenco.legame.entity.block.Door;
-import net.joaolourenco.legame.graphics.AnimatedSprite;
+import net.joaolourenco.legame.entity.block.*;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.utils.*;
 import net.joaolourenco.legame.utils.Timer;
-import net.joaolourenco.legame.utils.TimerResult;
-import net.joaolourenco.legame.utils.Vector2f;
-import net.joaolourenco.legame.world.tile.Tile;
+import net.joaolourenco.legame.world.tile.*;
 
 /**
  * Abstract class for all the Mob

@@ -24,7 +24,7 @@ import java.util.*;
  */
 public abstract class MovementAction {
 
-	private boolean finished = false;
+	protected boolean finished = false;
 	protected int xa, ya;
 
 	public MovementAction() {

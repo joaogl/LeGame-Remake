@@ -16,23 +16,21 @@
 
 package net.joaolourenco.legame.world;
 
-import java.util.ArrayList;
+import java.util.*;
 
-import net.joaolourenco.legame.Registry;
-import net.joaolourenco.legame.entity.Entity;
-import net.joaolourenco.legame.entity.block.Door;
-import net.joaolourenco.legame.entity.light.Light;
-import net.joaolourenco.legame.entity.mob.Player;
-import net.joaolourenco.legame.graphics.Texture;
-import net.joaolourenco.legame.graphics.menu.Loading;
-import net.joaolourenco.legame.graphics.menu.Menu;
-import net.joaolourenco.legame.settings.GeneralSettings;
+import net.joaolourenco.legame.*;
+import net.joaolourenco.legame.entity.*;
+import net.joaolourenco.legame.entity.block.*;
+import net.joaolourenco.legame.entity.light.*;
+import net.joaolourenco.legame.entity.mob.*;
+import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.graphics.menu.*;
+import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.utils.*;
 import net.joaolourenco.legame.utils.Timer;
-import net.joaolourenco.legame.utils.TimerResult;
-import net.joaolourenco.legame.world.tile.Tile;
+import net.joaolourenco.legame.world.tile.*;
 
-import static org.lwjgl.opengl.GL11.glColor3f;
-import static org.lwjgl.opengl.GL11.glTranslatef;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * A class that handles all the world stuff.
@@ -70,6 +68,14 @@ public abstract class World {
 	protected Player player;
 
 	protected Menu loading;
+
+	private Comparator<Node> nodeSorter = new Comparator<Node>() {
+		public int compare(Node n0, Node n1) {
+			if (n1.fCost < n0.fCost) return +1;
+			if (n1.fCost > n0.fCost) return -1;
+			return 0;
+		}
+	};
 
 	/**
 	 * World constructor to generate a new world.
@@ -446,6 +452,60 @@ public abstract class World {
 		this.width = w;
 		this.height = h;
 		this.worldTiles = new Tile[this.width * this.height];
+	}
+
+	public List<Node> findPath(Vector2f start, Vector2f goal) {
+		List<Node> openList = new ArrayList<Node>();
+		List<Node> closedList = new ArrayList<Node>();
+		Node current = new Node(start, null, 0, getDistance(start, goal));
+		openList.add(current);
+		while (openList.size() > 0) {
+			Collections.sort(openList, nodeSorter);
+			current = openList.get(0);
+			if (current.tile.equals(goal)) {
+				List<Node> path = new ArrayList<Node>();
+				while (current.parent != null) {
+					path.add(current);
+					current = current.parent;
+				}
+				openList.clear();
+				closedList.clear();
+				return path;
+			}
+			openList.remove(current);
+			closedList.add(current);
+			for (int i = 0; i < 9; i++) {
+				if (i == 4) continue;
+				float x = current.tile.getX();
+				float y = current.tile.getY();
+				int xi = (i % 3) - 1;
+				int yi = (i / 3) - 1;
+				Tile at = getTile((int) x + xi, (int) y + yi);
+				if (at == null) continue;
+				if (at.isCollidable()) continue;
+				Vector2f a = new Vector2f(x + xi, y + yi);
+				double gCost = current.gCost + (getDistance(current.tile, a) == 1 ? 1 : 0.95);
+				double hCost = getDistance(a, goal);
+				Node node = new Node(a, current, gCost, hCost);
+				if (vecInList(closedList, a) && gCost >= node.gCost) continue;
+				if (!vecInList(openList, a) || gCost < node.gCost) openList.add(node);
+			}
+		}
+		closedList.clear();
+		return null;
+	}
+
+	private boolean vecInList(List<Node> list, Vector2f vector) {
+		for (Node n : list) {
+			if (n.tile.equals(vector)) return true;
+		}
+		return false;
+	}
+
+	public double getDistance(Vector2f t1, Vector2f t2) {
+		float dx = t1.x - t2.x;
+		float dy = t1.y - t2.y;
+		return Math.sqrt(dx * dx + dy * dy);
 	}
 
 }
