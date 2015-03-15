@@ -459,6 +459,7 @@ public abstract class World {
 
 	public void stopLoading() {
 		this.loading.remove();
+		Registry.focusGame();
 		this.levelEndable = true;
 	}
 

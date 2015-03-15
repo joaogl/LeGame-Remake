@@ -88,8 +88,8 @@ public class MainMenu extends Menu {
 			this.buttons.add(new MenuButton("Main Menu", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 			this.buttons.get(i - 1).addClickAction(new ClickAction() {
 				public void onClick(Menu m) {
-					m.close();
 					Registry.getMainClass().setWorld(null);
+					m.close();
 					Registry.registerMenu(new MainMenu());
 				}
 			});
@@ -97,8 +97,8 @@ public class MainMenu extends Menu {
 		this.buttons.add(new MenuButton("New Game", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 		this.buttons.get(i - 1).addClickAction(new ClickAction() {
 			public void onClick(Menu m) {
-				m.close();
 				Registry.getMainClass().setWorld(new RandomWorld(1));
+				m.close();
 			}
 		});
 		if (Color) {
@@ -113,8 +113,8 @@ public class MainMenu extends Menu {
 			this.buttons.add(new MenuButton("Tutorial", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 			this.buttons.get(i - 1).addClickAction(new ClickAction() {
 				public void onClick(Menu m) {
-					m.close();
 					Registry.getMainClass().setWorld(new Tutorial());
+					m.close();
 				}
 			});
 		}
@@ -157,6 +157,7 @@ public class MainMenu extends Menu {
 		sha.bind();
 		// Render it.
 		render(this.x, this.y, this.texture, sha, this.width, this.height);
+		System.out.println(this.x + " ; " + this.y);
 		sha.release();
 
 		// Binding the shader
