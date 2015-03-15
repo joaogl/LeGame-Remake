@@ -156,7 +156,7 @@ public class MainMenu extends Menu {
 		// Binding the shader
 		sha.bind();
 		// Render it.
-		render(this.x, this.y, this.texture, sha, this.width, this.height);
+		render(this.x, this.y, this.texture, sha, this.width, this.height, false);
 		System.out.println(this.x + " ; " + this.y);
 		sha.release();
 

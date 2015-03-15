@@ -72,7 +72,7 @@ public class Loading extends Menu {
 		this.shader.bind();
 
 		// Render it.
-		render(this.x, this.y, Texture.Menus[0], this.shader, this.width, this.height);
+		render(this.x, this.y, Texture.Menus[0], this.shader, this.width, this.height, false);
 		render((xMax ) / 2, (yMax / 2) + 150, Texture.loading, this.shader, 90, 90, rot);
 
 		for (MenuCloud c : clouds)
