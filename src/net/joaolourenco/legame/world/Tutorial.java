@@ -85,9 +85,7 @@ public class Tutorial extends World {
 	@Override
 	public void generateLevel() {
 		new FinishPoint(this, 0, 0, Texture.Tiles[2]);
-
-		if (timerOver) super.generateLevel();
-		finished = true;
+		super.generateLevel();
 	}
 
 	/**
@@ -117,7 +115,8 @@ public class Tutorial extends World {
 		// Clearing the colors once more.
 		glColor3f(1f, 1f, 1f);
 		// Going througth all the entities
-		for (Entity e : this.entities) {
+		for (int i = 0; i < this.entities.size(); i++) {
+			Entity e = this.entities.get(i);
 			// Checking if they are close to the player.
 			if (e != null && getDistance(e, this.player) < 800) {
 				if (e instanceof Light) {
@@ -154,7 +153,8 @@ public class Tutorial extends World {
 
 		if (!firstUpdate || needUpdates) {
 			// Updating all the entities.
-			for (Entity e : this.entities) {
+			for (int i = 0; i < this.entities.size(); i++) {
+				Entity e = this.entities.get(i);
 				if (e != null && getDistance(this.player, e) <= Registry.getScreenWidth()) e.update(delta);
 			}
 			firstUpdate = true;
@@ -163,8 +163,10 @@ public class Tutorial extends World {
 		for (Tile t : this.worldTiles)
 			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) {
 				t.update();
-				for (Entity e : this.entities)
+				for (int i = 0; i < this.entities.size(); i++) {
+					Entity e = this.entities.get(i);
 					if (getDistance(e, t.getX(), t.getY()) <= 12) t.entityOver(e);
+				}
 			}
 
 		if (readyToAdd) {
@@ -194,12 +196,16 @@ public class Tutorial extends World {
 	 */
 	public void tick() {
 		// If an entity is removed remove it from the Array.
-		for (Entity e : this.entities)
+		for (int i = 0; i < this.entities.size(); i++) {
+			Entity e = this.entities.get(i);
 			if (e != null && e.isRemoved()) this.entities.remove(e);
+		}
 
 		// Tick the entities.
-		for (Entity e : this.entities)
+		for (int i = 0; i < this.entities.size(); i++) {
+			Entity e = this.entities.get(i);
 			if (e != null) e.tick();
+		}
 	}
 
 	public void stopLoading() {

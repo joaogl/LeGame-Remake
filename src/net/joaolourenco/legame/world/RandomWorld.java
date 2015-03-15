@@ -78,8 +78,7 @@ public class RandomWorld extends World {
 		Entity cit = new Citizen((5 * 64), (5 * 64), this);
 		this.addEntity(cit);
 
-		if (timerOver) super.generateLevel();
-		finished = true;
+		super.generateLevel();
 	}
 
 }

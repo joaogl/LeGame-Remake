@@ -61,9 +61,7 @@ public abstract class World {
 	 */
 	protected boolean goingUp = false;
 
-	protected boolean finished = false, timerOver = false;
-
-	public boolean levelOver = false, levelEndable = false;
+	public boolean levelOver = false, levelEndable = false, updatesReady = false;
 
 	protected Player player;
 
@@ -139,15 +137,6 @@ public abstract class World {
 	}
 
 	public void preLoad() {
-		new Timer("Map Loading", 2000, 1, new TimerResult(this) {
-			public void timerCall(String caller) {
-				World obj = (World) this.object;
-				if (obj.finished) obj.stopLoading();
-
-				obj.timerOver = true;
-			}
-		});
-
 		Texture.load();
 	}
 
@@ -156,7 +145,19 @@ public abstract class World {
 	 * @author Joao Lourenco
 	 */
 	public void generateLevel() {
-		this.stopLoading();
+		new Timer("Map Loading", 2000, 1, new TimerResult(this) {
+			public void timerCall(String caller) {
+				World obj = (World) this.object;
+				obj.stopLoading();
+			}
+		});
+
+		new Timer("Map Loading - Updates startup", 1500, 1, new TimerResult(this) {
+			public void timerCall(String caller) {
+				World obj = (World) this.object;
+				obj.updatesReady = true;
+			}
+		});
 	}
 
 	/**
@@ -186,7 +187,8 @@ public abstract class World {
 		// Clearing the colors once more.
 		glColor3f(1f, 1f, 1f);
 		// Going througth all the entities
-		for (Entity e : this.entities) {
+		for (int i = 0; i < this.entities.size(); i++) {
+			Entity e = this.entities.get(i);
 			// Checking if they are close to the player.
 			if (e != null && getDistance(e, this.player) < 800) {
 				if (e instanceof Light) {
@@ -207,8 +209,11 @@ public abstract class World {
 	 * @author Joao Lourenco
 	 */
 	public void update(double delta) {
+		if (!this.updatesReady) return;
+
 		// Updating all the entities.
-		for (Entity e : this.entities) {
+		for (int i = 0; i < this.entities.size(); i++) {
+			Entity e = this.entities.get(i);
 			if (e != null && getDistance(this.player, e) <= Registry.getScreenWidth()) e.update(delta);
 		}
 
@@ -216,8 +221,10 @@ public abstract class World {
 		for (Tile t : this.worldTiles)
 			if (t != null && getDistance(this.player, t.getX(), t.getY()) <= Registry.getScreenWidth()) {
 				t.update();
-				for (Entity e : this.entities)
+				for (int i = 0; i < this.entities.size(); i++) {
+					Entity e = this.entities.get(i);
 					if (getDistance(e, t.getX(), t.getY()) <= 12) t.entityOver(e);
+				}
 			}
 
 		if (this.levelOver && this.levelEndable) {
@@ -242,12 +249,16 @@ public abstract class World {
 	 */
 	public void tick() {
 		// If an entity is removed remove it from the Array.
-		for (Entity e : this.entities)
+		for (int i = 0; i < this.entities.size(); i++) {
+			Entity e = this.entities.get(i);
 			if (e != null && e.isRemoved()) this.entities.remove(e);
+		}
 
 		// Tick the entities.
-		for (Entity e : this.entities)
+		for (int i = 0; i < this.entities.size(); i++) {
+			Entity e = this.entities.get(i);
 			if (e != null) e.tick();
+		}
 	}
 
 	/**
@@ -347,7 +358,8 @@ public abstract class World {
 	public ArrayList<Entity> getNearByLights(float x, float y) {
 		ArrayList<Entity> ent = new ArrayList<Entity>();
 
-		for (Entity e : entities) {
+		for (int i = 0; i < this.entities.size(); i++) {
+			Entity e = this.entities.get(i);
 			if (e instanceof Light && getDistance(e, x, y) < 800) ent.add(e);
 		}
 
@@ -367,7 +379,8 @@ public abstract class World {
 	public ArrayList<Entity> getNearByEntities(float x, float y, float radius) {
 		ArrayList<Entity> ent = new ArrayList<Entity>();
 
-		for (Entity e : entities) {
+		for (int i = 0; i < this.entities.size(); i++) {
+			Entity e = this.entities.get(i);
 			if (e instanceof Entity && getDistance(e, x, y) < radius) ent.add(e);
 		}
 
@@ -388,7 +401,8 @@ public abstract class World {
 		Door door = null;
 		double distance = 999999;
 
-		for (Entity e : entities) {
+		for (int i = 0; i < this.entities.size(); i++) {
+			Entity e = this.entities.get(i);
 			double d = getDistance(e, x, y);
 			if (e instanceof Door && d < radius && d < distance) {
 				door = (Door) e;
