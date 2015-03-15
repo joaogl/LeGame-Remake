@@ -157,6 +157,11 @@ public abstract class Mob extends Entity {
 	}
 
 	public Vector2f move(float xa, float ya) {
+		if (isMobStuck()) return new Vector2f(xa, ya);
+		return checkCollision(xa, ya);
+	}
+
+	public Vector2f checkCollision(float xa, float ya) {
 		Vector2f none = new Vector2f(0, 0);
 		// Check for mob states.
 		if (this.frozen || this.inBed) return none;
@@ -210,6 +215,18 @@ public abstract class Mob extends Entity {
 		}
 
 		return new Vector2f(xa, ya);
+	}
+
+	/**
+	 * @return
+	 * @author Joao Lourenco
+	 */
+	private boolean isMobStuck() {
+		float speed = getSpeed(false);
+		Vector2f movePos = checkCollision(speed, speed);
+		Vector2f moveNeg = checkCollision(-speed, -speed);
+		if (movePos.x == 0 && movePos.y == 0 && moveNeg.x == 0 && moveNeg.y == 0) return true;
+		return false;
 	}
 
 	public void updateTexture(int xa, int ya) {

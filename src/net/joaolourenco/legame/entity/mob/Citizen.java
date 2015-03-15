@@ -49,7 +49,7 @@ public class Citizen extends Mob {
 	 */
 	@Override
 	public void update(double delta) {
-		this.life -= 0.2f;
+		this.life -= 0.1f;
 
 		// Setting up the variables.
 		float xa = 0;
