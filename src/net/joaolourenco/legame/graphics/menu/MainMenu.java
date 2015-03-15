@@ -85,6 +85,14 @@ public class MainMenu extends Menu {
 					m.close();
 				}
 			});
+			this.buttons.add(new MenuButton("Main Menu", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
+			this.buttons.get(i - 1).addClickAction(new ClickAction() {
+				public void onClick(Menu m) {
+					Registry.getMainClass().setWorld(null);
+					Registry.registerMenu(new MainMenu());
+					m.close();
+				}
+			});
 		}
 		this.buttons.add(new MenuButton("New Game", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 		this.buttons.get(i - 1).addClickAction(new ClickAction() {

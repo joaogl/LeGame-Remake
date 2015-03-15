@@ -130,7 +130,7 @@ public abstract class Entity extends RenderableComponent {
 
 				float w = this.life * (this.width / 2) / 100;
 				if (this.life <= 0) w = 0 * (this.width / 2) / 100;
-				render(x + (this.width / 4), y - 15, 0, shade, w, 5, new Vector4f(0.0f, 1.0f, 0.0f, 1f));
+				render(x + (this.width / 4), y - 15, 0, shade, w, 5, new Vector4f(0.0f, 0.6f, 0.0f, 0.5f));
 			}
 
 			// Setting up OpenGL for render

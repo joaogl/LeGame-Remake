@@ -284,7 +284,7 @@ public class Main implements Runnable {
 	private void update(double delta) {
 		GeneralSettings.defaultEntityWalking = this.public_fps * 2.0f / 120.0f;
 		GeneralSettings.defaultEntityWalking = this.public_fps * 4.0f / 120.0f;
-		
+
 		if (world != null && Registry.isGameFocused()) world.update(1);
 		// Update the Menus
 		List<Menu> menus = Registry.getMenus();
