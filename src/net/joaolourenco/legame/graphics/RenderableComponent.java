@@ -33,60 +33,6 @@ import static org.lwjgl.opengl.GL20.glUniform1i;
 public class RenderableComponent {
 
 	/**
-	 * Method to render a 64*64 quad on the desired location.
-	 * 
-	 * @param x
-	 *            : x location of the quad.
-	 * @param y
-	 *            : y location of the quad.
-	 * @param texture
-	 *            : texture for the quad.
-	 * @param shade
-	 *            : shader the quad is going to use.
-	 * @author Joao Lourenco
-	 */
-	public void render(int x, int y, int texture, Shader shade) {
-		// Setting up OpenGL for render
-		glEnable(GL_BLEND);
-		// Placing the quad in the right location
-		glTranslatef(x, y, 0);
-		// Activating the first texture bank.
-		glActiveTexture(GL_TEXTURE0);
-		// Storing the texture on the bank.
-		glBindTexture(GL_TEXTURE_2D, texture);
-		// Sending the texture location to the shader.
-		if (shade != null) glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
-
-		// Drawing the Quad.
-		glBegin(GL_QUADS);
-		{
-			// Each vertice of the Quad
-			glTexCoord2f(0, 0);
-			glVertex2f(0, 0);
-
-			// Each vertice of the Quad
-			glTexCoord2f(0, 1);
-			glVertex2f(0, 64);
-
-			// Each vertice of the Quad
-			glTexCoord2f(1, 1);
-			glVertex2f(64, 64);
-
-			// Each vertice of the Quad
-			glTexCoord2f(1, 0);
-			glVertex2f(64, 0);
-		}
-		glEnd();
-
-		// Releasing the texture bank.
-		glBindTexture(GL_TEXTURE_2D, 0);
-		// Getting the render position to the center.
-		glTranslatef(-x, -y, 0);
-		// Disabling the Blend
-		glDisable(GL_BLEND);
-	}
-
-	/**
 	 * Method to render a quad on the desired location with the desired size.
 	 * 
 	 * @param x

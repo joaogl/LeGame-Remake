@@ -196,7 +196,7 @@ public abstract class Mob extends Entity {
 		List<Entity> ent = this.world.getNearByEntities(this.x, this.y, 160);
 
 		for (Entity e : ent) {
-			if (e.isCollidable() && e != this) {
+			if (e.isCollidable() && e != this && !(e instanceof Mob)) {
 				Vector2f[][] v = e.getVertices();
 				if (e instanceof Door && this.world.getDistance(this, e) < 100) {
 					if (((Door) e).getState() == Door.States.CLOSING) {

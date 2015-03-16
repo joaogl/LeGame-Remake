@@ -95,13 +95,13 @@ public class MainMenu extends Menu {
 			}
 		});
 		if (Color) {
-			this.buttons.add(new MenuButton("Save", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
+			/*this.buttons.add(new MenuButton("Save", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 			this.buttons.get(i - 1).addClickAction(new ClickAction() {
 				public void onClick(Menu m) {
 					Settings.saveDOMSource(Registry.getMainClass().world.saveWorld());
 					m.close();
 				}
-			});
+			});*/
 		} else {
 			this.buttons.add(new MenuButton("Tutorial", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 			this.buttons.get(i - 1).addClickAction(new ClickAction() {
@@ -111,11 +111,11 @@ public class MainMenu extends Menu {
 				}
 			});
 		}
-		this.buttons.add(new MenuButton("Load", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
+		/*this.buttons.add(new MenuButton("Load", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 		this.buttons.get(i - 1).addClickAction(new ClickAction() {
 			public void onClick(Menu m) {
 			}
-		});
+		});*/
 		this.buttons.add(new MenuButton("Options", this.xMax / 2, yPos + (50 * i++), size, spacing, this));
 		this.buttons.get(i - 1).addClickAction(new ClickAction() {
 			public void onClick(Menu m) {

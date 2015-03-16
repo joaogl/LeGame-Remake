@@ -19,6 +19,7 @@ package net.joaolourenco.legame.entity.mob;
 import net.joaolourenco.legame.entity.*;
 import net.joaolourenco.legame.entity.actions.*;
 import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.settings.*;
 import net.joaolourenco.legame.utils.*;
 import net.joaolourenco.legame.world.*;
 
@@ -29,6 +30,7 @@ import net.joaolourenco.legame.world.*;
 public class Skeleton extends Mob {
 
 	private Entity target;
+	private int attackRange = 100;
 
 	/**
 	 * @param x
@@ -38,7 +40,7 @@ public class Skeleton extends Mob {
 	 * @author Joao Lourenco
 	 */
 	public Skeleton(int x, int y, World w, Entity target) {
-		super(x, y, 128, 128);
+		super(x, y, 100, 128);
 
 		this.target = target;
 
@@ -81,7 +83,7 @@ public class Skeleton extends Mob {
 
 		if (xa != 0 || ya != 0) this.updateTexture((int) xa, (int) ya);
 
-		if (this.world.getDistance(this, target) <= 120) target.attacked(this);
+		if (this.world.getDistance(this, target) <= this.attackRange) target.attacked(this);
 	}
 
 	public void updateTexture(int xa, int ya) {
@@ -101,6 +103,20 @@ public class Skeleton extends Mob {
 	@Override
 	public void tick() {
 		if (life <= 0) this.died();
+	}
+
+	/**
+	 * Method to get the moving speed of an Entity.
+	 * 
+	 * @param running
+	 *            : Boolean true if they are running, false if they are not.
+	 * @author Joao Lourenco
+	 */
+	public float getSpeed(boolean running) {
+		float speed = 0;
+		if (running) speed = GeneralSettings.defaultEntityRunning / 2;
+		else speed = GeneralSettings.defaultEntityWalking / 2;
+		return speed;
 	}
 
 }

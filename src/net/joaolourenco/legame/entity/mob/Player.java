@@ -21,9 +21,14 @@ import net.joaolourenco.legame.entity.block.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.menu.*;
 import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.utils.Vector2f;
 import net.joaolourenco.legame.world.*;
 
 import org.lwjgl.input.*;
+import org.lwjgl.util.vector.*;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.*;
 
 /**
  * Player Class.
@@ -32,6 +37,8 @@ import org.lwjgl.input.*;
  * 
  */
 public class Player extends Mob {
+
+	public int stamina = 100;
 
 	/**
 	 * Constructor for a new Player.
@@ -43,6 +50,69 @@ public class Player extends Mob {
 		this.isLightCollidable(true);
 		setTextureAtlas(Texture.PlayerWalking, 3, 4, 1);
 		setDyingTextureAtlas(Texture.PlayerDying, 3, 3, 1);
+	}
+
+	/**
+	 * Method called by the World Class to render the Entity.
+	 * 
+	 * @author Joao Lourenco
+	 */
+	public void render() {
+		if (this.renderable) {
+			if (this.dying) {
+				time++;
+				if (time % rate != 0) { return; }
+			}
+
+			if (!this.dying) {
+				// Health bar
+				render(x + (this.width / 4), y - 15, 0, shade, (this.width / 2), 5, new Vector4f(0.0f, 0.0f, 0.0f, 1f));
+
+				float w = this.life * (this.width / 2) / 100;
+				if (this.life <= 0) w = 0 * (this.width / 2) / 100;
+				render(x + (this.width / 4), y - 15, 0, shade, w, 5, new Vector4f(0.0f, 0.6f, 0.0f, 0.5f));
+
+				// Stamina bar
+				render(x + (this.width / 4), y - 8, 0, shade, (this.width / 2), 5, new Vector4f(0.0f, 0.0f, 0.0f, 1f));
+
+				w = this.stamina * (this.width / 2) / 100;
+				if (this.stamina <= 0) w = 0 * (this.width / 2) / 100;
+				render(x + (this.width / 4), y - 8, 0, shade, w, 5, new Vector4f(0.0f, 0.0f, 1f, 0.5f));
+			}
+
+			// Setting up OpenGL for render
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
+
+			// Binding the shader
+			this.shade.bind();
+
+			// Calculating the required light.
+			float day_light = 1f;
+			if (lightAffected) day_light = world.DAY_LIGHT;
+			// Sending the required light to the shader.
+			glUniform1f(glGetUniformLocation(shade.getShader(), "dayLight"), day_light * 2);
+
+			// Releasing the shader
+			shade.release();
+			if (renderHealthBar && !this.dying) {
+				render(x + (this.width / 4), y - 15, 0, shade, (this.width / 2), 5, new Vector4f(0.0f, 0.0f, 0.0f, 1f));
+
+				float w = this.life * (this.width / 2) / 100;
+				if (this.life <= 0) w = 0 * (this.width / 2) / 100;
+				render(x + (this.width / 4), y - 15, 0, shade, w, 5, new Vector4f(0.0f, 0.6f, 0.0f, 0.5f));
+			}
+			// Binding the shader
+			this.shade.bind();
+
+			// Rendering the Quad.
+			render(x, y, texture, shade, width, height);
+
+			// Disabling BLEND and releasing shader for next render.
+			glDisable(GL_BLEND);
+			shade.release();
+			glClear(GL_STENCIL_BUFFER_BIT);
+		}
 	}
 
 	/**
