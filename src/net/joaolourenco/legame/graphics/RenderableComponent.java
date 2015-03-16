@@ -60,23 +60,31 @@ public class RenderableComponent {
 		glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
 
 		// Drawing the Quad.
-		glBegin(GL_QUADS);
+		glBegin(GL_TRIANGLES);
 		{
-			// Each vertice of the Quad
+			// Each vertice of the Triangle
 			glTexCoord2f(0, 0);
 			glVertex2f(0, 0);
 
-			// Each vertice of the Quad
+			// Each vertice of the Triangle
 			glTexCoord2f(0, 1);
 			glVertex2f(0, size);
 
-			// Each vertice of the Quad
+			// Each vertice of the Triangle
 			glTexCoord2f(1, 1);
 			glVertex2f(size, size);
 
-			// Each vertice of the Quad
+			// Each vertice of the Triangle
+			glTexCoord2f(1, 1);
+			glVertex2f(size, size);
+
+			// Each vertice of the Triangle
 			glTexCoord2f(1, 0);
 			glVertex2f(size, 0);
+
+			// Each vertice of the Triangle
+			glTexCoord2f(0, 0);
+			glVertex2f(0, 0);
 		}
 		glEnd();
 
@@ -118,7 +126,7 @@ public class RenderableComponent {
 		glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
 
 		// Drawing the Quad.
-		glBegin(GL_QUADS);
+		glBegin(GL_TRIANGLES);
 		{
 			// Each vertice of the Quad
 			glTexCoord2f(0, 0);
@@ -133,8 +141,16 @@ public class RenderableComponent {
 			glVertex2f(width, height);
 
 			// Each vertice of the Quad
+			glTexCoord2f(1, 1);
+			glVertex2f(width, height);
+
+			// Each vertice of the Quad
 			glTexCoord2f(1, 0);
 			glVertex2f(width, 0);
+
+			// Each vertice of the Quad
+			glTexCoord2f(0, 0);
+			glVertex2f(0, 0);
 		}
 		glEnd();
 
@@ -177,7 +193,7 @@ public class RenderableComponent {
 		glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
 
 		// Drawing the Quad.
-		glBegin(GL_QUADS);
+		glBegin(GL_TRIANGLES);
 		{
 			// Each vertice of the Quad
 			glTexCoord2f(0, 0);
@@ -192,8 +208,16 @@ public class RenderableComponent {
 			glVertex2f(width, height);
 
 			// Each vertice of the Quad
+			glTexCoord2f(1, 1);
+			glVertex2f(width, height);
+
+			// Each vertice of the Quad
 			glTexCoord2f(1, 0);
 			glVertex2f(width, 0);
+
+			// Each vertice of the Quad
+			glTexCoord2f(0, 0);
+			glVertex2f(0, 0);
 		}
 		glEnd();
 
@@ -238,7 +262,7 @@ public class RenderableComponent {
 		glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
 
 		// Drawing the Quad.
-		glBegin(GL_QUADS);
+		glBegin(GL_TRIANGLES);
 		{
 			// Each vertice of the Quad
 			glTexCoord2f(0, 0);
@@ -253,8 +277,16 @@ public class RenderableComponent {
 			glVertex2f(width, height);
 
 			// Each vertice of the Quad
+			glTexCoord2f(1, 1);
+			glVertex2f(width, height);
+
+			// Each vertice of the Quad
 			glTexCoord2f(1, 0);
 			glVertex2f(width, 0);
+
+			// Each vertice of the Quad
+			glTexCoord2f(0, 0);
+			glVertex2f(0, 0);
 		}
 		glEnd();
 
@@ -299,7 +331,7 @@ public class RenderableComponent {
 		glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
 
 		// Drawing the Quad.
-		glBegin(GL_QUADS);
+		glBegin(GL_TRIANGLES);
 		{
 			// Each vertice of the Quad
 			glTexCoord2f(0, 0);
@@ -314,8 +346,16 @@ public class RenderableComponent {
 			glVertex2f((width / 2), (height / 2));
 
 			// Each vertice of the Quad
+			glTexCoord2f(1, 1);
+			glVertex2f((width / 2), (height / 2));
+
+			// Each vertice of the Quad
 			glTexCoord2f(1, 0);
 			glVertex2f((width / 2), -(height / 2));
+
+			// Each vertice of the Quad
+			glTexCoord2f(0, 0);
+			glVertex2f(-(width / 2), -(height / 2));
 		}
 		glEnd();
 
@@ -366,7 +406,7 @@ public class RenderableComponent {
 		glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
 
 		// Drawing the Quad.
-		glBegin(GL_QUADS);
+		glBegin(GL_TRIANGLES);
 		{
 			// Each vertice of the Quad
 			glTexCoord2f(0, 0);
@@ -381,8 +421,16 @@ public class RenderableComponent {
 			glVertex2f((width / 2), (height / 2));
 
 			// Each vertice of the Quad
+			glTexCoord2f(1, 1);
+			glVertex2f((width / 2), (height / 2));
+
+			// Each vertice of the Quad
 			glTexCoord2f(1, 0);
 			glVertex2f((width / 2), -(height / 2));
+
+			// Each vertice of the Quad
+			glTexCoord2f(0, 0);
+			glVertex2f(-(width / 2), -(height / 2));
 		}
 		glEnd();
 
