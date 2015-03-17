@@ -22,7 +22,9 @@ import net.joaolourenco.legame.entity.mob.Skeleton;
 import net.joaolourenco.legame.entity.mob.Spider;
 import net.joaolourenco.legame.graphics.Texture;
 import net.joaolourenco.legame.graphics.menu.MainMenu;
+import net.joaolourenco.legame.world.tile.FinishPoint;
 import net.joaolourenco.legame.world.tile.SolidTile;
+import net.joaolourenco.legame.world.tile.Tile;
 
 /**
  * @author Joao Lourenco
@@ -36,7 +38,7 @@ public class RandomWorld extends World {
 	 * @author Joao Lourenco
 	 */
 	public RandomWorld(int level) {
-		super(10, 10);
+		super(10, 10, level);
 	}
 
 	/**
@@ -45,6 +47,7 @@ public class RandomWorld extends World {
 	@Override
 	public void levelEnd() {
 		this.gameOver = true;
+		if (!this.lost) this.endMessage = "Level " + (this.level + 1);
 	}
 
 	/**
@@ -52,8 +55,10 @@ public class RandomWorld extends World {
 	 */
 	@Override
 	public void gameOver() {
-		Registry.getMainClass().setWorld(null);
-		Registry.registerMenu(new MainMenu());
+		if (this.lost) {
+			Registry.getMainClass().setWorld(null);
+			Registry.registerMenu(new MainMenu());
+		} else Registry.getMainClass().setWorld(new RandomWorld(this.level + 1));
 	}
 
 	/**
@@ -61,36 +66,107 @@ public class RandomWorld extends World {
 	 * @author Joao Lourenco
 	 */
 	public void generateLevel() {
-		this.player.setX(2);
-		this.player.setY(2);
 
-		SolidTile back = new SolidTile(64, Texture.Tiles[2]);
-		SolidTile l = new SolidTile(64, Texture.Tiles[1], -90);
-		SolidTile r = new SolidTile(64, Texture.Tiles[1], 90);
+		Tile corner = new SolidTile(64, Texture.Tiles[4]);
+		corner.isCollidable(true);
 
-		SolidTile t = new SolidTile(64, Texture.Tiles[1], 0);
-		SolidTile b = new SolidTile(64, Texture.Tiles[1], 180);
+		System.out.println("Level " + this.level);
+		if (this.level == 1) {
+			this.setSize(29, 14);
 
-		for (int y = 0; y < height; y++)
-			for (int x = 0; x < width; x++)
-				if (x == 0 || x == (width - 1)) {
-					if (x == 0) this.setTile(x, y, l);
-					else this.setTile(x, y, r);
-				} else if (y == 0 || y == (height - 1)) {
-					if (y == 0) this.setTile(x, y, t);
-					else this.setTile(x, y, b);
-				} else this.setTile(x, y, back);
+			this.player.setX(2);
+			this.player.setY(2);
 
-		setTile(0, 0, new SolidTile(64, Texture.Tiles[0], 0));
-		setTile(this.width - 1, 0, new SolidTile(64, Texture.Tiles[0], 90));
-		setTile(0, this.height - 1, new SolidTile(64, Texture.Tiles[0], 270));
-		setTile(this.width - 1, this.height - 1, new SolidTile(64, Texture.Tiles[0], 180));
+			SolidTile back = new SolidTile(64, Texture.Tiles[2]);
+			SolidTile l = new SolidTile(64, Texture.Tiles[1], -90);
+			SolidTile r = new SolidTile(64, Texture.Tiles[1], 90);
 
-		new Citizen((5 * 64), (5 * 64), this);
-		new Skeleton((5 * 64), (5 * 64), this, Registry.getPlayer());
-		new Spider((5 * 64), (5 * 64), this, Registry.getPlayer());
+			SolidTile t = new SolidTile(64, Texture.Tiles[1], 0);
+			SolidTile b = new SolidTile(64, Texture.Tiles[1], 180);
+
+			for (int y = 0; y < height; y++)
+				for (int x = 0; x < width; x++)
+					if (x == 0 || x == (width - 1)) {
+						if (x == 0) this.setTile(x, y, l);
+						else this.setTile(x, y, r);
+					} else if (y == 0 || y == (height - 1)) {
+						if (y == 0) this.setTile(x, y, t);
+						else this.setTile(x, y, b);
+					} else this.setTile(x, y, back);
+
+			setTile(0, 0, new SolidTile(64, Texture.Tiles[0], 0));
+			setTile(this.width - 1, 0, new SolidTile(64, Texture.Tiles[0], 90));
+			setTile(0, this.height - 1, new SolidTile(64, Texture.Tiles[0], 270));
+			setTile(this.width - 1, this.height - 1, new SolidTile(64, Texture.Tiles[0], 180));
+
+			for (int y = 1; y < 7; y++)
+				setTile(8, y, corner);
+
+			setTile(8, 0, corner);
+			setTile(17, 13, corner);
+			setTile(28, 6, corner);
+
+			Tile ti = new SolidTile(64, Texture.Tiles[5]);
+			ti.isCollidable(true);
+			setTile(7, 0, ti);
+
+			ti = new SolidTile(64, Texture.Tiles[8]);
+			ti.isCollidable(true);
+			setTile(9, 0, ti);
+
+			ti = new SolidTile(64, Texture.Tiles[8]);
+			ti.isCollidable(true);
+			ti.setRotation(180);
+			setTile(16, 13, ti);
+
+			ti = new SolidTile(64, Texture.Tiles[5]);
+			ti.isCollidable(true);
+			ti.setRotation(180);
+			setTile(18, 13, ti);
+
+			ti = new SolidTile(64, Texture.Tiles[5]);
+			ti.isCollidable(true);
+			ti.setRotation(90);
+			setTile(28, 5, ti);
+
+			ti = new SolidTile(64, Texture.Tiles[8]);
+			ti.isCollidable(true);
+			ti.setRotation(90);
+			setTile(28, 7, ti);
+
+			setTile(7, 6, corner);
+			setTile(7, 7, corner);
+			setTile(6, 7, corner);
+			setTile(6, 8, corner);
+			setTile(5, 8, corner);
+			setTile(5, 9, corner);
+			setTile(4, 9, corner);
+
+			setTile(9, 6, corner);
+			setTile(9, 7, corner);
+			setTile(9, 8, corner);
+			setTile(10, 8, corner);
+			setTile(11, 8, corner);
+			setTile(12, 8, corner);
+			setTile(12, 9, corner);
+			setTile(13, 9, corner);
+
+			for (int y = 6; y < 13; y++)
+				setTile(17, y, corner);
+
+			setTile(18, 6, corner);
+			setTile(19, 6, corner);
+			setTile(26, 6, corner);
+			setTile(27, 6, corner);
+
+			new FinishPoint(this, 22, 9, Texture.Tiles[2]);
+
+			new Citizen((4 * 64), (8 * 64), this);
+			new Spider((8 * 64), (9 * 64), this, Registry.getPlayer());
+			new Skeleton((10 * 64), (2 * 64), this, Registry.getPlayer());
+			new Skeleton((26 * 64), (2 * 64), this, Registry.getPlayer());
+		}
 
 		super.generateLevel();
 	}
-
 }

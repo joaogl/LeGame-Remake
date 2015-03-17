@@ -16,9 +16,11 @@
 
 package net.joaolourenco.legame.world.tile;
 
-import net.joaolourenco.legame.entity.*;
-import net.joaolourenco.legame.utils.*;
-import net.joaolourenco.legame.world.*;
+import net.joaolourenco.legame.entity.Entity;
+import net.joaolourenco.legame.entity.mob.Player;
+import net.joaolourenco.legame.utils.Timer;
+import net.joaolourenco.legame.utils.TimerResult;
+import net.joaolourenco.legame.world.World;
 
 /**
  * @author Joao Lourenco
@@ -64,7 +66,7 @@ public class FinishTile extends SolidTile {
 	public void entityOver(Entity e) {
 		super.entityOver(e);
 
-		if (!timer) {
+		if (!timer && e instanceof Player) {
 			new Timer("Finished-Level", 500, 1, new TimerResult(this.w) {
 				public void timerCall(String caller) {
 					World obj = (World) this.object;

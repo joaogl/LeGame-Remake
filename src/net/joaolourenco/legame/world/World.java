@@ -66,12 +66,17 @@ public abstract class World {
 	 * Variable to keep track of the day rizing.
 	 */
 	protected boolean goingUp = false, gameOver = false, stopLoading = false;
+	public boolean lost = false;
 
 	public boolean levelOver = false, levelEndable = false, updatesReady = false, ready = false;
 
 	protected Player player;
 
 	protected Menu loading;
+
+	protected String endMessage = "Game Over!";
+
+	protected int level;
 
 	private Comparator<Node> nodeSorter = new Comparator<Node>() {
 		public int compare(Node n0, Node n1) {
@@ -141,6 +146,36 @@ public abstract class World {
 		 * 
 		 * DoorKey key = new DoorKey(1, door.getKey()); Main.player.giveItem(key);
 		 */
+	}
+
+	/**
+	 * World constructor to generate a new world.
+	 * 
+	 * @param width
+	 *            : width of the world.
+	 * @param height
+	 *            : height of the world.
+	 * @author Joao Lourenco
+	 */
+	public World(int width, int height, int level) {
+		this.level = level;
+		loading = new Loading();
+		Registry.registerMenu(loading);
+		preLoad();
+		this.player = new Player(32, 32, 64, 64);
+		Registry.registerPlayer(this.player);
+
+		// Setting up the variables
+		this.width = width;
+		this.height = height;
+		this.xOffset = 0;
+		this.yOffset = 0;
+		this.worldTiles = new Tile[this.width * this.height];
+
+		this.player.init(this);
+		this.addEntity(this.player);
+
+		generateLevel();
 	}
 
 	public void preLoad() {
@@ -255,7 +290,7 @@ public abstract class World {
 					e.renderable = false;
 				}
 
-				AnimatedText a = new AnimatedText("Game Over!", Registry.getScreenWidth() / 2, Registry.getScreenHeight() / 2, 40);
+				AnimatedText a = new AnimatedText(this.endMessage, Registry.getScreenWidth() / 2, Registry.getScreenHeight() / 2, 40);
 				new Timer("World-GameOver", (int) (250 + a.getTotalTiming()), 1, new TimerResult(this) {
 					public void timerCall(String caller) {
 						World obj = (World) this.object;

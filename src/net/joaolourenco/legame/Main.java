@@ -221,7 +221,7 @@ public class Main implements Runnable {
 				// Once per second this is reached
 				this.public_delta = delta;
 				this.public_fps = frames;
-				String title = GeneralSettings.fullname + " FPS: " + frames + " UPS: " + updates + " Delta: " + this.getDelta();
+				String title = GeneralSettings.fullname + " FPS: " + frames + " UPS: " + updates/* + " Delta: " + this.getDelta()*/;
 				if (GeneralSettings.useAverageFPS) title += " Average: " + avg;
 				if (GeneralSettings.showLightFloat) {
 					if (world != null) title += " Light: " + world.DAY_LIGHT;

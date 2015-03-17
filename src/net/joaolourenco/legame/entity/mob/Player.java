@@ -177,9 +177,6 @@ public class Player extends Mob {
 
 		this.updateTexture((int) xa, (int) ya);
 
-		if (KeyboardFilter.isKeyDown(Keyboard.KEY_F)) this.died();
-		if (KeyboardFilter.isKeyDown(Keyboard.KEY_G)) this.attacking = !this.attacking;
-
 		if (KeyboardFilter.isKeyDown(Keyboard.KEY_ESCAPE) && !(this.world instanceof Tutorial)) Registry.registerMenu(new MainMenu());
 	}
 
