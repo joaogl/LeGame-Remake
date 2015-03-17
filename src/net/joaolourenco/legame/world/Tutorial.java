@@ -284,7 +284,7 @@ public class Tutorial extends World {
 			this.setSize(20, 20);
 
 			AnimatedText a = new AnimatedText("There are some Enemies that", Registry.getScreenWidth() / 2, 30, 25, 100, 5000, -1);
-			AnimatedText b = new AnimatedText("you will face, some will shoot", Registry.getScreenWidth() / 2, 80, 25, 100, 5000, -1, a);
+			AnimatedText b = new AnimatedText("you will face. Some will shoot", Registry.getScreenWidth() / 2, 80, 25, 100, 5000, -1, a);
 			AnimatedText c = new AnimatedText("you, some will follow you untill", Registry.getScreenWidth() / 2, 130, 25, 100, 5000, -1, b);
 			AnimatedText d = new AnimatedText("you die.", Registry.getScreenWidth() / 2, 180, 25, 100, 5000, -1, c);
 
@@ -388,7 +388,7 @@ public class Tutorial extends World {
 
 			this.entities.add(this.player);
 
-			AnimatedText a = new AnimatedText("To open doors,press ", Registry.getScreenWidth() / 2, 30, 25, 100, 5000, -1);
+			AnimatedText a = new AnimatedText("To open doors press", Registry.getScreenWidth() / 2, 30, 25, 100, 5000, -1);
 			AnimatedText b = new AnimatedText("ENTER near the door.", Registry.getScreenWidth() / 2, 80, 25, 100, 5000, -1, a);
 			new AnimatedText("Try to finish the level.", Registry.getScreenWidth() / 2, 130, 25, 100, 5000, -1, b);
 		}
