@@ -39,6 +39,7 @@ import static org.lwjgl.opengl.GL20.*;
 public class Player extends Mob {
 
 	public int stamina = 100;
+	protected VertexHandlers VertexID;
 
 	/**
 	 * Constructor for a new Player.
@@ -50,6 +51,8 @@ public class Player extends Mob {
 		this.isLightCollidable(true);
 		setTextureAtlas(Texture.PlayerWalking, 3, 4, 1);
 		setDyingTextureAtlas(Texture.PlayerDying, 3, 3, 1);
+
+		this.VertexID = Registry.registerVertexHandler(w, h);
 	}
 
 	/**
@@ -106,7 +109,7 @@ public class Player extends Mob {
 			this.shade.bind();
 
 			// Rendering the Quad.
-			render(x, y, texture, shade, width, height);
+			render(x, y, texture, shade, this.VertexID);
 
 			// Disabling BLEND and releasing shader for next render.
 			glDisable(GL_BLEND);

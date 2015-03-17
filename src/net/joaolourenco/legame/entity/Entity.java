@@ -24,6 +24,7 @@ import net.joaolourenco.legame.entity.mob.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.items.*;
 import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.utils.*;
 import net.joaolourenco.legame.utils.Vector2f;
 import net.joaolourenco.legame.world.*;
 
@@ -80,6 +81,7 @@ public abstract class Entity extends RenderableComponent {
 	protected int time, rate = 20;
 	protected float life = 100;
 	protected boolean renderHealthBar = false;
+	protected VertexHandlers VertexID;
 
 	/**
 	 * Constructor for the Entities.
@@ -99,6 +101,7 @@ public abstract class Entity extends RenderableComponent {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.VertexID = Registry.registerVertexHandler(width, height);
 	}
 
 	/**
@@ -161,7 +164,7 @@ public abstract class Entity extends RenderableComponent {
 			this.shade.bind();
 
 			// Rendering the Quad.
-			render(x, y, texture, shade, width, height);
+			render(x, y, texture, shade, this.VertexID);
 
 			// Disabling BLEND and releasing shader for next render.
 			glDisable(GL_BLEND);

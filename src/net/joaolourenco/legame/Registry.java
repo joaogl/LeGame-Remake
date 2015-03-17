@@ -23,6 +23,7 @@ import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.graphics.menu.*;
 import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.utils.*;
 
 import org.lwjgl.opengl.*;
 
@@ -76,6 +77,19 @@ public class Registry {
 	 * 
 	 */
 	private static boolean gameReloaded = false;
+	/**
+	 * 
+	 */
+	private static List<VertexHandlers> vbo_vertex_handlers = new ArrayList<VertexHandlers>();
+
+	public static VertexHandlers registerVertexHandler(int w, int h) {
+		for (VertexHandlers vh : vbo_vertex_handlers)
+			if (vh.w == w && vh.h == h) return vh;
+
+		VertexHandlers ID = new VertexHandlers(w, h, RenderableComponent.getVertexHandle(w, h));
+		vbo_vertex_handlers.add(ID);
+		return ID;
+	}
 
 	public static void registerGameReload() {
 		gameReloaded = true;

@@ -16,8 +16,10 @@
 
 package net.joaolourenco.legame.graphics.menu.objects;
 
+import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.menu.*;
+import net.joaolourenco.legame.utils.*;
 
 import org.lwjgl.input.*;
 
@@ -32,6 +34,7 @@ public class MenuCheckBox extends MenuActionReader {
 	protected int seletedTexture = Texture.MenuCheckBox[1];
 	protected int unseletedDisabledTexture = Texture.MenuCheckBox[2];
 	protected int seletedDisabledTexture = Texture.MenuCheckBox[3];
+	protected VertexHandlers VertexID;
 
 	/**
 	 * 
@@ -40,15 +43,17 @@ public class MenuCheckBox extends MenuActionReader {
 	public MenuCheckBox(String text, int x, int y, int size, int spacing, Menu o, Shader shader) {
 		super(text, x, y, size, spacing, o);
 		this.shader = shader;
+
+		this.VertexID = Registry.registerVertexHandler(32, 32);
 	}
 
 	public void render() {
 		if (this.enabled) {
-			if (this.selected) this.render(this.xOffseted - 32, this.y - (32 / 4), this.seletedTexture, this.shader, 32, 32);
-			else this.render(this.xOffseted - 32, this.y - (32 / 4), this.unseletedTexture, this.shader, 32, 32);
+			if (this.selected) this.render(this.xOffseted - 32, this.y - (32 / 4), this.seletedTexture, this.shader, this.VertexID);
+			else this.render(this.xOffseted - 32, this.y - (32 / 4), this.unseletedTexture, this.shader, this.VertexID);
 		} else {
-			if (this.selected) this.render(this.xOffseted - 32, this.y - (32 / 4), this.seletedDisabledTexture, this.shader, 32, 32);
-			else this.render(this.xOffseted - 32, this.y - (32 / 4), this.unseletedDisabledTexture, this.shader, 32, 32);
+			if (this.selected) this.render(this.xOffseted - 32, this.y - (32 / 4), this.seletedDisabledTexture, this.shader, this.VertexID);
+			else this.render(this.xOffseted - 32, this.y - (32 / 4), this.unseletedDisabledTexture, this.shader, this.VertexID);
 		}
 
 		if (this.enabled) this.font.drawString(this.text, this.xOffseted, this.y, this.size, spacing, ccolor);

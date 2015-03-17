@@ -49,8 +49,8 @@ public class MenuDropDown extends MenuActionReader {
 	public void render() {
 		this.render(this.xOffseted - 32, this.y - (32 / 4), 0, this.shader, 64, 64, new Vector4f(0.5f, 0.5f, 0.5f, 0.2f));
 
-		if (this.selected) this.render(this.xOffseted - 32, this.y - (32 / 4), this.seletedTexture, this.shader, 32, 32);
-		else this.render(this.xOffseted - 32, this.y - (32 / 4), this.unseletedTexture, this.shader, 32, 32);
+		// if (this.selected) this.render(this.xOffseted - 32, this.y - (32 / 4), this.seletedTexture, this.shader, 32, 32);
+		// else this.render(this.xOffseted - 32, this.y - (32 / 4), this.unseletedTexture, this.shader, 32, 32);
 
 		// this.font.drawString(this.text, this.xOffseted, this.y, this.size, spacing, ccolor);
 	}

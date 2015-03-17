@@ -16,9 +16,11 @@
 
 package net.joaolourenco.legame.graphics.menu.objects;
 
+import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.graphics.*;
 import net.joaolourenco.legame.graphics.menu.*;
 import net.joaolourenco.legame.settings.*;
+import net.joaolourenco.legame.utils.*;
 
 import org.lwjgl.input.*;
 import org.lwjgl.util.vector.*;
@@ -33,6 +35,7 @@ public class MenuSlider extends MenuActionReader {
 	private int xSlideMin, xSlideMax, xSlide, xSlideOffset;
 	private int minVal, maxVal;
 	private String postText;
+	private VertexHandlers VertexID;
 
 	/**
 	 * @param text
@@ -54,6 +57,8 @@ public class MenuSlider extends MenuActionReader {
 		this.minVal = minVal;
 		this.maxVal = maxVal;
 		this.postText = postText;
+
+		this.VertexID = Registry.registerVertexHandler(width, 30);
 	}
 
 	/**
@@ -61,12 +66,12 @@ public class MenuSlider extends MenuActionReader {
 	 */
 	@Override
 	public void render() {
-		render(this.x, this.y - 5, Texture.Menus[2], this.shader, this.width, 30);
+		render(this.x, this.y - 5, Texture.Menus[2], this.shader, this.VertexID);
 		render(this.xSlide, this.y, Texture.Menus[3], this.shader, 20, 20, new Vector4f(ccolor.x, ccolor.y, ccolor.z, 1f));
 
 		this.font.drawString(this.text, this.xOffseted - 140, this.y, this.size, spacing, color);
 		this.font.drawString(this.getValue() + "", this.xOffseted + this.width, this.y - 6, this.size + 10, -15, color);
-		this.font.drawString(" " + this.postText, this.xOffseted + this.width -10 + this.font.getStringSize(this.getValue() + "", -15, this.size + 10), this.y, this.size + 5, spacing, color);
+		this.font.drawString(" " + this.postText, this.xOffseted + this.width - 10 + this.font.getStringSize(this.getValue() + "", -15, this.size + 10), this.y, this.size + 5, spacing, color);
 	}
 
 	/**

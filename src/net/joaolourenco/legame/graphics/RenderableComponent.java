@@ -16,13 +16,17 @@
 
 package net.joaolourenco.legame.graphics;
 
-import org.lwjgl.util.vector.Vector4f;
+import java.nio.*;
+
+import net.joaolourenco.legame.utils.*;
+
+import org.lwjgl.*;
+import org.lwjgl.util.vector.*;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
-import static org.lwjgl.opengl.GL20.glUniform1i;
+import static org.lwjgl.opengl.GL13.*;
+import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL20.*;
 
 /**
  * Class to Render the quads, this can be a world tile or a simple letter.
@@ -31,6 +35,13 @@ import static org.lwjgl.opengl.GL20.glUniform1i;
  * 
  */
 public class RenderableComponent {
+
+	private static int vertices = 6;
+	private static int vertex_size = 2;
+	private static int texture_size = 2;
+
+	private static int vbo_texture_handle = getTextureHandle();
+	private static int vbo_64x64_vertex_handle = getVertexHandle(-32, -32, 32, 32);
 
 	/**
 	 * Method to render a quad on the desired location with the desired size.
@@ -97,6 +108,77 @@ public class RenderableComponent {
 	}
 
 	/**
+	 * @return
+	 * @author Joao Lourenco
+	 */
+	private static int getTextureHandle() {
+		FloatBuffer texture_data = BufferUtils.createFloatBuffer(vertices * texture_size);
+		texture_data.put(new float[] { 0f, 1f, }); // Texture Coordinate
+		texture_data.put(new float[] { 1f, 1f, }); // Texture Coordinate
+		texture_data.put(new float[] { 0f, 0f, }); // Texture Coordinate
+
+		texture_data.put(new float[] { 1f, 0f, }); // Texture Coordinate
+		texture_data.put(new float[] { 0f, 0f, }); // Texture Coordinate
+		texture_data.put(new float[] { 1f, 1f, }); // Texture Coordinate
+
+		texture_data.flip();
+
+		int vbo_texture_handle = glGenBuffers();
+		glBindBuffer(GL_ARRAY_BUFFER, vbo_texture_handle);
+		glBufferData(GL_ARRAY_BUFFER, texture_data, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		return vbo_texture_handle;
+	}
+
+	/**
+	 * @return
+	 * @author Joao Lourenco
+	 */
+	public static int getVertexHandle(int width, int height) {
+		FloatBuffer vertex_data = BufferUtils.createFloatBuffer(vertices * vertex_size);
+		vertex_data.put(new float[] { 0, height, }); // Vertex
+		vertex_data.put(new float[] { width, height, }); // Vertex
+		vertex_data.put(new float[] { 0, 0, }); // Vertex
+
+		vertex_data.put(new float[] { width, 0, }); // Vertex
+		vertex_data.put(new float[] { 0, 0, }); // Vertex
+		vertex_data.put(new float[] { width, height, }); // Vertex
+
+		vertex_data.flip();
+
+		int vbo_vertex_handle = glGenBuffers();
+		glBindBuffer(GL_ARRAY_BUFFER, vbo_vertex_handle);
+		glBufferData(GL_ARRAY_BUFFER, vertex_data, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		return vbo_vertex_handle;
+	}
+
+	/**
+	 * @return
+	 * @author Joao Lourenco
+	 */
+	public static int getVertexHandle(int x, int y, int width, int height) {
+		FloatBuffer vertex_data = BufferUtils.createFloatBuffer(vertices * vertex_size);
+		vertex_data.put(new float[] { x, height, }); // Vertex
+		vertex_data.put(new float[] { width, height, }); // Vertex
+		vertex_data.put(new float[] { x, y, }); // Vertex
+
+		vertex_data.put(new float[] { width, y, }); // Vertex
+		vertex_data.put(new float[] { x, y, }); // Vertex
+		vertex_data.put(new float[] { width, height, }); // Vertex
+
+		vertex_data.flip();
+
+		int vbo_vertex_handle = glGenBuffers();
+		glBindBuffer(GL_ARRAY_BUFFER, vbo_vertex_handle);
+		glBufferData(GL_ARRAY_BUFFER, vertex_data, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		return vbo_vertex_handle;
+	}
+
+	/**
 	 * Method to render a quad on the desired location with the desired size.
 	 * 
 	 * @param x
@@ -113,7 +195,7 @@ public class RenderableComponent {
 	 *            : the quad height.
 	 * @author Joao Lourenco
 	 */
-	public void render(float x, float y, int texture, Shader shade, float width, float height) {
+	public void render(float x, float y, int texture, Shader shade, VertexHandlers vertex_handle) {
 		// Setting up OpenGL for render
 		glEnable(GL_BLEND);
 		// Placing the quad in the right location
@@ -125,34 +207,21 @@ public class RenderableComponent {
 		// Sending the texture location to the shader.
 		glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
 
-		// Drawing the Quad.
-		glBegin(GL_TRIANGLES);
-		{
-			// Each vertice of the Quad
-			glTexCoord2f(0, 0);
-			glVertex2f(0, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, vertex_handle.ID);
+		glVertexPointer(vertex_size, GL_FLOAT, 0, 0l);
 
-			// Each vertice of the Quad
-			glTexCoord2f(0, 1);
-			glVertex2f(0, height);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo_texture_handle);
+		glTexCoordPointer(texture_size, GL_FLOAT, 0, 0l);
 
-			// Each vertice of the Quad
-			glTexCoord2f(1, 1);
-			glVertex2f(width, height);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-			// Each vertice of the Quad
-			glTexCoord2f(1, 1);
-			glVertex2f(width, height);
+		glDrawArrays(GL_TRIANGLES, 0, vertices); // The vertices is of course the max vertices count, in this case 6
 
-			// Each vertice of the Quad
-			glTexCoord2f(1, 0);
-			glVertex2f(width, 0);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
 
-			// Each vertice of the Quad
-			glTexCoord2f(0, 0);
-			glVertex2f(0, 0);
-		}
-		glEnd();
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		// Releasing the texture bank.
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -405,34 +474,21 @@ public class RenderableComponent {
 		// Sending the texture location to the shader.
 		glUniform1i(glGetUniformLocation(shade.getShader(), "texture"), 0);
 
-		// Drawing the Quad.
-		glBegin(GL_TRIANGLES);
-		{
-			// Each vertice of the Quad
-			glTexCoord2f(0, 0);
-			glVertex2f(-(width / 2), -(height / 2));
+		glBindBuffer(GL_ARRAY_BUFFER, vbo_64x64_vertex_handle);
+		glVertexPointer(vertex_size, GL_FLOAT, 0, 0l);
 
-			// Each vertice of the Quad
-			glTexCoord2f(0, 1);
-			glVertex2f(-(width / 2), (height / 2));
+		glBindBuffer(GL_ARRAY_BUFFER, vbo_texture_handle);
+		glTexCoordPointer(texture_size, GL_FLOAT, 0, 0l);
 
-			// Each vertice of the Quad
-			glTexCoord2f(1, 1);
-			glVertex2f((width / 2), (height / 2));
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-			// Each vertice of the Quad
-			glTexCoord2f(1, 1);
-			glVertex2f((width / 2), (height / 2));
+		glDrawArrays(GL_TRIANGLES, 0, vertices); // The vertices is of course the max vertices count, in this case 6
 
-			// Each vertice of the Quad
-			glTexCoord2f(1, 0);
-			glVertex2f((width / 2), -(height / 2));
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
 
-			// Each vertice of the Quad
-			glTexCoord2f(0, 0);
-			glVertex2f(-(width / 2), -(height / 2));
-		}
-		glEnd();
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		// Releasing the texture bank.
 		glBindTexture(GL_TEXTURE_2D, 0);

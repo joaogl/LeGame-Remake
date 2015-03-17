@@ -20,6 +20,7 @@ import java.util.*;
 
 import net.joaolourenco.legame.*;
 import net.joaolourenco.legame.graphics.*;
+import net.joaolourenco.legame.utils.*;
 
 /**
  * @author Joao Lourenco
@@ -33,6 +34,7 @@ public class MenuCloud extends RenderableComponent {
 	private Shader shade;
 	private boolean remove = false;
 	private int xMax, yMax;
+	private VertexHandlers VertexID;
 
 	/**
 	 * 
@@ -54,6 +56,8 @@ public class MenuCloud extends RenderableComponent {
 		y = (Integer) generateRandom(0, 200, 0);
 
 		this.texture = Texture.Clouds[(Integer) generateRandom(0, 11, 0)];
+
+		this.VertexID = Registry.registerVertexHandler(width, height);
 	}
 
 	/**
@@ -87,7 +91,7 @@ public class MenuCloud extends RenderableComponent {
 	}
 
 	public void render() {
-		render(this.x, this.y, this.texture, this.shade, this.width, this.height);
+		render(this.x, this.y, this.texture, this.shade, this.VertexID);
 	}
 
 	public void update() {
