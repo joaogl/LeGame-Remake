@@ -303,7 +303,7 @@ public class Tutorial extends World {
 		} else if (step == 4) {
 			new Citizen(0, 3 * 64, this);
 			new Skeleton(2 * 64, 2 * 64, this, Registry.getPlayer());
-			new Spider(5 * 64, 3 * 64, this);
+			new Spider(5 * 64, 3 * 64, this, Registry.getPlayer());
 			this.player.setLocationAndCenter((int) (2.5f * 64), (2 * 64));
 
 			new AnimatedText("Press enter to continue", Registry.getScreenWidth() / 2, (Registry.getScreenHeight() / 6) * 5, 25, 100, 5000, -1);

@@ -16,12 +16,13 @@
 
 package net.joaolourenco.legame.world;
 
-import net.joaolourenco.legame.*;
-import net.joaolourenco.legame.entity.*;
-import net.joaolourenco.legame.entity.mob.*;
-import net.joaolourenco.legame.graphics.*;
-import net.joaolourenco.legame.graphics.menu.*;
-import net.joaolourenco.legame.world.tile.*;
+import net.joaolourenco.legame.Registry;
+import net.joaolourenco.legame.entity.mob.Citizen;
+import net.joaolourenco.legame.entity.mob.Skeleton;
+import net.joaolourenco.legame.entity.mob.Spider;
+import net.joaolourenco.legame.graphics.Texture;
+import net.joaolourenco.legame.graphics.menu.MainMenu;
+import net.joaolourenco.legame.world.tile.SolidTile;
 
 /**
  * @author Joao Lourenco
@@ -36,7 +37,6 @@ public class RandomWorld extends World {
 	 */
 	public RandomWorld(int level) {
 		super(10, 10);
-
 	}
 
 	/**
@@ -86,10 +86,9 @@ public class RandomWorld extends World {
 		setTile(0, this.height - 1, new SolidTile(64, Texture.Tiles[0], 270));
 		setTile(this.width - 1, this.height - 1, new SolidTile(64, Texture.Tiles[0], 180));
 
-		Entity cit = new Citizen((5 * 64), (5 * 64), this);
-		this.addEntity(cit);
-		Skeleton skele = new Skeleton((5 * 64), (5 * 64), this, Registry.getPlayer());
-		this.addEntity(skele);
+		new Citizen((5 * 64), (5 * 64), this);
+		new Skeleton((5 * 64), (5 * 64), this, Registry.getPlayer());
+		new Spider((5 * 64), (5 * 64), this, Registry.getPlayer());
 
 		super.generateLevel();
 	}

@@ -47,14 +47,15 @@ public class RandomTargetedMovementAction extends MovementAction {
 		this.xa = 0;
 		this.ya = 0;
 		Vector2f start = new Vector2f(this.entity.getTX(false), this.entity.getTY(false));
-		if (time % 60 == 0) path = this.entity.getWorld().findPath(start, this.target);
+		if (time % 30 == 0) path = this.entity.getWorld().findPath(start, this.target);
+
 		if (path != null) {
 			if (path.size() > 0) {
 				Vector2f vec = path.get(path.size() - 1).tile;
-				if ((int) this.entity.getX() < (int) vec.getX() << GeneralSettings.TILE_SIZE_MASK) this.xa = (int) speed;
-				if ((int) this.entity.getX() > (int) vec.getX() << GeneralSettings.TILE_SIZE_MASK) this.xa = (int) -speed;
-				if ((int) this.entity.getY() < (int) vec.getY() << GeneralSettings.TILE_SIZE_MASK) this.ya = (int) speed;
-				if ((int) this.entity.getY() > (int) vec.getY() << GeneralSettings.TILE_SIZE_MASK) this.ya = (int) -speed;
+				if ((int) this.entity.getX(false) < (int) vec.getX() << GeneralSettings.TILE_SIZE_MASK) this.xa = (int) speed;
+				if ((int) this.entity.getX(false) > (int) vec.getX() << GeneralSettings.TILE_SIZE_MASK) this.xa = (int) -speed;
+				if ((int) this.entity.getY(false) < (int) vec.getY() << GeneralSettings.TILE_SIZE_MASK) this.ya = (int) speed;
+				if ((int) this.entity.getY(false) > (int) vec.getY() << GeneralSettings.TILE_SIZE_MASK) this.ya = (int) -speed;
 			} else this.finished = true;
 		}
 	}

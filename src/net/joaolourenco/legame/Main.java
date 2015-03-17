@@ -304,8 +304,8 @@ public class Main implements Runnable {
 	 * @author Joao Lourenco
 	 */
 	private void tick() {
-		GeneralSettings.defaultEntityWalking = this.public_fps * 2.0f / 120.0f;
-		GeneralSettings.defaultEntityRunning = this.public_fps * 4.0f / 120.0f;
+		// GeneralSettings.defaultEntityWalking = this.public_fps * 2.0f / 120.0f;
+		// GeneralSettings.defaultEntityRunning = this.public_fps * 4.0f / 120.0f;
 
 		if (world != null && Registry.isGameFocused()) world.tick();
 		// Tick the Menus

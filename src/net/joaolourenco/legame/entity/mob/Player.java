@@ -38,7 +38,7 @@ import static org.lwjgl.opengl.GL20.*;
  */
 public class Player extends Mob {
 
-	public int stamina = 100;
+	public float stamina = 100;
 	protected VertexHandlers VertexID;
 
 	/**
@@ -49,6 +49,7 @@ public class Player extends Mob {
 	public Player(int x, int y, int w, int h) {
 		super(x, y, w, h);
 		this.isLightCollidable(true);
+
 		setTextureAtlas(Texture.PlayerWalking, 3, 4, 1);
 		setDyingTextureAtlas(Texture.PlayerDying, 3, 3, 1);
 
@@ -80,7 +81,7 @@ public class Player extends Mob {
 
 				w = this.stamina * (this.width / 2) / 100;
 				if (this.stamina <= 0) w = 0 * (this.width / 2) / 100;
-				render(x + (this.width / 4), y - 8, 0, shade, w, 5, new Vector4f(0.0f, 0.0f, 1f, 0.5f));
+				render(x + (this.width / 4), y - 8, 0, shade, w, 5, new Vector4f(0.0f, 0.0f, 1f, 0.8f));
 			}
 
 			// Setting up OpenGL for render
@@ -131,11 +132,12 @@ public class Player extends Mob {
 		float speed = 0;
 
 		// Getting the moving speed for the player.
-		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && this.stamina >= 1) {
 			speed = getSpeed(true);
 			for (AnimatedSprite s : this.textures)
 				s.setFrameRate(5);
 		} else {
+			if (this.stamina < 100) this.stamina += 0.5f;
 			speed = getSpeed(false);
 			for (AnimatedSprite s : this.textures)
 				s.setFrameRate(6);
@@ -159,6 +161,7 @@ public class Player extends Mob {
 
 		// Moving the player to the final destination.
 		if (!this.frozen) {
+			if (Math.abs(xa) > this.getSpeed(false) || Math.abs(ya) > this.getSpeed(false)) this.stamina--;
 			this.x += xa * delta; // (xa * Registry.getMainClass().getDelta());
 			this.y += ya * delta; // (ya * Registry.getMainClass().getDelta());
 		}

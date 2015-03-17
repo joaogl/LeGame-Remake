@@ -16,13 +16,13 @@
 
 package net.joaolourenco.legame.entity.actions;
 
-import java.util.*;
+import java.util.List;
 
-import net.joaolourenco.legame.entity.*;
-import net.joaolourenco.legame.entity.mob.*;
-import net.joaolourenco.legame.settings.*;
-import net.joaolourenco.legame.utils.*;
-import net.joaolourenco.legame.world.*;
+import net.joaolourenco.legame.entity.Entity;
+import net.joaolourenco.legame.entity.mob.Mob;
+import net.joaolourenco.legame.settings.GeneralSettings;
+import net.joaolourenco.legame.utils.Vector2f;
+import net.joaolourenco.legame.world.Node;
 
 /**
  * @author Joao Lourenco
@@ -33,7 +33,6 @@ public class PersistentTargetedMovementAction extends MovementAction {
 	private final Mob entity;
 	private final Entity target_ent;
 	private List<Node> path;
-	private int time = 0;
 
 	public PersistentTargetedMovementAction(Mob entity, Entity target) {
 		this.entity = entity;
@@ -41,21 +40,20 @@ public class PersistentTargetedMovementAction extends MovementAction {
 	}
 
 	public void update(float speed) {
-		time++;
 		this.xa = 0;
 		this.ya = 0;
-		if (time % 60 == 0) {
-			Vector2f start = new Vector2f(this.entity.getTX(false), this.entity.getTY(false));
-			Vector2f target = new Vector2f(this.target_ent.getTX(false), this.target_ent.getTY(false));
-			path = this.entity.getWorld().findPath(start, target);
-		}
+
+		Vector2f start = new Vector2f(this.entity.getTX(true), this.entity.getTY(true));
+		Vector2f target = new Vector2f(this.target_ent.getTX(true), this.target_ent.getTY(true));
+		path = this.entity.getWorld().findPath(start, target);
+
 		if (path != null) {
-			if (path.size() > 0 && this.entity.getWorld().getDistance(this.entity, this.target_ent) > 100) {
+			if (path.size() > 0) {
 				Vector2f vec = path.get(path.size() - 1).tile;
-				if ((int) this.entity.getX() < (int) vec.getX() << GeneralSettings.TILE_SIZE_MASK) this.xa = (int) speed;
-				if ((int) this.entity.getX() > (int) vec.getX() << GeneralSettings.TILE_SIZE_MASK) this.xa = (int) -speed;
-				if ((int) this.entity.getY() < (int) vec.getY() << GeneralSettings.TILE_SIZE_MASK) this.ya = (int) speed;
-				if ((int) this.entity.getY() > (int) vec.getY() << GeneralSettings.TILE_SIZE_MASK) this.ya = (int) -speed;
+				if (this.entity.getX(true) < (int) vec.getX() << GeneralSettings.TILE_SIZE_MASK) this.xa = (int) speed;
+				if (this.entity.getX(true) > (int) vec.getX() << GeneralSettings.TILE_SIZE_MASK) this.xa = (int) -speed;
+				if (this.entity.getY(true) < (int) vec.getY() << GeneralSettings.TILE_SIZE_MASK) this.ya = (int) speed;
+				if (this.entity.getY(true) > (int) vec.getY() << GeneralSettings.TILE_SIZE_MASK) this.ya = (int) -speed;
 			}
 		}
 	}

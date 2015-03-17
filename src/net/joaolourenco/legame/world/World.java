@@ -354,7 +354,7 @@ public abstract class World {
 	 * @author Joao Lourenco
 	 */
 	public double getDistance(Entity a, Entity b) {
-		return Math.sqrt(Math.pow((b.getX() - a.getX()), 2) + Math.pow((b.getY() - a.getY()), 2));
+		return Math.sqrt(Math.pow((b.getX(false) - a.getX(false)), 2) + Math.pow((b.getY(false) - a.getY(false)), 2));
 	}
 
 	/**
@@ -370,7 +370,7 @@ public abstract class World {
 	 * @author Joao Lourenco
 	 */
 	public double getDistance(Entity a, float x, float y) {
-		return Math.sqrt(Math.pow((x - (a.getX() + (a.getWidth() / 2))), 2) + Math.pow((y - (a.getY() + (a.getHeight() / 2))), 2));
+		return Math.sqrt(Math.pow((x - (a.getX(false) + (a.getWidth() / 2))), 2) + Math.pow((y - (a.getY(false) + (a.getHeight() / 2))), 2));
 	}
 
 	/**
@@ -580,8 +580,8 @@ public abstract class World {
 			for (Entity e : entities) {
 				Element entityElement = doc.createElement("entity");
 				if (e == Registry.getPlayer()) entityElement = doc.createElement("entityPlayer");
-				entityElement.setAttribute("x", String.valueOf(e.getX()));
-				entityElement.setAttribute("y", String.valueOf(e.getY()));
+				entityElement.setAttribute("x", String.valueOf(e.getX(false)));
+				entityElement.setAttribute("y", String.valueOf(e.getY(false)));
 				rootElement.appendChild(entityElement);
 			}
 

@@ -234,7 +234,8 @@ public abstract class Entity extends RenderableComponent {
 	 * @return int with the position.
 	 * @author Joao Lourenco
 	 */
-	public int getX() {
+	public int getX(boolean half) {
+		if (half) return (int) (this.x + this.width / 2);
 		return (int) this.x;
 	}
 
@@ -249,7 +250,8 @@ public abstract class Entity extends RenderableComponent {
 	 * @return int with the position.
 	 * @author Joao Lourenco
 	 */
-	public int getY() {
+	public int getY(boolean half) {
+		if (half) return (int) (this.y + this.height / 2);
 		return (int) this.y;
 	}
 

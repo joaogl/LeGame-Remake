@@ -76,6 +76,9 @@ public class Citizen extends Mob {
 	}
 
 	public void updateTexture(int xa, int ya) {
+		if (xa != 0 || ya != 0) this.moving = true;
+		else this.moving = false;
+
 		if (this.side == 0) this.animation = textures[0];
 		else if (this.side == 1) this.animation = textures[1];
 		else if (this.side == 2) this.animation = textures[0];

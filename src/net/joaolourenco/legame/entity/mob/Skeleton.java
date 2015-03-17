@@ -31,6 +31,7 @@ public class Skeleton extends Mob {
 
 	private Entity target;
 	private int attackRange = 100;
+	private int searchArea = 800;
 
 	/**
 	 * @param x
@@ -49,7 +50,7 @@ public class Skeleton extends Mob {
 		this.setDyingTextureAtlas(Texture.SkeletonDying, 3, 3, 1);
 
 		w.addEntity(this);
-		moveActions.add(new PersistentTargetedMovementAction(this, target));
+		moveActions.add(new RandomTargetedMovementAction(this));
 		this.updateTexture(0, 0);
 	}
 
@@ -61,9 +62,8 @@ public class Skeleton extends Mob {
 		// Setting up the variables.
 		float xa = 0;
 		float ya = 0;
-		float speed = getSpeed(false);
+		float speed = this.getSpeed(false);
 
-		if (moveActions.get(0).finished()) moveActions.set(0, new RandomTargetedMovementAction(this));
 		moveActions.get(0).update(speed);
 
 		xa += moveActions.get(0).getXA();
@@ -87,10 +87,13 @@ public class Skeleton extends Mob {
 	}
 
 	public void updateTexture(int xa, int ya) {
-		if (this.side == 0) this.animation = textures[0];
-		else if (this.side == 1) this.animation = textures[1];
+		if (xa != 0 || ya != 0) this.moving = true;
+		else this.moving = false;
+
+		if (this.side == 0) this.animation = textures[3];
+		else if (this.side == 1) this.animation = textures[2];
 		else if (this.side == 2) this.animation = textures[0];
-		else if (this.side == 3) this.animation = textures[3];
+		else if (this.side == 3) this.animation = textures[1];
 
 		if (this.moving) this.animation.update();
 		else this.animation.resetAnimation();
@@ -102,6 +105,11 @@ public class Skeleton extends Mob {
 	 */
 	@Override
 	public void tick() {
+		if (this.world.getDistance(this, this.target) <= this.searchArea) {
+			if (this.moveActions.get(0) instanceof RandomTargetedMovementAction) moveActions.set(0, new PersistentTargetedMovementAction(this, this.target));
+		} else {
+			if (this.moveActions.get(0) instanceof PersistentTargetedMovementAction) moveActions.set(0, new RandomTargetedMovementAction(this));
+		}
 		if (life <= 0) this.died();
 	}
 
