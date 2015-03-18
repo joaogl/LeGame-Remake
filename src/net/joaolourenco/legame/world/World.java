@@ -278,13 +278,13 @@ public abstract class World {
 			}
 
 			// Keep increasing and decreasing the Day Light value.
-			if (this.DAY_LIGHT <= 0.1f) this.goingUp = true;
+			if (this.DAY_LIGHT <= 0.2f) this.goingUp = true;
 			else if (this.DAY_LIGHT >= 1.0f) this.goingUp = false;
 
 			if (this.goingUp) this.DAY_LIGHT += 0.001f;
 			else this.DAY_LIGHT -= 0.001f;
 		} else {
-			if (this.DAY_LIGHT <= 0.1f) {
+			if (this.DAY_LIGHT <= 0.0f) {
 				this.updatesReady = false;
 				for (int i = 0; i < this.entities.size(); i++) {
 					Entity e = this.entities.get(i);

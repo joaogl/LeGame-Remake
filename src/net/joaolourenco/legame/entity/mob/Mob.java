@@ -166,7 +166,7 @@ public abstract class Mob extends Entity {
 		// Check for mob states.
 		if (this.frozen || this.inBed) return none;
 		// Check for normal collision.
-		if ((this.y + ya) < 0) ya = 0;
+		if ((this.y + ya) < -10) ya = 0;
 		if ((this.x + xa) < 0) xa = 0;
 		if ((this.y + ya) > (this.world.getHeight() * 64) - this.height) ya = 0;
 		if ((this.x + xa) > (this.world.getWidth() * 64) - this.width) xa = 0;
