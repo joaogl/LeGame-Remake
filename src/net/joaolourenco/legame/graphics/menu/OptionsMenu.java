@@ -110,10 +110,10 @@ public class OptionsMenu extends Menu {
 		Registry.registerStaticText(new StaticText("Leave deselected to use Window Mode.", this.xMax / 5, yPos + (50 * i) + 20, size - 3 + 2));
 
 		full = new MenuCheckBox("Fullscreen", this.xMax / 2, yPos + (50 * i++), size, spacing, this, shader);
-		window = new MenuCheckBox("Fullscreen-Windowed", (this.xMax / 5) * 4, yPos + (50 * (i++ - 1)), size, spacing, this, shader);
+		// window = new MenuCheckBox("Fullscreen-Windowed", (this.xMax / 5) * 4, yPos + (50 * (i++ - 1)), size, spacing, this, shader);
 		full.setSelected(Boolean.valueOf((String) Registry.getSetting("fullscreen")));
-		window.setSelected(Boolean.valueOf((String) Registry.getSetting("fullscreen_windowed")));
-		this.buttons.add(window);
+		// window.setSelected(Boolean.valueOf((String) Registry.getSetting("fullscreen_windowed")));
+		// this.buttons.add(window);
 		this.buttons.add(full);
 
 		if (full.isSelected()) {
@@ -123,39 +123,22 @@ public class OptionsMenu extends Menu {
 		this.full.addClickAction(new ClickAction() {
 			public void onClick(Menu m) {
 				OptionsMenu menu = ((OptionsMenu) m);
-				if (menu.full.isSelected()) {
+				/*if (menu.full.isSelected()) {
 					menu.window.setEnabled(false);
 					menu.window.setSelected(false);
-				} else menu.window.setEnabled(true);
+				} else menu.window.setEnabled(true);*/
 			}
 		});
 
-		if (window.isSelected()) {
-			full.setEnabled(false);
-			full.setSelected(false);
-		}
-		this.window.addClickAction(new ClickAction() {
-			public void onClick(Menu m) {
-				OptionsMenu menu = ((OptionsMenu) m);
-				if (menu.window.isSelected()) {
-					menu.full.setEnabled(false);
-					menu.full.setSelected(false);
-					menu.resolution.setEnabled(false);
-				} else {
-					menu.full.setEnabled(true);
-					menu.resolution.setEnabled(true);
-				}
-			}
-		});
+		/*
+		 * if (window.isSelected()) { full.setEnabled(false); full.setSelected(false); } this.window.addClickAction(new ClickAction() { public void onClick(Menu m) { OptionsMenu menu = ((OptionsMenu) m); if (menu.window.isSelected()) { menu.full.setEnabled(false); menu.full.setSelected(false); menu.resolution.setEnabled(false); } else { menu.full.setEnabled(true); menu.resolution.setEnabled(true); } } });
+		 */
 
-		resolution = new MenuOptionSelect("Resolution: ", (this.xMax / 5) * 3, yPos + (50 * i++), size + 5, spacing, this);
-		if (window.isSelected()) resolution.setEnabled(false);
-		List<DisplayMode> modes = Registry.getDisplayModes();
-		for (int ii = 0; ii < modes.size(); ii++)
-			resolution.addOption(modes.get(ii).getWidth() + "x" + modes.get(ii).getHeight());
-
-		resolution.setActive(Registry.getScreenWidth() + "x" + Registry.getScreenHeight());
-		this.buttons.add(resolution);
+		/*
+		 * resolution = new MenuOptionSelect("Resolution: ", (this.xMax / 5) * 3, yPos + (50 * i++), size + 5, spacing, this); if (window.isSelected()) resolution.setEnabled(false); List<DisplayMode> modes = Registry.getDisplayModes(); for (int ii = 0; ii < modes.size(); ii++) resolution.addOption(modes.get(ii).getWidth() + "x" + modes.get(ii).getHeight());
+		 * 
+		 * resolution.setActive(Registry.getScreenWidth() + "x" + Registry.getScreenHeight()); this.buttons.add(resolution);
+		 */
 
 		vsync = new MenuCheckBox("Vertical Sync", (this.xMax / 4) * 3, yPos + (50 * (i++ + 1)), size, spacing, this, shader);
 		vsync.setSelected(Boolean.valueOf((String) Registry.getSetting("vsync")));
@@ -192,11 +175,11 @@ public class OptionsMenu extends Menu {
 	}
 
 	public void RecreateWindow() {
-		Display.destroy();
-		Registry.registerSetting("screen_width", resolution.getSelected().split("x")[0]);
-		Registry.registerSetting("screen_height", resolution.getSelected().split("x")[1]);
+		// Display.destroy();
+		// Registry.registerSetting("screen_width", resolution.getSelected().split("x")[0]);
+		// Registry.registerSetting("screen_height", resolution.getSelected().split("x")[1]);
 		Registry.registerSetting("fullscreen", String.valueOf(full.isSelected()));
-		Registry.registerSetting("fullscreen_windowed", String.valueOf(window.isSelected()));
+		// Registry.registerSetting("fullscreen_windowed", String.valueOf(window.isSelected()));
 		Registry.registerSetting("fps_lock", String.valueOf(FPS_Lock.getValue()));
 		Registry.registerSetting("vsync", String.valueOf(vsync.isSelected()));
 
@@ -208,7 +191,7 @@ public class OptionsMenu extends Menu {
 			DisplayMode[] modes = Display.getAvailableDisplayModes();
 
 			for (int i = 0; i < modes.length; i++)
-				if (modes[i].getBitsPerPixel() == 16 && modes[i].getFrequency() == 60 && modes[i].getWidth() >= 800 && modes[i].getHeight() >= 600) Registry.registerDisplayMode(modes[i]);
+				if (modes[i].getFrequency() == 60 && modes[i].getWidth() >= 800 && modes[i].getHeight() >= 600) Registry.registerDisplayMode(modes[i]);
 
 			if (Boolean.valueOf((String) Registry.getSetting("fullscreen_windowed")) && !Boolean.valueOf((String) Registry.getSetting("fullscreen"))) {
 				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -221,7 +204,6 @@ public class OptionsMenu extends Menu {
 
 				Display.setLocation(-3, -20);
 			}
-
 			if (mode == null) {
 				for (int i = 0; i < modes.length; i++) {
 					if (modes[i].getWidth() == Registry.getScreenWidth() && modes[i].getHeight() == Registry.getScreenHeight() && modes[i].getBitsPerPixel() >= 32 && modes[i].getFrequency() == 60) {
@@ -235,18 +217,17 @@ public class OptionsMenu extends Menu {
 			Display.setFullscreen(Boolean.valueOf((String) Registry.getSetting("fullscreen")));
 			Display.setVSyncEnabled(Boolean.valueOf((String) Registry.getSetting("vsync")));
 			Display.setTitle(GeneralSettings.fullname);
-			Display.create(new PixelFormat(0, 16, 1));
+			// Display.create(new PixelFormat(0, 32, 1));
 
 			Registry.getMainClass().fps_lock = Integer.parseInt(Registry.getSetting("fps_lock"));
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
-
 		Registry.registerFont(new Font());
 
 		// This is for debug purposes only.
 		System.out.println("======== Changed Resolution ========");
-		System.out.println("Resolution " + mode.toString());
+		// System.out.println("Resolution " + mode.toString());
 		System.out.println("OS name " + System.getProperty("os.name"));
 		System.out.println("OS version " + System.getProperty("os.version"));
 		System.out.println("LWJGL version " + org.lwjgl.Sys.getVersion());

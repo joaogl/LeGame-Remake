@@ -80,6 +80,8 @@ public class MenuCloud extends RenderableComponent {
 		y = (Integer) generateRandom(0, yMax, 0);
 
 		this.texture = Texture.Clouds[(Integer) generateRandom(0, 11, 0)];
+
+		this.VertexID = Registry.registerVertexHandler(width, height);
 	}
 
 	public void setX(float x) {
