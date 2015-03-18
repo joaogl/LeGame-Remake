@@ -14,38 +14,24 @@
  * limitations under the License.
  */
 
-package net.joaolourenco.legame.world.tile;
+package net.joaolourenco.legame.utils;
+
 
 /**
  * @author Joao Lourenco
  * 
  */
-public class MultiData {
+public class Node {
 
-	int xPos = 0;
-	int yPos = 0;
-	int fTextures = 0;
-	int sTextures = 0;
-	boolean doubleTiles = false;
-	int rotations = 0;
+	public Vector2f tile;
+	public Node parent;
+	public double fCost, gCost, hCost;
 
-	/**
-	 * @param xPos
-	 * @param yPos
-	 * @param fTextures
-	 * @param sTextures
-	 * @param doubleTiles
-	 * @param rotations
-	 * @author Joao Lourenco
-	 */
-	public MultiData(int xPos, int yPos, int fTextures, int sTextures, boolean doubleTiles, int rotations) {
-		super();
-		this.xPos = xPos;
-		this.yPos = yPos;
-		this.fTextures = fTextures;
-		this.sTextures = sTextures;
-		this.doubleTiles = doubleTiles;
-		this.rotations = rotations;
+	public Node(Vector2f tile, Node parent, double gCost, double hCost) {
+		this.tile = tile;
+		this.parent = parent;
+		this.gCost = gCost;
+		this.hCost = hCost;
+		this.fCost = this.gCost * this.hCost;
 	}
-
 }

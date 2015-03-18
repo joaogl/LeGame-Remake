@@ -16,17 +16,10 @@ LeGame is a Action/Adventure kinda game.
 
 TO-DO
 ====
-- Fix Mobs not moving with low fps.
-- Finish Mobs AI.
-- Finish the Mob system.
-- Add the fight system.
 - Finish All the Mob types.
 - Create a level generation algorithm.
-- Create the Work Report.
-- Fix Player bottom texture error.
 - Add save world.
 - Add load world.
-- Try to improve the Rendering engine.
 
 
 MAYBE TO-DO
@@ -44,6 +37,13 @@ MAYBE TO-DO
 
 DONE
 ====
+- Create the Work Report.
+- Try to improve the Rendering engine.
+- Fix Player bottom texture error.
+- Add the fight system.
+- Finish the Mob system.
+- Finish Mobs AI.
+- Fix Mobs not moving with low fps.
 - Finish Options Menu.
 - Fixed Texture bug.
 - Fixed Entity Over Tile Collision box.

@@ -86,4 +86,40 @@ public abstract class Menu extends RenderableComponent {
 		this.toRemove = true;
 	}
 
+	/**
+	 * Method to generate a random value.
+	 * 
+	 * @param min
+	 *            : from
+	 * @param max
+	 *            : to
+	 * @param type
+	 *            : 0 for Integers, 1 for Floats
+	 * @return Object, if type is 0 will return integer, if its 1 will return float.
+	 * @author Joao Lourenco
+	 */
+	public Object generateRandom(float min, float max, int type) {
+		// This method accepts two types of returns, 0 for Ints and 1 for Floats.
+		if (type == 0) {
+			// Generate an int random.
+			Random rand = new Random();
+			int out = rand.nextInt((int) max);
+			// if its out of the bounds, keep trying.
+			while (out > max || out < min)
+				out = rand.nextInt((int) max);
+			// return the random value.
+			return out;
+		} else if (type == 1) {
+			// Generate an float random.
+			Random rand = new Random();
+			double out = min + (max - min) * rand.nextDouble();
+			// if its out of the bounds, keep trying.
+			while (out > max || out < min)
+				out = min + (max - min) * rand.nextDouble();
+			// return the random value.
+			return (float) out;
+		}
+		return 0f;
+	}
+
 }

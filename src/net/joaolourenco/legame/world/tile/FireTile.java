@@ -16,12 +16,9 @@
 
 package net.joaolourenco.legame.world.tile;
 
-import java.util.*;
+import java.util.Random;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.*;
-
-import net.joaolourenco.legame.entity.*;
+import net.joaolourenco.legame.entity.Entity;
 import net.joaolourenco.legame.entity.light.specific.FireLight;
 import net.joaolourenco.legame.graphics.Texture;
 import net.joaolourenco.legame.utils.Vector2f;

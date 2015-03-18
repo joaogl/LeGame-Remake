@@ -168,18 +168,6 @@ public class Main implements Runnable {
 	}
 
 	/**
-	 * This Method is called on the end of the game to clean the memory.
-	 * 
-	 * @author Joao Lourenco
-	 */
-	private void cleanup() {
-		// Cleaning data in the Registry class.
-		Registry.cleanRegistries();
-		// Destroying the Display.
-		Display.destroy();
-	}
-
-	/**
 	 * This Method holds the game loop.
 	 * 
 	 * @author Joao Lourenco
@@ -221,7 +209,7 @@ public class Main implements Runnable {
 				// Once per second this is reached
 				this.public_delta = delta;
 				this.public_fps = frames;
-				String title = GeneralSettings.fullname + " FPS: " + frames + " UPS: " + updates/* + " Delta: " + this.getDelta()*/;
+				String title = GeneralSettings.fullname + " FPS: " + frames + " UPS: " + updates/* + " Delta: " + this.getDelta() */;
 				if (GeneralSettings.useAverageFPS) title += " Average: " + avg;
 				if (GeneralSettings.showLightFloat) {
 					if (world != null) title += " Light: " + world.DAY_LIGHT;
@@ -311,6 +299,18 @@ public class Main implements Runnable {
 		// Tick the Menus
 		for (Menu m : Registry.getMenus())
 			m.tick();
+	}
+
+	/**
+	 * This Method is called on the end of the game to clean the memory.
+	 * 
+	 * @author Joao Lourenco
+	 */
+	private void cleanup() {
+		// Cleaning data in the Registry class.
+		Registry.cleanRegistries();
+		// Destroying the Display.
+		Display.destroy();
 	}
 
 	public void setWorld(World w) {

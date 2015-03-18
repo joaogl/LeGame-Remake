@@ -16,12 +16,12 @@
 
 package net.joaolourenco.legame.entity.actions;
 
-import java.util.*;
+import java.util.List;
 
-import net.joaolourenco.legame.entity.mob.*;
-import net.joaolourenco.legame.settings.*;
-import net.joaolourenco.legame.utils.*;
-import net.joaolourenco.legame.world.*;
+import net.joaolourenco.legame.entity.mob.Mob;
+import net.joaolourenco.legame.settings.GeneralSettings;
+import net.joaolourenco.legame.utils.Node;
+import net.joaolourenco.legame.utils.Vector2f;
 
 /**
  * @author Joao Lourenco

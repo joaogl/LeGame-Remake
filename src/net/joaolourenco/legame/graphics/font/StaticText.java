@@ -16,8 +16,7 @@
 
 package net.joaolourenco.legame.graphics.font;
 
-import net.joaolourenco.legame.*;
-import net.joaolourenco.legame.graphics.font.*;
+import net.joaolourenco.legame.Registry;
 
 /**
  * @author Joao Lourenco

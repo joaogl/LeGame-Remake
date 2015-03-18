@@ -31,6 +31,7 @@ import net.joaolourenco.legame.graphics.font.*;
 import net.joaolourenco.legame.graphics.menu.*;
 import net.joaolourenco.legame.settings.*;
 import net.joaolourenco.legame.utils.*;
+import net.joaolourenco.legame.utils.Node;
 import net.joaolourenco.legame.utils.Timer;
 import net.joaolourenco.legame.world.tile.*;
 

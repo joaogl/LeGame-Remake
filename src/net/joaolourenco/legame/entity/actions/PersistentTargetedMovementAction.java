@@ -21,8 +21,8 @@ import java.util.List;
 import net.joaolourenco.legame.entity.Entity;
 import net.joaolourenco.legame.entity.mob.Mob;
 import net.joaolourenco.legame.settings.GeneralSettings;
+import net.joaolourenco.legame.utils.Node;
 import net.joaolourenco.legame.utils.Vector2f;
-import net.joaolourenco.legame.world.Node;
 
 /**
  * @author Joao Lourenco

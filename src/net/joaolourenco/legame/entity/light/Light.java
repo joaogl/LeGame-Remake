@@ -16,19 +16,38 @@
 
 package net.joaolourenco.legame.entity.light;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
 
-import net.joaolourenco.legame.*;
-import net.joaolourenco.legame.entity.*;
-import net.joaolourenco.legame.graphics.*;
-import net.joaolourenco.legame.settings.*;
-import net.joaolourenco.legame.utils.*;
-import net.joaolourenco.legame.world.tile.*;
+import net.joaolourenco.legame.Registry;
+import net.joaolourenco.legame.entity.Entity;
+import net.joaolourenco.legame.graphics.Shader;
+import net.joaolourenco.legame.settings.GeneralSettings;
+import net.joaolourenco.legame.utils.Vector2f;
+import net.joaolourenco.legame.world.tile.Tile;
 
-import org.lwjgl.input.*;
-
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL11.GL_ALWAYS;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_EQUAL;
+import static org.lwjgl.opengl.GL11.GL_KEEP;
+import static org.lwjgl.opengl.GL11.GL_ONE;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_REPLACE;
+import static org.lwjgl.opengl.GL11.GL_STENCIL_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glColorMask;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glStencilFunc;
+import static org.lwjgl.opengl.GL11.glStencilOp;
+import static org.lwjgl.opengl.GL11.glVertex2f;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glUniform1f;
+import static org.lwjgl.opengl.GL20.glUniform2f;
+import static org.lwjgl.opengl.GL20.glUniform3f;
 
 /**
  * Abstract class for all the Light types.
@@ -122,7 +141,6 @@ public abstract class Light extends Entity {
 		if (this.facing <= 360) this.facing++;
 		else this.facing = 0;
 		this.size = 90;
-		if (Keyboard.isKeyDown(Keyboard.KEY_R)) shade.recompile();
 	}
 
 	/**

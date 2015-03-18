@@ -16,14 +16,19 @@
 
 package net.joaolourenco.legame.graphics.menu;
 
-import java.util.*;
+import net.joaolourenco.legame.Registry;
+import net.joaolourenco.legame.graphics.Shader;
+import net.joaolourenco.legame.graphics.Texture;
+import net.joaolourenco.legame.graphics.menu.objects.MenuActionReader;
+import net.joaolourenco.legame.graphics.menu.objects.MenuCloud;
+import net.joaolourenco.legame.settings.GeneralSettings;
 
-import net.joaolourenco.legame.*;
-import net.joaolourenco.legame.graphics.*;
-import net.joaolourenco.legame.graphics.menu.objects.*;
-import net.joaolourenco.legame.settings.*;
-
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
 
 /**
  * @author Joao Lourenco
@@ -73,7 +78,7 @@ public class Loading extends Menu {
 
 		// Render it.
 		render(this.x, this.y, Texture.Menus[0], this.shader, this.width, this.height, false);
-		render((xMax ) / 2, (yMax / 2) + 150, Texture.loading, this.shader, 90, 90, rot);
+		render((xMax) / 2, (yMax / 2) + 150, Texture.loading, this.shader, 90, 90, rot);
 
 		for (MenuCloud c : clouds)
 			if (c != null) c.render();
@@ -116,42 +121,6 @@ public class Loading extends Menu {
 		for (MenuCloud c : clouds)
 			if (c != null) c.tick();
 		rotOffset = (Float) generateRandom(0.5f, 1, 1);
-	}
-
-	/**
-	 * Method to generate a random value.
-	 * 
-	 * @param min
-	 *            : from
-	 * @param max
-	 *            : to
-	 * @param type
-	 *            : 0 for Integers, 1 for Floats
-	 * @return Object, if type is 0 will return integer, if its 1 will return float.
-	 * @author Joao Lourenco
-	 */
-	public Object generateRandom(float min, float max, int type) {
-		// This method accepts two types of returns, 0 for Ints and 1 for Floats.
-		if (type == 0) {
-			// Generate an int random.
-			Random rand = new Random();
-			int out = rand.nextInt((int) max);
-			// if its out of the bounds, keep trying.
-			while (out > max || out < min)
-				out = rand.nextInt((int) max);
-			// return the random value.
-			return out;
-		} else if (type == 1) {
-			// Generate an float random.
-			Random rand = new Random();
-			double out = min + (max - min) * rand.nextDouble();
-			// if its out of the bounds, keep trying.
-			while (out > max || out < min)
-				out = min + (max - min) * rand.nextDouble();
-			// return the random value.
-			return (float) out;
-		}
-		return 0f;
 	}
 
 }

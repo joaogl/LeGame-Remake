@@ -18,24 +18,47 @@ package net.joaolourenco.legame.graphics.menu;
 
 import java.util.List;
 
-import net.joaolourenco.legame.*;
-import net.joaolourenco.legame.entity.mob.*;
-import net.joaolourenco.legame.graphics.*;
-import net.joaolourenco.legame.graphics.font.*;
+import net.joaolourenco.legame.Registry;
+import net.joaolourenco.legame.graphics.Shader;
+import net.joaolourenco.legame.graphics.Texture;
 import net.joaolourenco.legame.graphics.font.Font;
-import net.joaolourenco.legame.graphics.menu.objects.*;
-import net.joaolourenco.legame.settings.*;
-import net.joaolourenco.legame.utils.*;
-import net.joaolourenco.legame.world.*;
+import net.joaolourenco.legame.graphics.font.StaticText;
+import net.joaolourenco.legame.graphics.menu.objects.ClickAction;
+import net.joaolourenco.legame.graphics.menu.objects.MenuActionReader;
+import net.joaolourenco.legame.graphics.menu.objects.MenuButton;
+import net.joaolourenco.legame.graphics.menu.objects.MenuCheckBox;
+import net.joaolourenco.legame.graphics.menu.objects.MenuCloud;
+import net.joaolourenco.legame.graphics.menu.objects.MenuOptionSelect;
+import net.joaolourenco.legame.graphics.menu.objects.MenuSlider;
+import net.joaolourenco.legame.settings.GeneralSettings;
+import net.joaolourenco.legame.settings.Settings;
+import net.joaolourenco.legame.utils.KeyboardFilter;
+import net.joaolourenco.legame.world.RandomWorld;
 
-import org.lwjgl.*;
-import org.lwjgl.input.*;
-import org.lwjgl.opengl.*;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.PixelFormat;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_PROJECTION;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_STENCIL_TEST;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glClearColor;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glLoadIdentity;
+import static org.lwjgl.opengl.GL11.glMatrixMode;
+import static org.lwjgl.opengl.GL11.glOrtho;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 /**
  * @author Joao Lourenco

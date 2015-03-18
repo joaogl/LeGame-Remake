@@ -16,8 +16,6 @@
 
 package net.joaolourenco.legame.entity.light.specific;
 
-import java.util.Random;
-
 import net.joaolourenco.legame.entity.light.PointLight;
 import net.joaolourenco.legame.utils.Vector2f;
 
