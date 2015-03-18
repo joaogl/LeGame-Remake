@@ -153,6 +153,7 @@ public class OptionsMenu extends Menu {
 		List<DisplayMode> modes = Registry.getDisplayModes();
 		for (int ii = 0; ii < modes.size(); ii++)
 			resolution.addOption(modes.get(ii).getWidth() + "x" + modes.get(ii).getHeight());
+
 		resolution.setActive(Registry.getScreenWidth() + "x" + Registry.getScreenHeight());
 		this.buttons.add(resolution);
 

@@ -62,7 +62,7 @@ public class MenuOptionSelect extends MenuActionReader {
 		this.left.render();
 		this.right.render();
 		this.font.drawString(this.text, this.x - this.width - this.font.getStringSize(text, size, spacing), this.y, this.size, spacing, this.color);
-		this.font.drawString(this.Options.get(ID), this.x - (this.font.getStringSize(this.Options.get(ID), this.size, spacing) / 2), this.y, this.size, spacing, this.ccolor);
+		if (this.Options.size() > this.ID)this.font.drawString(this.Options.get(this.ID), this.x - (this.font.getStringSize(this.Options.get(this.ID), this.size, spacing) / 2), this.y, this.size, spacing, this.ccolor);
 	}
 
 	public void update() {
