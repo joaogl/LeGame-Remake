@@ -71,8 +71,6 @@ public class RandomWorld extends World {
 		Tile corner = new SolidTile(64, Texture.Tiles[4]);
 		corner.isCollidable(true);
 
-		this.level = 3;
-
 		System.out.println("Level " + this.level);
 		if (this.level == 1) {
 			this.setSize(29, 14);
