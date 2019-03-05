@@ -1,7 +1,7 @@
 LeGame
 ======
 
-This game is being developed by Joao Lourenco and Igor Machado. 
+This game is being developed by Joao Lourenco. 
 LeGame is a Action/Adventure kinda game.
 
 **Ideas**
